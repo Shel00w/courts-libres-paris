@@ -1,0 +1,1747 @@
+<div class="search-result-block">
+<div class="panel panel-default">
+										<a role="button" aria-expanded="true"  aria-controls="collapseOne" href="#collapsePoliveau19h"  data-toggle="collapse" data-parent="#courtListPoliveau">          
+										   <div class="panel-heading" id="headPoliveau19h" role="tab">            
+										     <h4 class="panel-title">19h</h4>          
+										   </div>
+										</a>   
+										<div class="panel-collapse collapse in" id="collapsePoliveau19h" role="tabpanel"  aria-labelledby="headPoliveau19h">
+											<div class="panel-body datas">
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°1 -  Synthétique - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 20 € </span>
+																<small class="price-description">Tarif plein<br/>Couvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+										  		</div>        
+											</div>  
+										</div>
+							     	
+<div class="panel panel-default">
+										<a role="button" aria-expanded="false"  aria-controls="collapseOne" href="#collapsePoliveau20h"  data-toggle="collapse" data-parent="#courtListPoliveau">          
+										   <div class="panel-heading" id="headPoliveau20h" role="tab">            
+										     <h4 class="panel-title">20h</h4>          
+										   </div>
+										</a>   
+										<div class="panel-collapse collapse " id="collapsePoliveau20h" role="tabpanel"  aria-labelledby="headPoliveau20h">
+											<div class="panel-body datas">
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°1 -  Synthétique - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 20 € </span>
+																<small class="price-description">Tarif plein<br/>Couvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+										  		</div>        
+											</div>  
+										</div>
+					        	</div>  
+							</div>
+						</div>
+						<div class="container-fluid hidden-xs">
+							<div class="row">
+								<div class="col-lg-12 select-tennis-map" style="display:none;">
+									<h3>Sélectionnez un autre tennis</h3>
+								</div>
+							</div>
+						</div>
+						<div class="map-background">
+							<div class="container map hidden-xs">
+								<div class="row content row-eq-height map">
+<script	type="text/javascript">
+var map;
+var baselayer;
+var tennisIcon;
+var tennisIconSelected;
+var geoJsonLayer;
+var selectedTennis = null;
+var tennisDisplayed = false;
+
+// Variable permettant de mettre en cache le tennis selectionné par l'utilisateur sur la carte
+var selectedTennisMap = null;
+// Map contenant les cartes
+if (window.mapMarkers == null){
+  window.mapMarkers = new Map();
+}
+
+$(document).ready(function() {
+
+		var tennis = {"type":"Feature","properties":{"general":{"_id":267,"_nomSrtm":"Poliveau","_arrondissement":5,"_adresse":"39BIS RUE DE POLIVEAU","_codePostal":"75005","_ville":"Paris","_telephone":"01 45 87 62 00","_ouvRes":"V","_dateFerm":"Aug 23, 2026 8:00:00 AM","_dateOuv":"Aug 27, 2026 8:00:00 AM","_gpsLon":2.35771,"_gpsLat":48.83982,"_equCom":"H?bergement d'urgence"},"courts":[{"_airId":2536,"_coating":{"_revId":92,"_revLib":"Synthétique"},"_airCvt":"V","_airEcl":"V","_airNom":"TEP/Court","_airOuvRes":"V","_airNum":100,"_formattedAirNum":1,"_airHanSiGestionComplete":"V"}],"transports":[{"_nTrsId":557,"_strTrsLigne":"Bus Ligne 91","_strTrsArret":"SAINT-MARCEL LA PITIE","_nTrsTypId":140},{"_nTrsId":556,"_strTrsLigne":"Métro Ligne 5","_strTrsArret":"SAINT-MARCEL","_nTrsTypId":143}]},"geometry":{"type":"Point","coordinates":[2.35771,48.83982]}};
+	
+	var markers = {};
+	map = new L.Map('mapPoliveau');
+    baselayer = new L.esri.basemapLayer("Streets");
+
+	    tennisIcon = L.icon({
+	        iconUrl: 'css/leaflet/images/marker-blue.png',
+	        iconSize: [32, 36],
+	        iconAnchor: [16, 36],
+	        popupAnchor: [16, -36]
+	    });
+	
+	    tennisIconSelected = L.icon({
+	        iconUrl: 'css/leaflet/images/mapPicker-blue.svg',
+	        iconSize: [75, 75],
+	        iconAnchor: [37, 75],
+	        popupAnchor: [0, -75]
+	    });
+
+	    geoJsonLayer = L.geoJSON(tennis, {
+	        onEachFeature: onEachFeature,
+	        pointToLayer: function (feature, latlng) {
+		        /*console.log('mapPoliveau');
+		        console.log(tennis);
+		        console.log(feature.properties.general._nomSrtm);*/
+	            var tennisMarker = L.marker(latlng,{icon:tennisIcon});
+	            tennisMarker.on('click', function(e){
+		            if(!tennisDisplayed) {
+						expandInfos(e);
+			        } 
+				    
+	                if(selectedTennis != null){
+	                	selectedTennis.setIcon(tennisIcon);
+	                }
+	                selectedTennis=e.target;
+	                e.target.setIcon(tennisIconSelected);
+	                	map.setView(e.latlng, 15);
+	            });
+				markers[feature.properties.general._nomSrtm] = tennisMarker;
+				
+	            return tennisMarker;
+	        }
+	    });
+    
+    // On garde pour chaque carte la référence des marqueurs dans la map globale
+    window.mapMarkers.set('mapPoliveau', markers);
+
+		//Lors du click sur le bouton "accès au tennis"
+	    $('body').on('click', 'a.accessTennisMap', function(e) {
+			e.stopImmediatePropagation();
+			
+			//Cocher toute les cases 
+			$(':checkbox.checkClass').prop('checked', true);
+
+			//Alimentation de la variable permettant de stocker le nom du tennis selectionné
+			selectedTennisMap = selectedTennis.feature.properties.general._nomSrtm;
+
+		    //addTennisInCache(selectedTennis);
+			//Ajout de l'option
+			
+			$('#selWhereTennisName').append($('<option>', {
+			    value: selectedTennisMap,
+			    text: selectedTennisMap
+			}));
+			$('#selWhereTennisName').val(selectedTennisMap);
+			if($('#hourRangeSlider').length == 0) {
+				//On récupère le slider de l'onglet actif
+				var tennisId = $('#bookmarkList').find('li.active').find('span.tennis-label').text().replace(new RegExp(" ", 'g'), "");
+				$('#hourRange').val($('#hourRange' + tennisId).val());
+				$("#whenIso").val($('#' + tennisId + ' .selected .date').attr('dateiso'));		   
+			} else {
+				$('#hourRange').val($('#hourRangeSlider').val());
+				$("#whenIso").val($('div.date-item.selected').children().first().attr('dateiso'));		   
+			}
+		    $('#search_form').submit();
+			return false;
+	    });
+	
+	//Initialisation de la map
+	initmap(map);
+});
+
+// Fonction permettant de centrer la carte (id de la carte en paramètre) sur un des tennis (en paramètre)
+function focusOn(mapId, tennisToMark) {
+  var markers = window.mapMarkers.get(mapId);
+  var marker = markers[tennisToMark];
+  var markerMap = marker._map;
+  var latLngs = [ marker.getLatLng() ];
+  var markerBounds = L.latLngBounds(latLngs);
+ 
+	markers[tennisToMark].fireEvent('click', {
+	     latlng: markers[tennisToMark].getLatLng(),
+	     layerPoint: markerMap.latLngToLayerPoint(markers[tennisToMark].getLatLng()),
+	     containerPoint: markerMap.latLngToContainerPoint(markers[tennisToMark].getLatLng())
+	});
+
+  markerMap.fitBounds(markerBounds);
+  markerMap.setZoom(14);
+  markerMap.invalidateSize();
+}
+
+function displayAllMarkers(mapId, tennisName) {
+	var markers = window.mapMarkers.get(mapId);
+	var marker = null;
+	var markerMap = null;
+
+	// Si on ne retrouve pas de marker associé au tennisName
+	if (marker == null){
+		// on essaye de récupérer la map à partir du premier élément du tableau des markers
+		marker = markers[Object.keys(markers)[0]];
+	} 
+	// On récupère la map à partir du marker 
+	else {
+		marker = markers[tennisName];
+	}
+
+	if(marker != null){
+		markerMap = marker._map;
+		if(markerMap != null){
+			//Dézoom sur le coeur de paris
+			markerMap.panTo(new L.LatLng(48.856953, 2.357557));
+			markerMap.setZoom(12);
+			markerMap.invalidateSize();
+		}
+	}
+}
+
+function displayTooltip(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+	var marker = markers[tennisToMark];
+	var popup = L.popup({keepInView: true, closeButton : false, autoClose: false, offset: new L.Point(0, -67)})
+		.setLatLng(marker.getLatLng())
+		.setContent("Tennis " + tennisToMark)
+		.openOn(marker._map);
+	marker.off('click');
+	//popup.off('click');
+	popup.openPopup();
+}
+
+function onEachFeature(feature, layer) {
+	layer.on({
+		click : function populate() {
+		}
+	});
+}
+
+function createNewMap(mapId, jsonData) {
+	var markers = {};
+	var newMap = new L.Map(mapId);
+    var newTennisIcon = L.icon({
+        iconUrl: 'css/leaflet/images/marker-blue.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [16, -36]
+    });
+
+    var newTennisIconSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-blue.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });
+    
+    var newGeoJsonLayer = L.geoJSON(jsonData, {
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+            var tennisMarker = L.marker(latlng,{icon:newTennisIcon});
+            tennisMarker.on('click', function(e){
+                if(selectedTennis != null){
+                	selectedTennis.setIcon(newTennisIcon);
+                }
+                selectedTennis=e.target;
+                e.target.setIcon(newTennisIconSelected);
+                map.setView(e.latlng, 15);
+            });
+			markers[feature.properties.general._nomSrtm] = tennisMarker;
+			
+            return tennisMarker;
+        }
+    });
+
+    //Mise a jour de la liste des maps
+    window.mapMarkers.set(mapId, markers);
+    
+    newMap.addLayer(new L.esri.basemapLayer("Streets"));
+    newMap.addLayer(newGeoJsonLayer);
+
+	//Dézoom sur le coeur de paris
+	newMap.fitBounds(newGeoJsonLayer.getBounds());
+	newMap.setView(new L.LatLng(48.856953, 2.357557), 12);
+	return newMap;
+}
+
+function createNewMapAvailability(mapId, jsonData) {
+	var markers = {};
+	var newMap = new L.Map(mapId);
+	var newTennisIconAvailable = L.icon({
+        iconUrl: 'css/leaflet/images/marker-green.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [0, -36]
+    });
+
+	var newTennisIconAvailableSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-green.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });  
+    
+	var newTennisIconFull = L.icon({
+        iconUrl: 'css/leaflet/images/marker-grey.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [0, -36]
+    });
+
+	var newTennisIconFullSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-grey.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });
+    
+    var newGeoJsonLayer = L.geoJSON(jsonData, {
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+        	var tennisMarker = null;
+
+	        if(feature.properties.available) {
+				tennisMarker = L.marker(latlng,{icon:newTennisIconAvailable});
+				tennisMarker.bindPopup("Tennis " + feature.properties.general._nomSrtm + "<br/><a href='#' class='accessTennisMap'>Accédez au tennis</a>").openPopup();
+	        } else {
+				tennisMarker = L.marker(latlng,{icon:newTennisIconFull});
+				tennisMarker.bindPopup("Tennis " + feature.properties.general._nomSrtm).openPopup();
+		    }
+
+			tennisMarker.on('click', function(e){
+                if(selectedTennis != null){
+	                if(selectedTennis.feature.properties.available) {
+	                	selectedTennis.setIcon(newTennisIconAvailable);
+		            } else {
+		            	selectedTennis.setIcon(newTennisIconFull);
+				    }
+                }
+                selectedTennis=e.target;
+		        if(selectedTennis.feature.properties.available) {
+	                e.target.setIcon(newTennisIconAvailableSelected);
+		        } else {
+    	            e.target.setIcon(newTennisIconFullSelected);
+			    }
+                map.setView(e.latlng, 15);
+            });
+                
+            markers[feature.properties.general._nomSrtm] = tennisMarker;
+			return tennisMarker;
+	    }
+    });
+
+    //Mise a jour de la liste des maps
+    window.mapMarkers.set(mapId, markers);
+    
+    newMap.addLayer(new L.esri.basemapLayer("Streets"));
+    newMap.addLayer(newGeoJsonLayer);
+
+	//Dézoom sur le coeur de paris
+	newMap.fitBounds(newGeoJsonLayer.getBounds());
+	newMap.setView(new L.LatLng(48.856953, 2.357557), 12);
+	return newMap;
+}
+
+function initmap(map) {
+	map.addLayer(baselayer);
+	map.addLayer(geoJsonLayer);
+
+	map.fitBounds(geoJsonLayer.getBounds());
+	map.setView(new L.LatLng(48.856953, 2.357557), 12);
+}
+
+function expandInfos(e) {
+	tennisDisplayed = !tennisDisplayed;
+    // alert("hi. you clicked the marker at " + e.latlng);
+    $('.map-informations').animate({
+        width: 'toggle',
+        opacity: '1'
+    }, 200);
+    if ($('.map-informations').width() != 0) {
+        adjustContainerSize($('.map-informations'), $('#map'), $('.map-container'));
+    } else {
+        adjustContainerSize($('.map-informations'), $('.map-informations'), $('.map-container'));
+    }
+}
+
+function adjustContainerSize(animationsource, source, destination) {
+    $(animationsource).promise().done(function () {
+        $(destination).height($(source).height());
+    });
+}
+
+function disableMap(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+
+	// On vérifie que tennisToMark est dans la table des markers, exemple tennis sans coordonnées GPS 
+	if( markers[tennisToMark] != null ){
+		var marker = markers[tennisToMark];
+		var mapObject = marker._map;
+		mapObject.dragging.disable();
+		mapObject.touchZoom.disable();
+		mapObject.doubleClickZoom.disable();
+		mapObject.scrollWheelZoom.disable();
+		mapObject.boxZoom.disable();
+		mapObject.keyboard.disable();
+		mapObject.options.closePopupOnClick = false;
+	}
+	document.getElementById(mapId).style.cursor='default';
+}
+
+function enableMap(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+
+	// On vérifie que tennisToMark est dans la table des markers, exemple tennis sans coordonnées GPS 
+	if( markers[tennisToMark] != null ){
+		var mapObject = markers[tennisToMark]._map;
+		/*mapObject.dragging.enable();
+		mapObject.touchZoom.enable();
+		mapObject.doubleClickZoom.enable();
+		mapObject.scrollWheelZoom.enable();
+		mapObject.boxZoom.enable();
+		mapObject.keyboard.enable();	
+		mapObject.options.closePopupOnClick = true;
+		document.getElementById(mapId).style.cursor='grab';*/
+		
+		//On vérifie si il y a eu un redimensionnement
+		mapObject.invalidateSize(true);
+		//Dézoom sur le coeur de paris
+		mapObject.panTo(new L.LatLng(48.856953, 2.357557));
+		mapObject.setZoom(12);
+	}
+}
+</script>
+
+	<div class="map-container">
+			<div id="mapPoliveau" class="mapBlock"></div>
+	</div>
+
+								</div>
+							</div>
+						</div>
+				</div>
+		  			<div role="tabpanel" class="tab-pane fade" id='Moureu-Baudricourt'>
+					<div class="col-xs-12 hidden-lg hidden-md hidden-sm labelMobileEquipment">
+							<a href="https://www.google.com/maps/search/?api=1&query=48.82766,2.36411" target = "_blank">Afficher sur la carte</a>
+					</div>
+					<div class="dayshours">
+						<div class="container">
+							<div class="date-picker refresh"><!--style="margin-top:30px;position:static;"-->
+								<div class="row content">
+									<button class="close" aria-label="Close" type="button" data-dismiss="alert">
+										<span aria-hidden="true"><img width="17" height="17" alt="bouton pour fermer le bloc d'information" src="images/close.svg"></span>
+									</button> 
+									<div class="col-lg-12 no-paddings"> 
+									    <div class="row seven-cols row-eq-height"> <!--style="padding-top:30px"-->
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+					<div class="col-xs-12 col-sm-6 col-lg-1 full">
+						<div class="date-item item-full">
+			<!-- Si on affiche le jour sélectionné -->
+					<div class="date" dateIso="19/10/2026">lundi 19 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+						</div>
+					</div>
+							<div class="message">
+								<span class="">Complet</span>
+								<span class="sub-title hidden-xs hidden-sm hidden-md">Pas de disponibilité</span>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="20/10/2026">mardi 20 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 11°</small><small>MAX 15°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">9</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 9 / 21);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="21/10/2026">mercredi 21 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 15°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">7</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 7 / 17);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="22/10/2026">jeudi 22 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 16°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">8</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 8 / 29);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="23/10/2026">vendredi 23 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 14°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">9</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 9 / 33);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item selected">
+					<div class="date" dateIso="24/10/2026">samedi 24 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 7°</small><small>MAX 14°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">6</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 6 / 24);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="25/10/2026">dimanche 25 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 10°</small><small>MAX 17°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">1</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 1 / 15);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+									    </div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 labelCreneaux">
+								<span class="creneaux">Créneaux horaires</span>
+							</div>
+							<div class="col-lg-9 col-md-12 col-sm-12 module-slider">
+<script type="text/javascript">
+$(document).ready(function() {
+	var initValue = "8-22";
+
+		$('#hourRangeMoureu-Baudricourt').val(initValue);
+	
+	var startValue = parseInt(initValue.substring(0,initValue.indexOf('-'))) - 8;
+	var endValue = parseInt(initValue.substring(initValue.indexOf('-')+1)) - 8;
+	
+	//slider
+	var slider = $( "#sliderMoureu-Baudricourt" ).slider({
+	    range: true,
+	    min: 0,
+	    max: 14,
+	    values: [ startValue, endValue ],
+	    step: 1,
+	    stop:function(event,ui){
+	        $(".tooltip").removeAttr("style");
+	    },
+	    slide: function( event, selection ) {
+	        var boutonElementGauche = $(this).children('.ui-slider-handle').first();
+	        var boutonElementDroit = $(this).children('.ui-slider-handle').last();
+	        var offset1 = boutonElementGauche.offset();
+	        var offset2 = boutonElementDroit.offset();
+	
+	        if(selection.values[1] - selection.values[0] < 1){
+	        	// do not allow this selection
+	        	return false;
+	    	}
+	    	else {
+		        $('.tooltip1 .tooltip-inner').text(selection.values[ 0 ] + 8 + 'h');
+		        $('.tooltip2 .tooltip-inner').text(selection.values[ 1 ] + 8 + 'h');
+					$('#hourRangeMoureu-Baudricourt').val( (selection.values[ 0 ] + 8) + "-" + (selection.values[ 1 ] + 8) );
+	        }
+
+	        boutonElementGauche.html($('.tooltip1'));
+	        boutonElementDroit.html($('.tooltip2'));
+	        boutonElementGauche.children().show();
+	        boutonElementDroit.children().show();
+		}
+	});
+
+	slider.attr('class',slider.attr('class') + " slider");
+	
+	//Positionnement des tooltips pour l'initialisation
+	$('.tooltip1 .tooltip-inner').text((startValue + 8) + 'h');
+    $('.tooltip2 .tooltip-inner').text((endValue + 8) + 'h');
+    var boutonElementGauche = $("#sliderMoureu-Baudricourt").children('.ui-slider-handle').first();
+    var boutonElementDroit = $("#sliderMoureu-Baudricourt").children('.ui-slider-handle').last();
+    boutonElementGauche.html($('.tooltip1'));
+    boutonElementDroit.html($('.tooltip2'));
+
+    // slider hours
+    	var nbHours = $('#Moureu-Baudricourt .search-module-slider .hours ul li').length - 1;
+    var ratio = 100/nbHours;
+    var leftOffsetArray = [];
+    var leftOffset = 0;
+    //console.log(nbHours);
+
+    for (i = 0; i <= nbHours; i++){
+        if (i > 0) {
+            leftOffsetArray.push(leftOffsetArray[i - 1] + ratio);
+        }
+        else {
+            leftOffsetArray.push(0);
+        }
+    }
+
+    var k = 0;
+		var listSliderLi = $('#Moureu-Baudricourt .search-module-slider .hours ul li');
+   		listSliderLi.each(function(){
+        if (k===0) {
+            $(this).css('left','0%');
+            k++;
+        }
+        else {
+            $(this).css('left',leftOffsetArray[k] + '%');
+            k++;
+        }
+    });
+});
+</script>
+
+<div class="search-module-slider">
+	<div id="sliderMoureu-Baudricourt" class="slider"></div>
+	<div class="tooltip tooltip1"><div class="tooltip-inner"></div><div class="tooltip-arrow"></div></div>
+	<div class="tooltip tooltip2"><div class="tooltip-inner"></div><div class="tooltip-arrow"></div></div>
+	<div class="hours">
+		<ul>
+		    <li>
+		        <span class="line"></span>
+		        <span>8h</span>
+		    </li>
+		    <li class="masked">9h</li>
+		    <li class="masked">10h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>11h</span>  
+		    </li>
+		    <li class="masked">12h</li>
+		    <li class="masked">13h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>14h</span></li>
+		    <li class="masked">15h</li>
+		    <li class="masked">16h</li>
+		    <li class="masked">17h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>18h</span>
+		    </li>
+		    <li class="masked">19h</li>
+		    <li class="masked">20h</li>
+		    <li class="masked">21h</li>
+		    <li>
+		        <span>22h</span>
+		        <span class="line"></span>
+		    </li>
+		</ul>
+	</div>
+</div>
+
+								<input id="hourRangeMoureu-Baudricourt" type="text" id="hourRange" name="hourRange" readonly style="display:none"/>
+						    </div>
+						    <div class="col-lg-1 col-md-12 col-sm-12 text-center">
+						    	<a class="btnRefreshResearch btn btn-darkgreen" href="#" >
+									<span class="glyphicon-left glyphicon glyphicon-refresh" style="color:white"></span>					    		
+						    	</a>
+						    </div>
+						</div>
+			        </div>
+			        <div class="container">
+			        	<div class="row rowTarifs">
+							<div class="col-md-12 text-right tarifs">
+								<a href="jsp/site/Portal.jsp?page=rate&view=les_tarifs" target="_blank">
+						    		<svg xmlns="http://www.w3.org/2000/svg" class="arrow-link" viewBox="0 0 25 25" x="0px" y="0px" width="20" height="20" 
+						        	xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve" version="1.1">
+						        	<path d="M 6.3 4.8 l 2.3 -2.3 l 10 10 l -6.4 6.4 l -3.6 3.6 l -2.3 -2.3 l 7.7 -7.7 L 6.3 4.8 Z" />
+						        	</svg><span>Voir tous les tarifs</span>
+					        	</a>
+				        	</div>
+				        </div>
+						<div class="search-result-block">
+							<div class="panel-group" id="courtListMoureu-Baudricourt" role="tablist" aria-multiselectable="true">
+								<!-- Si on a saisi un tennis et qu'il n'y a aucun creneau de disponible -->
+							     	
+<div class="panel panel-default">
+										<a role="button" aria-expanded="false"  aria-controls="collapseOne" href="#collapseAlainMimoun20h"  data-toggle="collapse" data-parent="#courtListAlainMimoun">          
+										   <div class="panel-heading" id="headAlainMimoun20h" role="tab">            
+										     <h4 class="panel-title">20h</h4>          
+										   </div>
+										</a>   
+										<div class="panel-collapse collapse " id="collapseAlainMimoun20h" role="tabpanel"  aria-labelledby="headAlainMimoun20h">
+											<div class="panel-body datas">
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°4 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°5 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°6 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+										  		</div>        
+											</div>  
+										</div>
+							     	
+<div class="panel panel-default">
+										<a role="button" aria-expanded="false"  aria-controls="collapseOne" href="#collapseAlainMimoun21h"  data-toggle="collapse" data-parent="#courtListAlainMimoun">          
+										   <div class="panel-heading" id="headAlainMimoun21h" role="tab">            
+										     <h4 class="panel-title">21h</h4>          
+										   </div>
+										</a>   
+										<div class="panel-collapse collapse " id="collapseAlainMimoun21h" role="tabpanel"  aria-labelledby="headAlainMimoun21h">
+											<div class="panel-body datas">
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°4 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°5 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°6 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 12 € </span>
+																<small class="price-description">Tarif plein<br/>Découvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+													<!--inner loop-->
+													<div class="row tennis-court">
+														<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+															<span class="court">
+																Court N°2 -  Béton poreux - Eclairé
+																	<img src="images/pictohandi.gif" alt="pictogramme handicap">
+											        		</span>                                                     
+											      		</div>              
+											      		<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1 text-right no-paddings">
+											      			<div class="amount text-center">
+																<span class="price"> 20 € </span>
+																<small class="price-description">Tarif plein<br/>Couvert</small>                
+											        		</div>              
+											      		</div>
+											      		<div class="col-xs-12 col-sm-3 col-md-2 col-lg-3 text-right">
+															<div class="button book text-center">
+																		<a onclick="displayCreateAccountPage();">								
+																			<button class="btn btn-darkblue medium rollover rollover-grey">
+																				<img  alt="pictogramme se connecter" src="images/user-connect.svg">
+																				<span>Se connecter</span>
+																			</button>
+																		</a>
+										          				</div>
+									          				</div>            
+											    		</div>            
+										  		</div>        
+											</div>  
+										</div>
+					        	</div>  
+							</div>
+						</div>
+						<div class="container-fluid hidden-xs">
+							<div class="row">
+								<div class="col-lg-12 select-tennis-map" style="display:none;">
+									<h3>Sélectionnez un autre tennis</h3>
+								</div>
+							</div>
+						</div>
+						<div class="map-background">
+							<div class="container map hidden-xs">
+								<div class="row content row-eq-height map">
+<script	type="text/javascript">
+var map;
+var baselayer;
+var tennisIcon;
+var tennisIconSelected;
+var geoJsonLayer;
+var selectedTennis = null;
+var tennisDisplayed = false;
+
+// Variable permettant de mettre en cache le tennis selectionné par l'utilisateur sur la carte
+var selectedTennisMap = null;
+// Map contenant les cartes
+if (window.mapMarkers == null){
+  window.mapMarkers = new Map();
+}
+
+$(document).ready(function() {
+
+		var tennis = {"type":"Feature","properties":{"general":{"_id":327,"_nomSrtm":"Alain Mimoun","_arrondissement":12,"_adresse":"15 rue de la Nouvelle Calédonie","_codePostal":"75012","_ville":"Paris","_telephone":"01 44 87 00 50","_ouvRes":"V","_dateFerm":"Oct 12, 2026 7:00:00 PM","_dateOuv":"Oct 12, 2026 10:00:00 PM","_phoId":676,"_gpsLon":2.41041,"_gpsLat":48.83805,"_equCom":"RELOGEMENT"},"courts":[{"_airId":3091,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"V","_airEcl":"V","_airNom":"Court n° 03","_airOuvRes":"V","_airNum":300,"_formattedAirNum":3,"_airHanSiGestionComplete":"V"},{"_airId":3090,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"V","_airEcl":"V","_airNom":"Court n° 02","_airOuvRes":"V","_airNum":200,"_formattedAirNum":2,"_airHanSiGestionComplete":"V"},{"_airId":3089,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"V","_airEcl":"V","_airNom":"Court n° 01","_airOuvRes":"V","_airNum":100,"_formattedAirNum":1,"_airHanSiGestionComplete":"V"},{"_airId":3096,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"F","_airEcl":"V","_airNom":"TEP/Court n° 06","_airOuvRes":"V","_airNum":600,"_formattedAirNum":6,"_airHanSiGestionComplete":"V"},{"_airId":3094,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"F","_airEcl":"V","_airNom":"TEP/Court n° 05","_airOuvRes":"V","_airNum":500,"_formattedAirNum":5,"_airHanSiGestionComplete":"V"},{"_airId":3092,"_coating":{"_revId":1324,"_revLib":"Béton poreux"},"_airCvt":"F","_airEcl":"V","_airNom":"TEP/Court n° 04","_airOuvRes":"V","_airNum":400,"_formattedAirNum":4,"_airHanSiGestionComplete":"V"}],"transports":[{"_nTrsId":319,"_strTrsLigne":"Métro Ligne 8","_strTrsArret":"Porte Dorée","_nTrsTypId":143},{"_nTrsId":1295,"_strTrsLigne":"Tramway Ligne T3a","_strTrsArret":"Montempoivre","_nTrsTypId":1306}]},"geometry":{"type":"Point","coordinates":[2.41041,48.83805]}};
+	
+	var markers = {};
+	map = new L.Map('mapAlainMimoun');
+    baselayer = new L.esri.basemapLayer("Streets");
+
+	    tennisIcon = L.icon({
+	        iconUrl: 'css/leaflet/images/marker-blue.png',
+	        iconSize: [32, 36],
+	        iconAnchor: [16, 36],
+	        popupAnchor: [16, -36]
+	    });
+	
+	    tennisIconSelected = L.icon({
+	        iconUrl: 'css/leaflet/images/mapPicker-blue.svg',
+	        iconSize: [75, 75],
+	        iconAnchor: [37, 75],
+	        popupAnchor: [0, -75]
+	    });
+
+	    geoJsonLayer = L.geoJSON(tennis, {
+	        onEachFeature: onEachFeature,
+	        pointToLayer: function (feature, latlng) {
+		        /*console.log('mapAlainMimoun');
+		        console.log(tennis);
+		        console.log(feature.properties.general._nomSrtm);*/
+	            var tennisMarker = L.marker(latlng,{icon:tennisIcon});
+	            tennisMarker.on('click', function(e){
+		            if(!tennisDisplayed) {
+						expandInfos(e);
+			        } 
+				    
+	                if(selectedTennis != null){
+	                	selectedTennis.setIcon(tennisIcon);
+	                }
+	                selectedTennis=e.target;
+	                e.target.setIcon(tennisIconSelected);
+	                	map.setView(e.latlng, 15);
+	            });
+				markers[feature.properties.general._nomSrtm] = tennisMarker;
+				
+	            return tennisMarker;
+	        }
+	    });
+    
+    // On garde pour chaque carte la référence des marqueurs dans la map globale
+    window.mapMarkers.set('mapAlainMimoun', markers);
+
+		//Lors du click sur le bouton "accès au tennis"
+	    $('body').on('click', 'a.accessTennisMap', function(e) {
+			e.stopImmediatePropagation();
+			
+			//Cocher toute les cases 
+			$(':checkbox.checkClass').prop('checked', true);
+
+			//Alimentation de la variable permettant de stocker le nom du tennis selectionné
+			selectedTennisMap = selectedTennis.feature.properties.general._nomSrtm;
+
+		    //addTennisInCache(selectedTennis);
+			//Ajout de l'option
+			
+			$('#selWhereTennisName').append($('<option>', {
+			    value: selectedTennisMap,
+			    text: selectedTennisMap
+			}));
+			$('#selWhereTennisName').val(selectedTennisMap);
+			if($('#hourRangeSlider').length == 0) {
+				//On récupère le slider de l'onglet actif
+				var tennisId = $('#bookmarkList').find('li.active').find('span.tennis-label').text().replace(new RegExp(" ", 'g'), "");
+				$('#hourRange').val($('#hourRange' + tennisId).val());
+				$("#whenIso").val($('#' + tennisId + ' .selected .date').attr('dateiso'));		   
+			} else {
+				$('#hourRange').val($('#hourRangeSlider').val());
+				$("#whenIso").val($('div.date-item.selected').children().first().attr('dateiso'));		   
+			}
+		    $('#search_form').submit();
+			return false;
+	    });
+	
+	//Initialisation de la map
+	initmap(map);
+});
+
+// Fonction permettant de centrer la carte (id de la carte en paramètre) sur un des tennis (en paramètre)
+function focusOn(mapId, tennisToMark) {
+  var markers = window.mapMarkers.get(mapId);
+  var marker = markers[tennisToMark];
+  var markerMap = marker._map;
+  var latLngs = [ marker.getLatLng() ];
+  var markerBounds = L.latLngBounds(latLngs);
+ 
+	markers[tennisToMark].fireEvent('click', {
+	     latlng: markers[tennisToMark].getLatLng(),
+	     layerPoint: markerMap.latLngToLayerPoint(markers[tennisToMark].getLatLng()),
+	     containerPoint: markerMap.latLngToContainerPoint(markers[tennisToMark].getLatLng())
+	});
+
+  markerMap.fitBounds(markerBounds);
+  markerMap.setZoom(14);
+  markerMap.invalidateSize();
+}
+
+function displayAllMarkers(mapId, tennisName) {
+	var markers = window.mapMarkers.get(mapId);
+	var marker = null;
+	var markerMap = null;
+
+	// Si on ne retrouve pas de marker associé au tennisName
+	if (marker == null){
+		// on essaye de récupérer la map à partir du premier élément du tableau des markers
+		marker = markers[Object.keys(markers)[0]];
+	} 
+	// On récupère la map à partir du marker 
+	else {
+		marker = markers[tennisName];
+	}
+
+	if(marker != null){
+		markerMap = marker._map;
+		if(markerMap != null){
+			//Dézoom sur le coeur de paris
+			markerMap.panTo(new L.LatLng(48.856953, 2.357557));
+			markerMap.setZoom(12);
+			markerMap.invalidateSize();
+		}
+	}
+}
+
+function displayTooltip(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+	var marker = markers[tennisToMark];
+	var popup = L.popup({keepInView: true, closeButton : false, autoClose: false, offset: new L.Point(0, -67)})
+		.setLatLng(marker.getLatLng())
+		.setContent("Tennis " + tennisToMark)
+		.openOn(marker._map);
+	marker.off('click');
+	//popup.off('click');
+	popup.openPopup();
+}
+
+function onEachFeature(feature, layer) {
+	layer.on({
+		click : function populate() {
+		}
+	});
+}
+
+function createNewMap(mapId, jsonData) {
+	var markers = {};
+	var newMap = new L.Map(mapId);
+    var newTennisIcon = L.icon({
+        iconUrl: 'css/leaflet/images/marker-blue.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [16, -36]
+    });
+
+    var newTennisIconSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-blue.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });
+    
+    var newGeoJsonLayer = L.geoJSON(jsonData, {
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+            var tennisMarker = L.marker(latlng,{icon:newTennisIcon});
+            tennisMarker.on('click', function(e){
+                if(selectedTennis != null){
+                	selectedTennis.setIcon(newTennisIcon);
+                }
+                selectedTennis=e.target;
+                e.target.setIcon(newTennisIconSelected);
+                map.setView(e.latlng, 15);
+            });
+			markers[feature.properties.general._nomSrtm] = tennisMarker;
+			
+            return tennisMarker;
+        }
+    });
+
+    //Mise a jour de la liste des maps
+    window.mapMarkers.set(mapId, markers);
+    
+    newMap.addLayer(new L.esri.basemapLayer("Streets"));
+    newMap.addLayer(newGeoJsonLayer);
+
+	//Dézoom sur le coeur de paris
+	newMap.fitBounds(newGeoJsonLayer.getBounds());
+	newMap.setView(new L.LatLng(48.856953, 2.357557), 12);
+	return newMap;
+}
+
+function createNewMapAvailability(mapId, jsonData) {
+	var markers = {};
+	var newMap = new L.Map(mapId);
+	var newTennisIconAvailable = L.icon({
+        iconUrl: 'css/leaflet/images/marker-green.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [0, -36]
+    });
+
+	var newTennisIconAvailableSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-green.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });  
+    
+	var newTennisIconFull = L.icon({
+        iconUrl: 'css/leaflet/images/marker-grey.png',
+        iconSize: [32, 36],
+        iconAnchor: [16, 36],
+        popupAnchor: [0, -36]
+    });
+
+	var newTennisIconFullSelected = L.icon({
+        iconUrl: 'css/leaflet/images/mapPicker-grey.svg',
+        iconSize: [75, 75],
+        iconAnchor: [37, 75],
+        popupAnchor: [0, -75]
+    });
+    
+    var newGeoJsonLayer = L.geoJSON(jsonData, {
+        onEachFeature: onEachFeature,
+        pointToLayer: function (feature, latlng) {
+        	var tennisMarker = null;
+
+	        if(feature.properties.available) {
+				tennisMarker = L.marker(latlng,{icon:newTennisIconAvailable});
+				tennisMarker.bindPopup("Tennis " + feature.properties.general._nomSrtm + "<br/><a href='#' class='accessTennisMap'>Accédez au tennis</a>").openPopup();
+	        } else {
+				tennisMarker = L.marker(latlng,{icon:newTennisIconFull});
+				tennisMarker.bindPopup("Tennis " + feature.properties.general._nomSrtm).openPopup();
+		    }
+
+			tennisMarker.on('click', function(e){
+                if(selectedTennis != null){
+	                if(selectedTennis.feature.properties.available) {
+	                	selectedTennis.setIcon(newTennisIconAvailable);
+		            } else {
+		            	selectedTennis.setIcon(newTennisIconFull);
+				    }
+                }
+                selectedTennis=e.target;
+		        if(selectedTennis.feature.properties.available) {
+	                e.target.setIcon(newTennisIconAvailableSelected);
+		        } else {
+    	            e.target.setIcon(newTennisIconFullSelected);
+			    }
+                map.setView(e.latlng, 15);
+            });
+                
+            markers[feature.properties.general._nomSrtm] = tennisMarker;
+			return tennisMarker;
+	    }
+    });
+
+    //Mise a jour de la liste des maps
+    window.mapMarkers.set(mapId, markers);
+    
+    newMap.addLayer(new L.esri.basemapLayer("Streets"));
+    newMap.addLayer(newGeoJsonLayer);
+
+	//Dézoom sur le coeur de paris
+	newMap.fitBounds(newGeoJsonLayer.getBounds());
+	newMap.setView(new L.LatLng(48.856953, 2.357557), 12);
+	return newMap;
+}
+
+function initmap(map) {
+	map.addLayer(baselayer);
+	map.addLayer(geoJsonLayer);
+
+	map.fitBounds(geoJsonLayer.getBounds());
+	map.setView(new L.LatLng(48.856953, 2.357557), 12);
+}
+
+function expandInfos(e) {
+	tennisDisplayed = !tennisDisplayed;
+    // alert("hi. you clicked the marker at " + e.latlng);
+    $('.map-informations').animate({
+        width: 'toggle',
+        opacity: '1'
+    }, 200);
+    if ($('.map-informations').width() != 0) {
+        adjustContainerSize($('.map-informations'), $('#map'), $('.map-container'));
+    } else {
+        adjustContainerSize($('.map-informations'), $('.map-informations'), $('.map-container'));
+    }
+}
+
+function adjustContainerSize(animationsource, source, destination) {
+    $(animationsource).promise().done(function () {
+        $(destination).height($(source).height());
+    });
+}
+
+function disableMap(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+
+	// On vérifie que tennisToMark est dans la table des markers, exemple tennis sans coordonnées GPS 
+	if( markers[tennisToMark] != null ){
+		var marker = markers[tennisToMark];
+		var mapObject = marker._map;
+		mapObject.dragging.disable();
+		mapObject.touchZoom.disable();
+		mapObject.doubleClickZoom.disable();
+		mapObject.scrollWheelZoom.disable();
+		mapObject.boxZoom.disable();
+		mapObject.keyboard.disable();
+		mapObject.options.closePopupOnClick = false;
+	}
+	document.getElementById(mapId).style.cursor='default';
+}
+
+function enableMap(mapId, tennisToMark) {
+	var markers = window.mapMarkers.get(mapId);
+
+	// On vérifie que tennisToMark est dans la table des markers, exemple tennis sans coordonnées GPS 
+	if( markers[tennisToMark] != null ){
+		var mapObject = markers[tennisToMark]._map;
+		/*mapObject.dragging.enable();
+		mapObject.touchZoom.enable();
+		mapObject.doubleClickZoom.enable();
+		mapObject.scrollWheelZoom.enable();
+		mapObject.boxZoom.enable();
+		mapObject.keyboard.enable();	
+		mapObject.options.closePopupOnClick = true;
+		document.getElementById(mapId).style.cursor='grab';*/
+		
+		//On vérifie si il y a eu un redimensionnement
+		mapObject.invalidateSize(true);
+		//Dézoom sur le coeur de paris
+		mapObject.panTo(new L.LatLng(48.856953, 2.357557));
+		mapObject.setZoom(12);
+	}
+}
+</script>
+
+	<div class="map-container">
+			<div id="mapAlainMimoun" class="mapBlock"></div>
+	</div>
+
+								</div>
+							</div>
+						</div>
+				</div>
+		  			<div role="tabpanel" class="tab-pane fade" id='PaulBarruel'>
+					<div class="col-xs-12 hidden-lg hidden-md hidden-sm labelMobileEquipment">
+							<a href="https://www.google.com/maps/search/?api=1&query=48.83877,2.30475" target = "_blank">Afficher sur la carte</a>
+					</div>
+					<div class="dayshours">
+						<div class="container">
+							<div class="date-picker refresh"><!--style="margin-top:30px;position:static;"-->
+								<div class="row content">
+									<button class="close" aria-label="Close" type="button" data-dismiss="alert">
+										<span aria-hidden="true"><img width="17" height="17" alt="bouton pour fermer le bloc d'information" src="images/close.svg"></span>
+									</button> 
+									<div class="col-lg-12 no-paddings"> 
+									    <div class="row seven-cols row-eq-height"> <!--style="padding-top:30px"-->
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+					<div class="col-xs-12 col-sm-6 col-lg-1 full">
+						<div class="date-item item-full">
+			<!-- Si on affiche le jour sélectionné -->
+					<div class="date" dateIso="19/10/2026">lundi 19 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+						</div>
+					</div>
+							<div class="message">
+								<span class="">Complet</span>
+								<span class="sub-title hidden-xs hidden-sm hidden-md">Pas de disponibilité</span>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="20/10/2026">mardi 20 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 11°</small><small>MAX 15°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">12</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 12 / 14);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="21/10/2026">mercredi 21 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 15°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">10</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 10 / 12);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="22/10/2026">jeudi 22 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 16°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">8</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 8 / 10);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="23/10/2026">vendredi 23 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 14°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">11</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 11 / 14);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item selected">
+					<div class="date" dateIso="24/10/2026">samedi 24 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 7°</small><small>MAX 14°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">3</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 3 / 7);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+			
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="25/10/2026">dimanche 25 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 10°</small><small>MAX 17°</small>
+							</div>
+					</div>
+							<div class="dispo">
+								<div class="digits">2</div>
+								<span>disponibilités</span>	
+								<div class="size">
+									<div class="value" style="width: calc(100% * 2 / 10);"></div>
+								</div>
+							</div>
+				</div>
+			</div>
+									    </div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 labelCreneaux">
+								<span class="creneaux">Créneaux horaires</span>
+							</div>
+							<div class="col-lg-9 col-md-12 col-sm-12 module-slider">
+<script type="text/javascript">
+$(document).ready(function() {
+	var initValue = "8-22";
+
+		$('#hourRangePaulBarruel').val(initValue);
+	
+	var startValue = parseInt(initValue.substring(0,initValue.indexOf('-'))) - 8;
+	var endValue = parseInt(initValue.substring(initValue.indexOf('-')+1)) - 8;
+	
+	//slider
+	var slider = $( "#sliderPaulBarruel" ).slider({
+	    range: true,
+	    min: 0,
+	    max: 14,
+	    values: [ startValue, endValue ],
+	    step: 1,
+	    stop:function(event,ui){
+	        $(".tooltip").removeAttr("style");
+	    },
+	    slide: function( event, selection ) {
+	        var boutonElementGauche = $(this).children('.ui-slider-handle').first();
+	        var boutonElementDroit = $(this).children('.ui-slider-handle').last();
+	        var offset1 = boutonElementGauche.offset();
+	        var offset2 = boutonElementDroit.offset();
+	
+	        if(selection.values[1] - selection.values[0] < 1){
+	        	// do not allow this selection
+	        	return false;
+	    	}
+	    	else {
+		        $('.tooltip1 .tooltip-inner').text(selection.values[ 0 ] + 8 + 'h');
+		        $('.tooltip2 .tooltip-inner').text(selection.values[ 1 ] + 8 + 'h');
+					$('#hourRangePaulBarruel').val( (selection.values[ 0 ] + 8) + "-" + (selection.values[ 1 ] + 8) );
+	        }
+
+	        boutonElementGauche.html($('.tooltip1'));
+	        boutonElementDroit.html($('.tooltip2'));
+	        boutonElementGauche.children().show();
+	        boutonElementDroit.children().show();
+		}
+	});
+
+	slider.attr('class',slider.attr('class') + " slider");
+	
+	//Positionnement des tooltips pour l'initialisation
+	$('.tooltip1 .tooltip-inner').text((startValue + 8) + 'h');
+    $('.tooltip2 .tooltip-inner').text((endValue + 8) + 'h');
+    var boutonElementGauche = $("#sliderPaulBarruel").children('.ui-slider-handle').first();
+    var boutonElementDroit = $("#sliderPaulBarruel").children('.ui-slider-handle').last();
+    boutonElementGauche.html($('.tooltip1'));
+    boutonElementDroit.html($('.tooltip2'));
+
+    // slider hours
+    	var nbHours = $('#PaulBarruel .search-module-slider .hours ul li').length - 1;
+    var ratio = 100/nbHours;
+    var leftOffsetArray = [];
+    var leftOffset = 0;
+    //console.log(nbHours);
+
+    for (i = 0; i <= nbHours; i++){
+        if (i > 0) {
+            leftOffsetArray.push(leftOffsetArray[i - 1] + ratio);
+        }
+        else {
+            leftOffsetArray.push(0);
+        }
+    }
+
+    var k = 0;
+		var listSliderLi = $('#PaulBarruel .search-module-slider .hours ul li');
+   		listSliderLi.each(function(){
+        if (k===0) {
+            $(this).css('left','0%');
+            k++;
+        }
+        else {
+            $(this).css('left',leftOffsetArray[k] + '%');
+            k++;
+        }
+    });
+});
+</script>
+
+<div class="search-module-slider">
+	<div id="sliderPaulBarruel" class="slider"></div>
+	<div class="tooltip tooltip1"><div class="tooltip-inner"></div><div class="tooltip-arrow"></div></div>
+	<div class="tooltip tooltip2"><div class="tooltip-inner"></div><div class="tooltip-arrow"></div></div>
+	<div class="hours">
+		<ul>
+		    <li>
+		        <span class="line"></span>
+		        <span>8h</span>
+		    </li>
+		    <li class="masked">9h</li>
+		    <li class="masked">10h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>11h</span>  
+		    </li>
+		    <li class="masked">12h</li>
+		    <li class="masked">13h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>14h</span></li>
+		    <li class="masked">15h</li>
+		    <li class="masked">16h</li>
+		    <li class="masked">17h</li>
+		    <li>
+		        <span class="line"></span>
+		        <span>18h</span>
+		    </li>
+		    <li class="masked">19h</li>
+		    <li class="masked">20h</li>
+		    <li class="masked">21h</li>
+		    <li>
+		        <span>22h</span>
+		        <span class="line"></span>
+		    </li>
+		</ul>
+	</div>
+</div>
+
+								<input id="hourRangePaulBarruel" type="text" id="hourRange" name="hourRange" readonly style="display:none"/>
+						    </div>
+						    <div class="col-lg-1 col-md-12 col-sm-12 text-center">
+						    	<a class="btnRefreshResearch btn btn-darkgreen" href="#" >
+									<span class="glyphicon-left glyphicon glyphicon-refresh" style="color:white"></span>					    		
+						    	</a>
+						    </div>
+						</div>
+			        </div>
+			        <div class="container">
+			        	<div class="row rowTarifs">
+							<div class="col-md-12 text-right tarifs">
+								<a href="jsp/site/Portal.jsp?page=rate&view=les_tarifs" target="_blank">
+						    		<svg xmlns="http://www.w3.org/2000/svg" class="arrow-link" viewBox="0 0 25 25" x="0px" y="0px" width="20" height="20" 
+						        	xmlns:xml="http://www.w3.org/XML/1998/namespace" xml:space="preserve" version="1.1">
+						        	<path d="M 6.3 4.8 l 2.3 -2.3 l 10 10 l -6.4 6.4 l -3.6 3.6 l -2.3 -2.3 l 7.7 -7.7 L 6.3 4.8 Z" />
+						        	</svg><span>Voir tous les tarifs</span>
+					        	</a>
+				        	</div>
+				        </div>
+						<div class="search-result-block">
+							<div class="panel-group" id="courtListPaulBarruel" role="tablist" aria-multiselectable="true">
+								<!-- Si on a saisi un tennis et qu'il n'y a aucun creneau de disponible -->
+							     	
+</div>

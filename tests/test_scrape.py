@@ -1,100 +1,76 @@
-"""Tests du parseur sur des extraits reproduisant la structure de tennis.paris.fr.
+"""Tests du collecteur sur des extraits réels de tennis.paris.fr (captures du 19/10/2026).
 
     python -m unittest discover tests
 """
 import os
 import sys
 import unittest
+from datetime import datetime
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scraper"))
+HERE = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(HERE, "..", "scraper"))
 import scrape  # noqa: E402
 
-SEARCH_PAGE = """
-<form><input id="token" type="hidden" value="0b6f1c2e-1111-2222-3333-444455556666"/></form>
-<script>var tennis = {"type":"FeatureCollection","features":[
-{"type":"Feature","properties":{"general":{"_nomSrtm":"Sablonnière","_arrondissement":15,
- "_adresse":"62 rue Cambronne","_codePostal":"75015","_gpsLat":48.845,"_gpsLon":2.302,"_ouvRes":"V"},
- "transports":[]}},
-{"type":"Feature","properties":{"general":{"_nomSrtm":"Atlantique","_arrondissement":15,
- "_adresse":"25 allée du Capitaine Dronne -","_codePostal":"75015","_gpsLat":48.839,"_gpsLon":2.317,"_ouvRes":"V"},
- "transports":[]}},
-{"type":"Feature","properties":{"general":{"_nomSrtm":"Puteaux","_arrondissement":16,
- "_adresse":"1 allée des sports","_codePostal":"92800","_gpsLat":48.87,"_gpsLon":2.24,"_ouvRes":"V"},
- "transports":[]}},
-{"type":"Feature","properties":{"general":{"_nomSrtm":"Padel Jules Ladoumègue","_arrondissement":19,
- "_adresse":"39 route des Petits Ponts","_codePostal":"75019","_gpsLat":48.89,"_gpsLon":2.4,"_ouvRes":"V"},
- "transports":[]}},
-{"type":"Feature","properties":{"general":{"_nomSrtm":"Amandiers","_arrondissement":20,
- "_adresse":"8 rue Louis Delgrès","_codePostal":"75020","_gpsLat":48.86,"_gpsLon":2.38,"_ouvRes":"F"},
- "transports":[]}}
-]};</script>
-"""
 
-RESULTS = """
-<div class="panel panel-default">
- <div class="panel-heading" id="headSablonnière08h">
-  <h4 class="panel-title"><a>08h</a></h4>
- </div>
- <div class="panel-collapse">
-  <div class="row tennis-court">
-   <div class="col-xs-5"><span class="court">Court N°1 - Résine - Éclairé</span></div>
-   <div class="col-xs-4"><span class="price">7&nbsp;€</span>
-     <div class="price-description">Tarif réduit<br/>Découvert</div></div>
-   <div class="col-xs-3"><button class="buttonAllOk" courtid="2511" datedeb="2026/10/20 8:00:00">Réserver</button></div>
-  </div>
- </div>
-</div>
-<div class="panel panel-default">
- <div class="panel-heading" id="headSablonnière19h"><h4 class="panel-title"><a>19h</a></h4></div>
- <div class="panel-collapse">
-  <div class="row tennis-court">
-   <span class="court">Court N°1 - Résine - Éclairé</span>
-   <span class="price">12 €</span><div class="price-description">Tarif plein<br>Découvert</div>
-   <button courtid="2511" datedeb="2026/10/20 19:00:00">Réserver</button>
-  </div>
-  <div class="row tennis-court">
-   <span class="court">Court N°2 - Béton poreux</span>
-   <span class="price">20 €</span><div class="price-description">Tarif plein<br>Couvert</div>
-   <button courtid="2512" datedeb="2026/10/20 19:00:00">Réserver</button>
-  </div>
- </div>
-</div>
-<div class="panel-heading" id="headAtlantique20h"></div>
- <div class="row tennis-court"><span class="court">Court N°3</span>
-  <div class="price-description">Tarif plein<br>Couvert</div></div>
-<div class="panel-heading" id="headClubInconnu09h"></div>
- <div class="row tennis-court"><span class="court">Court N°9</span></div>
-"""
+def fixture(name):
+    with open(os.path.join(HERE, "fixtures", name), encoding="utf-8") as f:
+        return f.read()
 
 
-class ParseTest(unittest.TestCase):
-    def test_sites(self):
-        sites, token = scrape.parse_sites(SEARCH_PAGE)
-        self.assertEqual(token, "0b6f1c2e-1111-2222-3333-444455556666")
-        self.assertEqual(len(sites), 5)
-        kept = [s["name"] for s in sites if s["bookable"] and scrape.is_intra_muros_tennis(s)]
-        self.assertEqual(kept, ["Sablonnière", "Atlantique"])
-        atl = sites[1]
-        self.assertEqual(atl["address"], "25 allée du Capitaine Dronne")
-        self.assertEqual((atl["arr"], atl["cp"]), (15, "75015"))
-        self.assertAlmostEqual(atl["lat"], 48.839)
+NOW = datetime(2026, 10, 19, 20, 0, tzinfo=scrape.PARIS)
 
+
+class SitesTest(unittest.TestCase):
+    def setUp(self):
+        self.page = fixture("search_page.html")
+        self.sites = {s["key"]: s for s in scrape.build_sites(scrape.extract_features(self.page), NOW)}
+
+    def test_token_and_coatings(self):
+        self.assertTrue(scrape.parse_token(self.page))
+        self.assertEqual(set(scrape.parse_coatings(self.page)), {"96", "2095", "94", "1324", "2016", "92"})
+
+    def test_padel_excluded_and_duplicates_merged(self):
+        self.assertNotIn("Padel Jules Ladoumègue", self.sites)
+        mimoun = self.sites["Alain Mimoun"]          # deux entrées sur la carte, un seul club
+        self.assertEqual(len(mimoun["courts"]), 6)
+        self.assertEqual(sum(c["covered"] for c in mimoun["courts"]), 3)
+        self.assertEqual([c["num"] for c in mimoun["courts"]], [1, 2, 3, 4, 5, 6])
+
+    def test_outside_paris_and_closed(self):
+        aurelle = self.sites["Aurelle de Paladines"]
+        self.assertTrue(aurelle["outside"])
+        self.assertEqual((aurelle["arr"], aurelle["city"]), (17, "Neuilly sur Seine"))
+        self.assertFalse(self.sites["Amandiers"]["bookable"])
+        self.assertTrue(self.sites["Poliveau"]["bookable"])
+
+    def test_text_cleanup(self):
+        self.assertEqual(self.sites["Poliveau"]["address"], "39bis rue de Poliveau")
+        self.assertEqual(self.sites["NEUVE SAINT PIERRE"]["name"], "Neuve Saint Pierre")
+        self.assertEqual(len(self.sites["NEUVE SAINT PIERRE"]["courts"]), 1)   # « Gymnase Type B »
+        self.assertEqual(scrape.fix_text("F¿ri¿"), "Férié")
+        self.assertEqual(scrape.fix_text("H?bergement d'urgence"), "Hébergement d'urgence")
+
+
+class ResultsTest(unittest.TestCase):
     def test_results(self):
-        keys = {scrape.norm_key(n): n for n in ["Sablonnière", "Atlantique"]}
-        res, unknown = scrape.parse_results(RESULTS, keys)
-        self.assertEqual(unknown, {"ClubInconnu"})
-        self.assertEqual(len(res), 4)
-        a, b, c, d = res
-        self.assertEqual((a["site"], a["hour"], a["court"], a["court_id"]), ("Sablonnière", 8, "Court N°1", "2511"))
-        self.assertEqual((a["surface"], a["lit"], a["covered"], a["price"], a["tarif"]), ("Résine", True, False, 7, "R"))
-        self.assertEqual((b["hour"], b["price"], b["tarif"], b["covered"]), (19, 12, "P", False))
-        self.assertEqual((c["court"], c["surface"], c["lit"], c["covered"], c["price"]), ("Court N°2", "Béton poreux", False, True, 20))
-        # prix absent : barème de la Ville (plein tarif, couvert)
-        self.assertEqual((d["site"], d["hour"], d["price"], d["covered"]), ("Atlantique", 20, 20, True))
+        keys = {scrape.norm_key(n): n for n in ["Poliveau", "Alain Mimoun"]}
+        res, unknown = scrape.parse_results(fixture("results.html"), keys)
+        self.assertEqual(unknown, set())
+        by = {(r["site"], r["hour"], r["num"]) for r in res}
+        self.assertIn(("Poliveau", 19, 1), by)
+        self.assertIn(("Poliveau", 20, 1), by)
+        self.assertEqual(len(res), 9)
+        pol = next(r for r in res if r["site"] == "Poliveau")
+        self.assertEqual((pol["court"], pol["surface"], pol["covered"], pol["lit"], pol["price"], pol["tarif"]),
+                         ("Court N°1", "Synthétique", True, True, 20, "P"))
 
-    def test_norm_key(self):
-        self.assertEqual(scrape.norm_key("Renée Garilhe - ex Courcelles"), scrape.norm_key("ReneeGarilhe-exCourcelles"))
-        self.assertEqual(scrape.norm_key("NEUVE SAINT PIERRE"), "neuvesaintpierre")
+    def test_non_eclaire(self):
+        row = ('<div class="panel-heading" id="headPoliveau08h"></div><div class="row tennis-court">'
+               '<span class="court">Court N°13 - Bitume - Non Eclairé</span>'
+               '<span class="price"> 7 € </span><small class="price-description">Tarif réduit<br/>Découvert</small></div>')
+        res, _ = scrape.parse_results(row, {"poliveau": "Poliveau"})
+        self.assertEqual((res[0]["num"], res[0]["surface"], res[0]["lit"], res[0]["price"], res[0]["tarif"]),
+                         (13, "Bitume", False, 7, "R"))
 
 
 if __name__ == "__main__":

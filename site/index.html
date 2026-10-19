@@ -17,20 +17,20 @@
    filtres en puces, puis un bloc par club, plaque d'arrondissement en tête, heures en pastilles. */
 :root{
   --paper:#f3f5f2; --card:#ffffff; --ink:#15213a; --muted:#5a6476; --line:#dbe0e4;
-  --enamel:#1d3f7a; --enamel-ink:#ffffff; --rim:#2c7a4b;
-  --ball:#dbe94e; --ball-ink:#1e2806; --chip:#e8ecef; --warn:#a65a00; --warn-bg:#fff1dc;
+  --enamel:#1d3f7a; --enamel-ink:#ffffff; --rim:#2c7a4b; --stone:#6b7383;
+  --ball:#dbe94e; --ball-ink:#1e2806; --chip:#e8ecef; --warn:#9a5200; --warn-bg:#fff1dc;
   --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
   --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
   --r:10px;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --paper:#0e1421; --card:#161f31; --ink:#e7ebf2; --muted:#98a3b6; --line:#27324a;
-  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66;
+  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66; --stone:#566074;
   --ball:#d6e64a; --ball-ink:#1b2405; --chip:#202b42; --warn:#ffb85c; --warn-bg:#3a2a12;
   color-scheme:dark; } }
 :root[data-theme="dark"]{
   --paper:#0e1421; --card:#161f31; --ink:#e7ebf2; --muted:#98a3b6; --line:#27324a;
-  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66;
+  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66; --stone:#566074;
   --ball:#d6e64a; --ball-ink:#1b2405; --chip:#202b42; --warn:#ffb85c; --warn-bg:#3a2a12;
   color-scheme:dark; }
 
@@ -66,7 +66,6 @@ button{font:inherit;color:inherit}
 .day small{font-size:12px;opacity:.85}
 .day[aria-pressed="true"]{background:var(--ball);color:var(--ball-ink);border-color:var(--ball)}
 .day[aria-pressed="true"] small{opacity:1}
-.day:disabled{opacity:.45;cursor:default}
 
 /* filtres */
 .filters{display:grid;gap:10px;padding-block:14px 6px}
@@ -75,6 +74,7 @@ button{font:inherit;color:inherit}
 .chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:14px;cursor:pointer;line-height:1.2}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chip.arr{font-family:var(--display);font-weight:600;font-size:15px;padding:4px 9px;min-width:40px;text-align:center}
+.hint{font-size:13px;color:var(--muted);margin:-2px 0 0;max-width:68ch}
 .more{border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:14px;padding:4px 0}
 .summary{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
   padding-block:10px;border-top:1px solid var(--line);margin-top:6px}
@@ -85,24 +85,26 @@ button{font:inherit;color:inherit}
 .seg button[aria-pressed="true"]{background:var(--chip);font-weight:600}
 
 /* clubs */
-.list{display:grid;gap:12px;padding-block:6px 24px}
+.list{display:grid;gap:12px;padding-block:6px 16px}
 .club{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:12px;min-width:0}
 .club-head{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
 .plaque{background:var(--enamel);color:var(--enamel-ink);border-radius:4px;padding:3px 7px 4px;
   box-shadow:inset 0 0 0 2px var(--enamel),inset 0 0 0 3.5px #fff,0 0 0 1.5px var(--rim);
   font:700 20px/1 var(--display);text-align:center;min-width:46px}
 .plaque sup{font-size:11px;font-weight:600;margin-left:1px}
+.plaque.out{background:var(--stone);box-shadow:inset 0 0 0 2px var(--stone),inset 0 0 0 3.5px #fff,0 0 0 1.5px var(--stone)}
 .club h2{margin:0;font:700 22px/1.05 var(--display);text-wrap:balance}
 .addr{display:inline-block;margin-top:3px;color:var(--muted);font-size:14.5px;text-decoration:none;border-bottom:1px dotted var(--muted)}
 .addr:hover{color:var(--ink)}
 .meta{margin-top:5px;font-size:13px;color:var(--muted)}
+.alert{margin-top:6px;font-size:13px;background:var(--warn-bg);color:var(--warn);border-radius:6px;padding:4px 8px;display:inline-block}
 
 .hours{display:flex;flex-wrap:wrap;gap:6px}
 .hour{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:5px 9px 6px;cursor:pointer;
   display:grid;gap:1px;text-align:left;min-width:66px}
-.hour b{font:700 19px/1 var(--display)}
+.hour b{font:700 19px/1 var(--display);white-space:nowrap}
 .hour b i{font-style:normal;font-weight:500;font-size:14px;color:var(--muted);margin-left:3px}
-.hour small{font-size:12px;color:var(--muted)}
+.hour small{font-size:12px;color:var(--muted);white-space:nowrap}
 .hour.has2h{border-color:var(--rim)}
 .hour[aria-expanded="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .hour[aria-expanded="true"] b i,.hour[aria-expanded="true"] small{color:var(--paper);opacity:.8}
@@ -113,6 +115,7 @@ button{font:inherit;color:inherit}
 .court{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
 .court:last-child{border-bottom:0}
 .cname{font-weight:600;min-width:0}
+.csub{font-size:13px;color:var(--muted)}
 .ctags{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
 .tag{font-size:12px;border-radius:4px;padding:1px 6px;background:var(--chip);color:var(--muted)}
 .tag.cov{background:var(--enamel);color:var(--enamel-ink)}
@@ -128,6 +131,17 @@ button{font:inherit;color:inherit}
 .empty,.notice{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:20px;text-align:center;color:var(--muted)}
 .notice.err{border-style:solid;border-color:var(--warn);color:var(--ink)}
 .empty button{margin-top:10px}
+
+/* autres clubs */
+.others{display:grid;gap:8px;padding-block:4px 20px}
+.others details{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px}
+.others summary{cursor:pointer;font:700 18px/1.2 var(--display)}
+.others summary small{font-family:var(--body);font-weight:400;font-size:13px;color:var(--muted);margin-left:6px}
+.olist{display:grid;gap:0;margin-top:8px}
+.orow{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:8px 0;border-top:1px dashed var(--line)}
+.orow .plaque{font-size:16px;min-width:38px;padding:2px 5px 3px}
+.orow b{font:700 17px/1.1 var(--display)}
+.orow .csub{margin-top:1px}
 
 footer{color:var(--muted);font-size:13.5px;padding-block:6px 40px;display:grid;gap:6px;max-width:68ch}
 footer p{margin:0}
@@ -155,12 +169,14 @@ footer p{margin:0}
 <main class="wrap">
   <section class="filters" aria-label="Filtres">
     <div class="frow"><span class="flabel">Moment</span><span id="f-period" class="frow"></span></div>
-    <div class="frow"><span class="flabel">Court</span><span id="f-cover" class="frow"></span></div>
     <div class="frow"><span class="flabel">Durée</span><span id="f-dur" class="frow"></span></div>
+    <p class="hint" id="dur-hint"></p>
+    <div class="frow"><span class="flabel">Court</span><span id="f-cover" class="frow"></span></div>
     <div class="frow"><span class="flabel">Tarif</span><span id="f-tarif" class="frow"></span></div>
+    <div class="frow" id="row-zone" hidden><span class="flabel">Zone</span><span id="f-zone" class="frow"></span></div>
     <div class="frow" id="row-surf" hidden><span class="flabel">Surface</span><span id="f-surf" class="frow"></span></div>
     <div class="frow" id="row-arr" hidden><span class="flabel">Arrondissement</span><span id="f-arr" class="frow"></span></div>
-    <div><button class="more" id="toggle-more" type="button">Surface et arrondissement</button></div>
+    <div><button class="more" id="toggle-more" type="button">Zone, surface et arrondissement</button></div>
   </section>
 
   <div class="summary">
@@ -178,11 +194,12 @@ footer p{margin:0}
   </div>
 
   <section class="list" id="list" aria-live="polite"></section>
+  <section class="others" id="others" aria-label="Autres tennis de la Ville"></section>
 
   <footer>
-    <p>Prix par court et par heure, quel que soit le nombre de joueurs. « 2 h » apparaît quand le même court est libre l'heure suivante ; la Ville limite à une réservation par jour et par compte, donc pour 2 h deux d'entre vous réservent chacun une heure.</p>
+    <p>Prix par court, quel que soit le nombre de joueurs. Pour jouer 2 h, la Ville n'autorise qu'une réservation par jour et par compte : deux d'entre vous réservent chacun une des deux heures.</p>
     <p>Tarif réduit : réservataire de moins de 26 ans domicilié à Paris, sur justificatif. Les créneaux s'ouvrent 7 jours à l'avance, chaque matin à 8 h.</p>
-    <p>Données lues sur tennis.paris.fr et rafraîchies automatiquement toute la journée. La réservation se fait sur <a href="https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&amp;view=recherche_creneau" target="_blank" rel="noopener">Paris Tennis</a> avec un compte Mon Paris.</p>
+    <p>Tous les tennis de la carte Paris Tennis sont suivis, y compris Aurelle de Paladines (Neuilly) et Bobigny. Données lues sur tennis.paris.fr toutes les 15 minutes ; un créneau peut partir entre deux mises à jour. La réservation se fait sur <a href="https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&amp;view=recherche_creneau" target="_blank" rel="noopener">Paris Tennis</a> avec un compte Mon Paris.</p>
   </footer>
 </main>
 
@@ -196,24 +213,37 @@ footer p{margin:0}
     {id: "aprem", label: "Après-midi 14–18 h", hours: [14, 15, 16, 17]},
     {id: "soir", label: "Soir 18–22 h", hours: [18, 19, 20, 21]},
   ];
-  const STALE_MIN = 180;
+  const DURATIONS = [
+    {id: "1", label: "1 h"},
+    {id: "2same", label: "2 h, même court"},
+    {id: "2any", label: "2 h, changement de court accepté"},
+  ];
+  const DUR_HINT = {
+    "1": "",
+    "2same": "Le même court est libre deux heures de suite. L'heure affichée est celle du début, le prix est celui des 2 h.",
+    "2any": "Deux heures de suite dans le même club, en changeant de court à l'heure si besoin. Le prix est celui des 2 h.",
+  };
+  const STALE_MIN = 120;
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const euro = (n) => (Math.round(n * 100) / 100).toLocaleString("fr-FR") + " €";
+  const range = (vals) => { const lo = Math.min(...vals), hi = Math.max(...vals); return lo === hi ? euro(lo) : `${euro(lo)}–${euro(hi)}`; };
+  const plural = (n, one, many) => `${n} ${n > 1 ? many : one}`;
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem("courts:" + k); return v ? JSON.parse(v) : d; } catch { return d; } },
     set(k, v) { try { localStorage.setItem("courts:" + k, JSON.stringify(v)); } catch {} },
   };
 
-  const saved = store.get("filters", {});
+  const saved = store.get("filters2", {});
   const st = {
     data: null, day: null,
     periods: new Set(saved.periods || []),
+    dur: DURATIONS.some(d => d.id === saved.dur) ? saved.dur : "1",
     cover: saved.cover || "all",          // all | cov | unc
-    twoH: !!saved.twoH,
     tarif: saved.tarif || "site",          // site | reduit
+    zone: saved.zone || "all",             // all | paris
     surfaces: new Set(saved.surfaces || []),
     arrs: new Set(saved.arrs || []),
     sort: saved.sort || "arr",
@@ -221,8 +251,8 @@ footer p{margin:0}
     more: !!saved.more,
     open: new Set(),
   };
-  const persist = () => store.set("filters", {
-    periods: [...st.periods], cover: st.cover, twoH: st.twoH, tarif: st.tarif,
+  const persist = () => store.set("filters2", {
+    periods: [...st.periods], dur: st.dur, cover: st.cover, tarif: st.tarif, zone: st.zone,
     surfaces: [...st.surfaces], arrs: [...st.arrs], sort: st.sort, view: st.view, more: st.more,
   });
 
@@ -235,16 +265,92 @@ footer p{margin:0}
   }
   const dayLabel = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("fr-FR", {weekday: "short", day: "numeric", timeZone: "UTC"}).replace(".", "");
   const dayLong = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("fr-FR", {weekday: "long", day: "numeric", month: "long", timeZone: "UTC"});
+  const fmtDay = (d) => d.toLocaleDateString("fr-FR", {timeZone: "Europe/Paris", day: "numeric", month: "short"});
+  const fmtHour = (d) => d.toLocaleTimeString("fr-FR", {timeZone: "Europe/Paris", hour: "numeric", minute: "2-digit"})
+    .replace(":00", " h").replace(":", " h ");
+  const fmtWhen = (d) => `${fmtDay(d)} à ${fmtHour(d)}`;
+  const fmtSpan = (a, b) => fmtDay(a) === fmtDay(b)
+    ? `le ${fmtDay(a)} de ${fmtHour(a)} à ${fmtHour(b)}` : `du ${fmtWhen(a)} au ${fmtWhen(b)}`;
 
-  // ---- données
+  // ---- clubs
+  const siteArrKey = (s) => s.outside ? "out" : s.arr;
+  const siteOk = (s) => (st.zone === "all" || !s.outside) && (!st.arrs.size || st.arrs.has(siteArrKey(s)));
+  const courtNo = (s) => s.num != null ? `Court n° ${s.num}` : s.court;
+
+  function plaque(site) {
+    return site.outside
+      ? `<div class="plaque out" aria-label="${esc(site.city)}">${esc(String(site.cp || "").slice(0, 2))}</div>`
+      : `<div class="plaque" aria-label="${site.arr}e arrondissement">${site.arr}<sup>e</sup></div>`;
+  }
+  function courtSummary(site) {
+    const c = site.courts || [];
+    if (!c.length) return "";
+    const cov = c.filter(x => x.covered).length;
+    const surf = [...new Set(c.map(x => x.surface).filter(Boolean))].join(", ").toLowerCase();
+    return `${plural(c.length, "court", "courts")}${cov ? ` dont ${cov} couvert${cov > 1 ? "s" : ""}` : ""}${surf ? " · " + esc(surf) : ""}`;
+  }
+  function noticesFor(site, day) {
+    const start = new Date(day + "T00:00:00"), end = new Date(day + "T23:59:59");
+    return (site.notices || []).filter(n => new Date(n.from) <= end && new Date(n.to) >= start)
+      .map(n => `Fermeture annoncée ${fmtSpan(new Date(n.from), new Date(n.to))} : ${esc(n.text)}`);
+  }
+
+  // ---- créneaux
   function slotsOf(day) {
     const now = parisNow();
-    const raw = (st.data.slots[day] || []);
-    return raw.map(r => ({site: r[0], hour: r[1], court: r[2], cid: r[3] || r[2], surface: r[4] || "",
+    return (st.data.slots[day] || []).map(r => ({site: r[0], hour: r[1], num: r[2], court: r[3], surface: r[4] || "",
       cov: r[5], lit: r[6], price: r[7], tarif: r[8]}))
       .filter(s => day !== now.date || s.hour > now.hour);
   }
   const priceOf = (s) => st.tarif === "reduit" ? REDUIT[s.cov ? 1 : 0] : s.price;
+  const courtKey = (s) => `${s.site}|${s.num ?? s.court}`;
+
+  function slotOk(s) {
+    if (st.cover === "cov" && !s.cov) return false;
+    if (st.cover === "unc" && s.cov) return false;
+    if (st.surfaces.size && !st.surfaces.has(s.surface)) return false;
+    return siteOk(st.data.sites[s.site]);
+  }
+
+  // Une « offre » = ce qu'on peut réserver à partir d'une heure donnée dans un club.
+  function offers(day) {
+    const slots = slotsOf(day).filter(slotOk);
+    const byCourtHour = new Map(), bySiteHour = new Map();
+    for (const s of slots) {
+      s.p1 = priceOf(s);
+      byCourtHour.set(`${courtKey(s)}|${s.hour}`, s);
+      const k = `${s.site}|${s.hour}`;
+      if (!bySiteHour.has(k)) bySiteHour.set(k, []);
+      bySiteHour.get(k).push(s);
+    }
+    const hours = st.periods.size ? new Set(PERIODS.filter(p => st.periods.has(p.id)).flatMap(p => p.hours)) : null;
+    const out = [];
+    if (st.dur === "2any") {
+      for (const [k, first] of bySiteHour) {
+        const [site, hour] = k.split("|").map(Number);
+        if (hours && !hours.has(hour)) continue;
+        const second = bySiteHour.get(`${site}|${hour + 1}`);
+        if (!second) continue;
+        const same = first.filter(s => byCourtHour.has(`${courtKey(s)}|${hour + 1}`));
+        const totals = [];
+        for (const a of first) for (const b of second) totals.push(a.p1 + b.p1);
+        out.push({site, hour, first, second, same, totals});
+      }
+      return out;
+    }
+    for (const s of slots) {
+      if (hours && !hours.has(s.hour)) continue;
+      const next = byCourtHour.get(`${courtKey(s)}|${s.hour + 1}`);
+      s.p2 = next ? s.p1 + next.p1 : null;
+      s.next = next || null;
+      if (st.dur === "2same" && !next) continue;
+      out.push({site: s.site, hour: s.hour, slot: s, totals: [st.dur === "2same" ? s.p2 : s.p1]});
+    }
+    return out;
+  }
+  const weight = (o) => o.first ? o.first.length : 1;   // 2 h avec changement : un créneau par court de départ
+  const countOf = (list) => list.reduce((k, o) => k + weight(o), 0);
+  const unitWord = () => st.dur === "1" ? ["créneau d'1 h", "créneaux d'1 h"] : ["créneau de 2 h", "créneaux de 2 h"];
 
   function visibleDays() {
     const today = parisNow().date;
@@ -252,28 +358,6 @@ footer p{margin:0}
     let last = days.length - 1;
     while (last > 0 && !(st.data.slots[days[last]] || []).length) last--;
     return days.slice(0, last + 1);
-  }
-
-  function filtered(day) {
-    const all = slotsOf(day);
-    const free = new Map();
-    for (const s of all) free.set(`${s.site}|${s.cid}|${s.hour}`, s);
-    const hours = st.periods.size ? new Set(PERIODS.filter(p => st.periods.has(p.id)).flatMap(p => p.hours)) : null;
-    const out = [];
-    for (const s of all) {
-      if (hours && !hours.has(s.hour)) continue;
-      if (st.cover === "cov" && !s.cov) continue;
-      if (st.cover === "unc" && s.cov) continue;
-      if (st.surfaces.size && !st.surfaces.has(s.surface)) continue;
-      const arr = st.data.sites[s.site].arr;
-      if (st.arrs.size && !st.arrs.has(arr)) continue;
-      const next = free.get(`${s.site}|${s.cid}|${s.hour + 1}`);
-      s.p1 = priceOf(s);
-      s.p2 = next ? s.p1 + priceOf(next) : null;
-      if (st.twoH && s.p2 == null) continue;
-      out.push(s);
-    }
-    return out;
   }
 
   // ---- rendu
@@ -285,30 +369,30 @@ footer p{margin:0}
     return b;
   }
   function fill(el, nodes) { el.replaceChildren(...nodes); }
+  const toggleIn = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); };
 
   function renderFilters() {
-    fill($("f-period"), PERIODS.map(p => chip(p.label, st.periods.has(p.id), () => {
-      st.periods.has(p.id) ? st.periods.delete(p.id) : st.periods.add(p.id); update();
-    })));
+    fill($("f-period"), PERIODS.map(p => chip(p.label, st.periods.has(p.id), () => { toggleIn(st.periods, p.id); update(); })));
+    fill($("f-dur"), DURATIONS.map(d => chip(d.label, st.dur === d.id, () => { st.dur = d.id; st.open.clear(); update(); })));
+    $("dur-hint").textContent = DUR_HINT[st.dur];
+    $("dur-hint").hidden = !DUR_HINT[st.dur];
     fill($("f-cover"), [["all", "Tous"], ["cov", "Couvert"], ["unc", "Découvert"]].map(([v, l]) =>
       chip(l, st.cover === v, () => { st.cover = v; update(); })));
-    fill($("f-dur"), [[false, "1 h"], [true, "2 h d'affilée"]].map(([v, l]) =>
-      chip(l, st.twoH === v, () => { st.twoH = v; update(); })));
     fill($("f-tarif"), [["site", "Plein (affiché)"], ["reduit", "Réduit −26 ans parisien"]].map(([v, l]) =>
       chip(l, st.tarif === v, () => { st.tarif = v; update(); })));
+    fill($("f-zone"), [["all", "Tous les tennis de la Ville"], ["paris", "Paris intra-muros"]].map(([v, l]) =>
+      chip(l, st.zone === v, () => { st.zone = v; update(); })));
 
-    const surfaces = [...new Set(Object.values(st.data.slots).flat().map(r => r[4]).filter(Boolean))].sort();
-    fill($("f-surf"), surfaces.map(s => chip(s, st.surfaces.has(s), () => {
-      st.surfaces.has(s) ? st.surfaces.delete(s) : st.surfaces.add(s); update();
-    })));
-    const arrs = [...new Set(st.data.sites.map(s => s.arr))].sort((a, b) => a - b);
-    fill($("f-arr"), arrs.map(a => chip(a + "e", st.arrs.has(a), () => {
-      st.arrs.has(a) ? st.arrs.delete(a) : st.arrs.add(a); update();
-    }, "chip arr")));
-    $("row-surf").hidden = $("row-arr").hidden = !st.more;
-    const active = st.surfaces.size + st.arrs.size;
-    $("toggle-more").textContent = st.more ? "Masquer surface et arrondissement"
-      : "Surface et arrondissement" + (active ? ` (${active} actif${active > 1 ? "s" : ""})` : "");
+    const surfaces = [...new Set(st.data.sites.flatMap(s => (s.courts || []).map(c => c.surface))
+      .concat(Object.values(st.data.slots).flat().map(r => r[4])).filter(Boolean))].sort();
+    fill($("f-surf"), surfaces.map(s => chip(s, st.surfaces.has(s), () => { toggleIn(st.surfaces, s); update(); })));
+    const keys = [...new Set(st.data.sites.filter(s => st.zone === "all" || !s.outside).map(siteArrKey))]
+      .sort((a, b) => (a === "out" ? 99 : a) - (b === "out" ? 99 : b));
+    fill($("f-arr"), keys.map(a => chip(a === "out" ? "Hors Paris" : a + "e", st.arrs.has(a), () => { toggleIn(st.arrs, a); update(); }, "chip arr")));
+    $("row-zone").hidden = $("row-surf").hidden = $("row-arr").hidden = !st.more;
+    const active = st.surfaces.size + st.arrs.size + (st.zone !== "all" ? 1 : 0);
+    $("toggle-more").textContent = st.more ? "Masquer zone, surface et arrondissement"
+      : "Zone, surface et arrondissement" + (active ? ` (${active} actif${active > 1 ? "s" : ""})` : "");
 
     $("v-compact").setAttribute("aria-pressed", String(st.view === "compact"));
     $("v-detail").setAttribute("aria-pressed", String(st.view === "detail"));
@@ -320,11 +404,11 @@ footer p{margin:0}
     const days = visibleDays();
     if (!days.includes(st.day)) st.day = days.find(d => slotsOf(d).length) || days[0];
     fill($("days"), days.map(d => {
-      const n = filtered(d).length;
+      const n = countOf(offers(d));
       const b = document.createElement("button");
       b.type = "button"; b.className = "day";
       b.setAttribute("aria-pressed", String(d === st.day));
-      b.innerHTML = `<b>${esc(dayLabel(d))}</b><small>${n ? n + " libres" : "complet"}</small>`;
+      b.innerHTML = `<b>${esc(dayLabel(d))}</b><small>${n ? plural(n, "libre", "libres") : "complet"}</small>`;
       b.addEventListener("click", () => { st.day = d; st.open.clear(); update(); });
       return b;
     }));
@@ -334,96 +418,136 @@ footer p{margin:0}
     const el = $("fresh");
     const t = new Date(st.data.generated_at);
     const mins = Math.round((Date.now() - t) / 60000);
-    const when = t.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}).replace(":", " h ");
     const ago = mins < 1 ? "à l'instant" : mins < 60 ? `il y a ${mins} min` : `il y a ${Math.floor(mins / 60)} h ${String(mins % 60).padStart(2, "0")}`;
     el.innerHTML = mins > STALE_MIN
-      ? `<span class="old">Données anciennes</span><span>mises à jour le ${esc(when)}</span>`
+      ? `<span class="old">Données anciennes</span><span>mises à jour le ${esc(fmtWhen(t))}</span>`
       : `<span class="dot"></span><span>Mis à jour ${esc(ago)}</span>`;
   }
 
-  function courtRow(s, site) {
-    const tags = [s.surface && `<span class="tag">${esc(s.surface)}</span>`,
+  function tagsOf(s) {
+    return [s.surface && `<span class="tag">${esc(s.surface)}</span>`,
       s.cov ? `<span class="tag cov">Couvert</span>` : `<span class="tag">Découvert</span>`,
       s.lit ? `<span class="tag">Éclairé</span>` : ""].filter(Boolean).join("");
+  }
+
+  function rowOne(o) {
+    const s = o.slot;
+    if (st.dur === "2same") {
+      return `<div class="court"><div><div class="cname">${esc(courtNo(s))}</div>
+        <div class="csub">${s.hour} h – ${s.hour + 2} h · ${esc(euro(s.p1))} + ${esc(euro(s.next.p1))}</div>
+        <div class="ctags">${tagsOf(s)}</div></div>
+        <div class="prices"><span class="p1"><small>2 h</small>${esc(euro(s.p2))}</span></div></div>`;
+    }
     const p2 = s.p2 != null
       ? `<span class="p2"><small>2 h</small>${esc(euro(s.p2))}</span>`
-      : `<span class="p2 no"><small>2 h</small>non</span>`;
-    return `<div class="court"><div><div class="cname">${esc(s.court)}</div><div class="ctags">${tags}</div></div>
+      : `<span class="p2 no"><small>2 h</small>heure suivante prise</span>`;
+    return `<div class="court"><div><div class="cname">${esc(courtNo(s))}</div><div class="ctags">${tagsOf(s)}</div></div>
       <div class="prices"><span class="p1"><small>1 h</small>${esc(euro(s.p1))}</span>${p2}</div></div>`;
+  }
+
+  function rowAny(o) {
+    const list = (arr) => arr.map(s => `${esc(courtNo(s))}${s.cov ? " (couvert)" : ""}`).join(", ");
+    const same = o.same.length
+      ? `<div class="csub">Sans changer de court : ${esc(o.same.map(courtNo).join(", "))}</div>` : "";
+    return `<div class="court"><div>
+        <div class="cname">${o.hour} h : ${list(o.first)}</div>
+        <div class="cname">${o.hour + 1} h : ${list(o.second)}</div>${same}</div>
+      <div class="prices"><span class="p1"><small>2 h</small>${esc(range(o.totals))}</span></div></div>`;
   }
 
   function renderList() {
     const list = $("list");
-    const rows = filtered(st.day);
+    const all = offers(st.day);
     const bySite = new Map();
-    for (const s of rows) {
-      if (!bySite.has(s.site)) bySite.set(s.site, new Map());
-      const h = bySite.get(s.site);
-      if (!h.has(s.hour)) h.set(s.hour, []);
-      h.get(s.hour).push(s);
+    for (const o of all) {
+      if (!bySite.has(o.site)) bySite.set(o.site, new Map());
+      const h = bySite.get(o.site);
+      if (!h.has(o.hour)) h.set(o.hour, []);
+      h.get(o.hour).push(o);
     }
-    const nClubs = bySite.size;
-    $("count").innerHTML = rows.length
-      ? `<strong>${rows.length}</strong> créneaux libres · ${nClubs} club${nClubs > 1 ? "s" : ""} · ${esc(dayLong(st.day))}`
-      : `Aucun créneau · ${esc(dayLong(st.day))}`;
+    const n = countOf(all), nClubs = bySite.size, [one, many] = unitWord();
+    $("count").innerHTML = n
+      ? `<strong>${n}</strong> ${n > 1 ? many : one} libre${n > 1 ? "s" : ""} · ${plural(nClubs, "club", "clubs")} · ${esc(dayLong(st.day))}`
+      : `Aucun ${one} libre · ${esc(dayLong(st.day))}`;
 
-    if (!rows.length) {
-      const anyFilter = st.periods.size || st.cover !== "all" || st.twoH || st.surfaces.size || st.arrs.size;
+    renderOthers(bySite);
+
+    if (!n) {
+      const anyFilter = st.periods.size || st.cover !== "all" || st.surfaces.size || st.arrs.size || st.zone !== "all";
       list.innerHTML = `<div class="empty"><p>${anyFilter ? "Rien de libre avec ces filtres ce jour-là." : "Plus rien de libre ce jour-là."}</p>
         ${anyFilter ? `<button class="chip" type="button" id="reset">Retirer les filtres</button>` : ""}</div>`;
       const r = $("reset");
       if (r) r.addEventListener("click", () => {
-        st.periods.clear(); st.cover = "all"; st.twoH = false; st.surfaces.clear(); st.arrs.clear(); update();
+        st.periods.clear(); st.cover = "all"; st.surfaces.clear(); st.arrs.clear(); st.zone = "all"; update();
       });
       return;
     }
 
-    let order = [...bySite.keys()];
-    order.sort(st.sort === "count"
-      ? (a, b) => count(b) - count(a) || cmpSite(a, b)
-      : cmpSite);
-    function count(i) { let n = 0; for (const v of bySite.get(i).values()) n += v.length; return n; }
-    function cmpSite(a, b) { const A = st.data.sites[a], B = st.data.sites[b]; return (A.arr - B.arr) || A.name.localeCompare(B.name, "fr"); }
+    const count = (i) => { let k = 0; for (const v of bySite.get(i).values()) k += countOf(v); return k; };
+    const cmpSite = (a, b) => { const A = st.data.sites[a], B = st.data.sites[b];
+      return (A.outside - B.outside) || (A.arr - B.arr) || A.name.localeCompare(B.name, "fr"); };
+    const order = [...bySite.keys()].sort(st.sort === "count" ? (a, b) => count(b) - count(a) || cmpSite(a, b) : cmpSite);
+    const twoH = st.dur !== "1";
 
     list.innerHTML = order.map(i => {
       const site = st.data.sites[i];
       const hours = [...bySite.get(i).entries()].sort((a, b) => a[0] - b[0]);
-      const total = hours.reduce((n, [, v]) => n + v.length, 0);
-      const surfaces = [...new Set(hours.flatMap(([, v]) => v.map(s => s.surface)).filter(Boolean))];
-      const hasCov = hours.some(([, v]) => v.some(s => s.cov));
-      const hasUnc = hours.some(([, v]) => v.some(s => !s.cov));
-      const fullAddr = `${site.address}, ${site.cp} Paris`;
+      const total = hours.reduce((k, [, v]) => k + countOf(v), 0);
+      const fullAddr = `${site.address}, ${site.cp} ${site.city}`;
       const maps = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`Tennis ${site.name}, ${fullAddr}`);
+      const alerts = noticesFor(site, st.day);
 
       const pills = hours.map(([h, v]) => {
         const key = `${i}|${h}`;
-        const ps = v.map(s => s.p1);
-        const lo = Math.min(...ps), hi = Math.max(...ps);
-        const two = v.some(s => s.p2 != null);
+        const totals = v.flatMap(o => o.totals);
         const open = st.view === "detail" || st.open.has(key);
-        return `<button type="button" class="hour${two ? " has2h" : ""}" data-key="${key}" aria-expanded="${open}"
-          title="${v.length} court${v.length > 1 ? "s" : ""} libre${v.length > 1 ? "s" : ""} à ${h} h">
-          <b>${h} h<i>×${v.length}</i></b><small>${lo === hi ? esc(euro(lo)) : esc(euro(lo)) + "–" + esc(euro(hi))}</small></button>`;
+        const label = twoH ? `${h}–${h + 2} h` : `${h} h`;
+        const nCourts = countOf(v);
+        const count = `<i>×${nCourts}</i>`;
+        const has2 = !twoH && v.some(o => o.slot.p2 != null);
+        const title = twoH
+          ? `2 h de ${h} h à ${h + 2} h`
+          : `${plural(nCourts, "court libre", "courts libres")} à ${h} h`;
+        return `<button type="button" class="hour${has2 ? " has2h" : ""}" data-key="${key}" aria-expanded="${open}" title="${title}">
+          <b>${label}${count}</b><small>${twoH ? "2 h · " : ""}${esc(range(totals))}</small></button>`;
       }).join("");
 
       const openHours = hours.filter(([h]) => st.view === "detail" || st.open.has(`${i}|${h}`));
       const detail = openHours.length ? `<div class="detail">${openHours.map(([h, v]) =>
-        `<div class="slotgroup"><h3>${h} h – ${h + 1} h</h3>${v.map(s => courtRow(s, site)).join("")}</div>`).join("")}
+        `<div class="slotgroup"><h3>${twoH ? `${h} h – ${h + 2} h` : `${h} h – ${h + 1} h`}</h3>${v.map(st.dur === "2any" ? rowAny : rowOne).join("")}</div>`).join("")}
         <a class="book" href="${BOOK_URL}" target="_blank" rel="noopener">Réserver sur Paris Tennis ↗</a></div>` : "";
 
       return `<article class="club">
         <div class="club-head">
-          <div class="plaque" aria-label="${site.arr}e arrondissement">${site.arr}<sup>e</sup></div>
+          ${plaque(site)}
           <div style="min-width:0">
             <h2>${esc(site.name)}</h2>
             <a class="addr" href="${maps}" target="_blank" rel="noopener">${esc(fullAddr)}</a>
-            <div class="meta">${total} créneau${total > 1 ? "x" : ""} · ${[hasCov && "couvert", hasUnc && "découvert"].filter(Boolean).join(" et ")}${surfaces.length ? " · " + esc(surfaces.join(", ").toLowerCase()) : ""}</div>
+            <div class="meta">${courtSummary(site)} · ${plural(total, unitWord()[0], unitWord()[1])} libre${total > 1 ? "s" : ""}</div>
+            ${alerts.map(a => `<div class="alert">${a}</div>`).join("")}
           </div>
         </div>
         <div class="hours">${pills}</div>
         ${detail}
       </article>`;
     }).join("");
+  }
+
+  function renderOthers(bySite) {
+    const sites = st.data.sites.map((s, i) => ({...s, i})).filter(siteOk);
+    const offline = sites.filter(s => !s.online);
+    const none = sites.filter(s => s.online && !bySite.has(s.i));
+    const row = (s, extra) => `<div class="orow">${plaque(s)}<div style="min-width:0"><b>${esc(s.name)}</b>
+      <div class="csub">${esc(`${s.address}, ${s.cp} ${s.city}`)}</div>
+      <div class="csub">${[courtSummary(s), extra].filter(Boolean).join(" · ")}</div>
+      ${noticesFor(s, st.day).map(a => `<div class="alert">${a}</div>`).join("")}</div></div>`;
+    const sort = (a, b) => (a.outside - b.outside) || (a.arr - b.arr) || a.name.localeCompare(b.name, "fr");
+    const blocks = [];
+    if (none.length) blocks.push(`<details><summary>Rien de libre ce jour avec ces filtres<small>${plural(none.length, "club", "clubs")}</small></summary>
+      <div class="olist">${none.sort(sort).map(s => row(s, "")).join("")}</div></details>`);
+    if (offline.length) blocks.push(`<details><summary>Pas de réservation en ligne<small>${plural(offline.length, "club", "clubs")}</small></summary>
+      <div class="olist">${offline.sort(sort).map(s => row(s, s.phone ? "tél. " + s.phone : "")).join("")}</div></details>`);
+    $("others").innerHTML = blocks.join("");
   }
 
   function update() {
@@ -438,8 +562,7 @@ footer p{margin:0}
   $("list").addEventListener("click", (e) => {
     const b = e.target.closest(".hour");
     if (!b || st.view === "detail") return;
-    const k = b.dataset.key;
-    st.open.has(k) ? st.open.delete(k) : st.open.add(k);
+    toggleIn(st.open, b.dataset.key);
     renderList();
   });
   $("toggle-more").addEventListener("click", () => { st.more = !st.more; update(); });
@@ -454,6 +577,7 @@ footer p{margin:0}
       const r = await fetch("data.json?t=" + Date.now(), {cache: "no-store"});
       if (!r.ok) throw new Error(r.status === 404 ? "first" : "http " + r.status);
       const data = await r.json();
+      if (!data.version || data.version < 2) throw new Error("first");
       if (st.data && st.data.generated_at === data.generated_at) { renderFresh(); return; }
       st.data = data;
       update();
@@ -461,12 +585,12 @@ footer p{margin:0}
       if (st.data) { renderFresh(); return; }
       $("fresh").innerHTML = "<span>Pas encore de données</span>";
       $("list").innerHTML = e.message === "first"
-        ? `<div class="notice">Première collecte en cours. Les créneaux apparaîtront ici dans quelques minutes.</div>`
+        ? `<div class="notice">Collecte en cours. Les créneaux apparaîtront ici dans quelques minutes.</div>`
         : `<div class="notice err">Impossible de charger les créneaux. Vérifie ta connexion puis recharge la page.</div>`;
     }
   }
   load();
-  setInterval(load, 10 * 60 * 1000);
+  setInterval(load, 5 * 60 * 1000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
   setInterval(() => { if (st.data) renderFresh(); }, 60 * 1000);
 })();

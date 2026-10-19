@@ -5,10 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # Toutes les 30 min de 7 h à 23 h (heure de Paris, été comme hiver).
-    - cron: "7,37 5-21 * * *"
-    # Juste après l'ouverture du nouveau jour à 8 h (06:03 UTC l'été, 07:03 UTC l'hiver).
-    - cron: "3 6,7 * * *"
+    # Toutes les 15 min de 7 h à minuit l'été (6 h à 23 h l'hiver), heure de Paris.
+    # Le passage de HH:04 attrape le nouveau jour ouvert à 8 h.
+    - cron: "4,19,34,49 5-21 * * *"
 
 permissions:
   contents: read
