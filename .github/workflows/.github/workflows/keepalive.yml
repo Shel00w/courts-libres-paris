@@ -1,0 +1,25 @@
+name: Maintien actif
+
+# GitHub met en pause les tâches planifiées d'un dépôt public sans activité
+# pendant 60 jours. Un petit commit hebdomadaire les garde actives.
+on:
+  schedule:
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Commit hebdomadaire
+        run: |
+          date -u +%F > .github/keepalive
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/keepalive
+          git diff --cached --quiet || git commit -m "maintien actif $(date -u +%F)"
+          git push
