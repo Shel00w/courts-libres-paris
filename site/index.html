@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Courts libres Paris</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tous les créneaux libres des tennis municipaux de Paris, club par club, avec adresse et prix.">
+<meta name="theme-color" content="#1d3f7a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Courts libres">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout : une colonne façon feuille de match. Bandeau collant (titre, fraîcheur, jours),
+   filtres en puces, puis un bloc par club, plaque d'arrondissement en tête, heures en pastilles. */
+:root{
+  --paper:#f3f5f2; --card:#ffffff; --ink:#15213a; --muted:#5a6476; --line:#dbe0e4;
+  --enamel:#1d3f7a; --enamel-ink:#ffffff; --rim:#2c7a4b;
+  --ball:#dbe94e; --ball-ink:#1e2806; --chip:#e8ecef; --warn:#a65a00; --warn-bg:#fff1dc;
+  --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0e1421; --card:#161f31; --ink:#e7ebf2; --muted:#98a3b6; --line:#27324a;
+  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66;
+  --ball:#d6e64a; --ball-ink:#1b2405; --chip:#202b42; --warn:#ffb85c; --warn-bg:#3a2a12;
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --paper:#0e1421; --card:#161f31; --ink:#e7ebf2; --muted:#98a3b6; --line:#27324a;
+  --enamel:#2a539c; --enamel-ink:#ffffff; --rim:#3e9f66;
+  --ball:#d6e64a; --ball-ink:#1b2405; --chip:#202b42; --warn:#ffb85c; --warn-bg:#3a2a12;
+  color-scheme:dark; }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.45 var(--body);
+  font-variant-numeric:tabular-nums}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--enamel)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--rim);outline-offset:2px}
+
+.wrap{max-width:880px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* bandeau */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--enamel);color:var(--enamel-ink);
+  box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.top .wrap{padding-block:12px 10px;display:grid;gap:10px}
+.brand{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font:700 26px/1 var(--display);letter-spacing:.01em;text-transform:uppercase}
+.brand h1 span{color:var(--ball)}
+.fresh{font-size:13px;opacity:.9;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.fresh .dot{width:8px;height:8px;border-radius:50%;background:var(--ball);display:inline-block}
+.fresh .old{background:var(--warn-bg);color:var(--warn);border-radius:4px;padding:1px 6px;font-weight:600}
+
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -4px;padding:0 4px 2px}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;min-width:64px;border:1px solid rgba(255,255,255,.28);background:transparent;color:var(--enamel-ink);
+  border-radius:8px;padding:5px 9px 6px;text-align:left;cursor:pointer;display:grid;gap:0}
+.day b{font:600 18px/1.05 var(--display);text-transform:capitalize}
+.day small{font-size:12px;opacity:.85}
+.day[aria-pressed="true"]{background:var(--ball);color:var(--ball-ink);border-color:var(--ball)}
+.day[aria-pressed="true"] small{opacity:1}
+.day:disabled{opacity:.45;cursor:default}
+
+/* filtres */
+.filters{display:grid;gap:10px;padding-block:14px 6px}
+.frow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.flabel{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);min-width:86px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:14px;cursor:pointer;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.arr{font-family:var(--display);font-weight:600;font-size:15px;padding:4px 9px;min-width:40px;text-align:center}
+.more{border:0;background:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:14px;padding:4px 0}
+.summary{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+  padding-block:10px;border-top:1px solid var(--line);margin-top:6px}
+.summary p{margin:0;font-size:15px}
+.summary strong{font:700 20px/1 var(--display)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;padding:5px 10px;font-size:14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--chip);font-weight:600}
+
+/* clubs */
+.list{display:grid;gap:12px;padding-block:6px 24px}
+.club{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:12px;min-width:0}
+.club-head{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.plaque{background:var(--enamel);color:var(--enamel-ink);border-radius:4px;padding:3px 7px 4px;
+  box-shadow:inset 0 0 0 2px var(--enamel),inset 0 0 0 3.5px #fff,0 0 0 1.5px var(--rim);
+  font:700 20px/1 var(--display);text-align:center;min-width:46px}
+.plaque sup{font-size:11px;font-weight:600;margin-left:1px}
+.club h2{margin:0;font:700 22px/1.05 var(--display);text-wrap:balance}
+.addr{display:inline-block;margin-top:3px;color:var(--muted);font-size:14.5px;text-decoration:none;border-bottom:1px dotted var(--muted)}
+.addr:hover{color:var(--ink)}
+.meta{margin-top:5px;font-size:13px;color:var(--muted)}
+
+.hours{display:flex;flex-wrap:wrap;gap:6px}
+.hour{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:5px 9px 6px;cursor:pointer;
+  display:grid;gap:1px;text-align:left;min-width:66px}
+.hour b{font:700 19px/1 var(--display)}
+.hour b i{font-style:normal;font-weight:500;font-size:14px;color:var(--muted);margin-left:3px}
+.hour small{font-size:12px;color:var(--muted)}
+.hour.has2h{border-color:var(--rim)}
+.hour[aria-expanded="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.hour[aria-expanded="true"] b i,.hour[aria-expanded="true"] small{color:var(--paper);opacity:.8}
+
+.detail{display:grid;gap:10px}
+.slotgroup{border-top:1px solid var(--line);padding-top:8px;display:grid;gap:2px}
+.slotgroup h3{margin:0 0 4px;font:700 17px/1 var(--display)}
+.court{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.court:last-child{border-bottom:0}
+.cname{font-weight:600;min-width:0}
+.ctags{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
+.tag{font-size:12px;border-radius:4px;padding:1px 6px;background:var(--chip);color:var(--muted)}
+.tag.cov{background:var(--enamel);color:var(--enamel-ink)}
+.prices{display:grid;justify-items:end;gap:2px;text-align:right}
+.p1{font:700 18px/1 var(--display)}
+.p1 small,.p2 small{font-family:var(--body);font-weight:400;font-size:12px;color:var(--muted);margin-right:3px}
+.p2{font:600 15px/1 var(--display);background:var(--ball);color:var(--ball-ink);border-radius:4px;padding:2px 6px}
+.p2 small{color:var(--ball-ink)!important;opacity:.75}
+.p2.no{background:none;color:var(--muted);font-weight:500;padding:2px 0}
+.p2.no small{color:var(--muted)!important;opacity:1}
+.book{justify-self:start;font-size:14px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--ball)}
+
+.empty,.notice{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:20px;text-align:center;color:var(--muted)}
+.notice.err{border-style:solid;border-color:var(--warn);color:var(--ink)}
+.empty button{margin-top:10px}
+
+footer{color:var(--muted);font-size:13.5px;padding-block:6px 40px;display:grid;gap:6px;max-width:68ch}
+footer p{margin:0}
+
+@media (max-width:520px){
+  .flabel{min-width:100%;margin-bottom:-2px}
+  .brand h1{font-size:23px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hour,.chip,.day{transition:background-color .15s,color .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Courts libres <span>Paris</span></h1>
+      <div class="fresh" id="fresh"><span class="dot"></span><span>Chargement…</span></div>
+    </div>
+    <nav class="days" id="days" aria-label="Jour"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="filters" aria-label="Filtres">
+    <div class="frow"><span class="flabel">Moment</span><span id="f-period" class="frow"></span></div>
+    <div class="frow"><span class="flabel">Court</span><span id="f-cover" class="frow"></span></div>
+    <div class="frow"><span class="flabel">Durée</span><span id="f-dur" class="frow"></span></div>
+    <div class="frow"><span class="flabel">Tarif</span><span id="f-tarif" class="frow"></span></div>
+    <div class="frow" id="row-surf" hidden><span class="flabel">Surface</span><span id="f-surf" class="frow"></span></div>
+    <div class="frow" id="row-arr" hidden><span class="flabel">Arrondissement</span><span id="f-arr" class="frow"></span></div>
+    <div><button class="more" id="toggle-more" type="button">Surface et arrondissement</button></div>
+  </section>
+
+  <div class="summary">
+    <p id="count"></p>
+    <div class="frow">
+      <div class="seg" role="group" aria-label="Affichage">
+        <button type="button" id="v-compact" aria-pressed="true">Heures</button>
+        <button type="button" id="v-detail" aria-pressed="false">Détail des courts</button>
+      </div>
+      <div class="seg" role="group" aria-label="Tri">
+        <button type="button" id="s-arr" aria-pressed="true">Par arrondissement</button>
+        <button type="button" id="s-count" aria-pressed="false">Plus de dispo</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="list" id="list" aria-live="polite"></section>
+
+  <footer>
+    <p>Prix par court et par heure, quel que soit le nombre de joueurs. « 2 h » apparaît quand le même court est libre l'heure suivante ; la Ville limite à une réservation par jour et par compte, donc pour 2 h deux d'entre vous réservent chacun une heure.</p>
+    <p>Tarif réduit : réservataire de moins de 26 ans domicilié à Paris, sur justificatif. Les créneaux s'ouvrent 7 jours à l'avance, chaque matin à 8 h.</p>
+    <p>Données lues sur tennis.paris.fr et rafraîchies automatiquement toute la journée. La réservation se fait sur <a href="https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&amp;view=recherche_creneau" target="_blank" rel="noopener">Paris Tennis</a> avec un compte Mon Paris.</p>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const BOOK_URL = "https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&view=recherche_creneau";
+  const REDUIT = {1: 12, 0: 7};              // barème réduit : couvert / découvert
+  const PERIODS = [
+    {id: "matin", label: "Matin 8–12 h", hours: [8, 9, 10, 11]},
+    {id: "midi", label: "Midi 12–14 h", hours: [12, 13]},
+    {id: "aprem", label: "Après-midi 14–18 h", hours: [14, 15, 16, 17]},
+    {id: "soir", label: "Soir 18–22 h", hours: [18, 19, 20, 21]},
+  ];
+  const STALE_MIN = 180;
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const euro = (n) => (Math.round(n * 100) / 100).toLocaleString("fr-FR") + " €";
+
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("courts:" + k); return v ? JSON.parse(v) : d; } catch { return d; } },
+    set(k, v) { try { localStorage.setItem("courts:" + k, JSON.stringify(v)); } catch {} },
+  };
+
+  const saved = store.get("filters", {});
+  const st = {
+    data: null, day: null,
+    periods: new Set(saved.periods || []),
+    cover: saved.cover || "all",          // all | cov | unc
+    twoH: !!saved.twoH,
+    tarif: saved.tarif || "site",          // site | reduit
+    surfaces: new Set(saved.surfaces || []),
+    arrs: new Set(saved.arrs || []),
+    sort: saved.sort || "arr",
+    view: saved.view || "compact",
+    more: !!saved.more,
+    open: new Set(),
+  };
+  const persist = () => store.set("filters", {
+    periods: [...st.periods], cover: st.cover, twoH: st.twoH, tarif: st.tarif,
+    surfaces: [...st.surfaces], arrs: [...st.arrs], sort: st.sort, view: st.view, more: st.more,
+  });
+
+  // ---- heure de Paris
+  function parisNow() {
+    const parts = new Intl.DateTimeFormat("en-CA", {timeZone: "Europe/Paris", year: "numeric", month: "2-digit",
+      day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false}).formatToParts(new Date());
+    const g = (t) => parts.find(p => p.type === t).value;
+    return {date: `${g("year")}-${g("month")}-${g("day")}`, hour: +g("hour") % 24, minute: +g("minute")};
+  }
+  const dayLabel = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("fr-FR", {weekday: "short", day: "numeric", timeZone: "UTC"}).replace(".", "");
+  const dayLong = (iso) => new Date(iso + "T12:00:00Z").toLocaleDateString("fr-FR", {weekday: "long", day: "numeric", month: "long", timeZone: "UTC"});
+
+  // ---- données
+  function slotsOf(day) {
+    const now = parisNow();
+    const raw = (st.data.slots[day] || []);
+    return raw.map(r => ({site: r[0], hour: r[1], court: r[2], cid: r[3] || r[2], surface: r[4] || "",
+      cov: r[5], lit: r[6], price: r[7], tarif: r[8]}))
+      .filter(s => day !== now.date || s.hour > now.hour);
+  }
+  const priceOf = (s) => st.tarif === "reduit" ? REDUIT[s.cov ? 1 : 0] : s.price;
+
+  function visibleDays() {
+    const today = parisNow().date;
+    const days = st.data.days.filter(d => d >= today);
+    let last = days.length - 1;
+    while (last > 0 && !(st.data.slots[days[last]] || []).length) last--;
+    return days.slice(0, last + 1);
+  }
+
+  function filtered(day) {
+    const all = slotsOf(day);
+    const free = new Map();
+    for (const s of all) free.set(`${s.site}|${s.cid}|${s.hour}`, s);
+    const hours = st.periods.size ? new Set(PERIODS.filter(p => st.periods.has(p.id)).flatMap(p => p.hours)) : null;
+    const out = [];
+    for (const s of all) {
+      if (hours && !hours.has(s.hour)) continue;
+      if (st.cover === "cov" && !s.cov) continue;
+      if (st.cover === "unc" && s.cov) continue;
+      if (st.surfaces.size && !st.surfaces.has(s.surface)) continue;
+      const arr = st.data.sites[s.site].arr;
+      if (st.arrs.size && !st.arrs.has(arr)) continue;
+      const next = free.get(`${s.site}|${s.cid}|${s.hour + 1}`);
+      s.p1 = priceOf(s);
+      s.p2 = next ? s.p1 + priceOf(next) : null;
+      if (st.twoH && s.p2 == null) continue;
+      out.push(s);
+    }
+    return out;
+  }
+
+  // ---- rendu
+  function chip(label, pressed, onClick, cls = "chip") {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = cls; b.textContent = label;
+    b.setAttribute("aria-pressed", String(pressed));
+    b.addEventListener("click", onClick);
+    return b;
+  }
+  function fill(el, nodes) { el.replaceChildren(...nodes); }
+
+  function renderFilters() {
+    fill($("f-period"), PERIODS.map(p => chip(p.label, st.periods.has(p.id), () => {
+      st.periods.has(p.id) ? st.periods.delete(p.id) : st.periods.add(p.id); update();
+    })));
+    fill($("f-cover"), [["all", "Tous"], ["cov", "Couvert"], ["unc", "Découvert"]].map(([v, l]) =>
+      chip(l, st.cover === v, () => { st.cover = v; update(); })));
+    fill($("f-dur"), [[false, "1 h"], [true, "2 h d'affilée"]].map(([v, l]) =>
+      chip(l, st.twoH === v, () => { st.twoH = v; update(); })));
+    fill($("f-tarif"), [["site", "Plein (affiché)"], ["reduit", "Réduit −26 ans parisien"]].map(([v, l]) =>
+      chip(l, st.tarif === v, () => { st.tarif = v; update(); })));
+
+    const surfaces = [...new Set(Object.values(st.data.slots).flat().map(r => r[4]).filter(Boolean))].sort();
+    fill($("f-surf"), surfaces.map(s => chip(s, st.surfaces.has(s), () => {
+      st.surfaces.has(s) ? st.surfaces.delete(s) : st.surfaces.add(s); update();
+    })));
+    const arrs = [...new Set(st.data.sites.map(s => s.arr))].sort((a, b) => a - b);
+    fill($("f-arr"), arrs.map(a => chip(a + "e", st.arrs.has(a), () => {
+      st.arrs.has(a) ? st.arrs.delete(a) : st.arrs.add(a); update();
+    }, "chip arr")));
+    $("row-surf").hidden = $("row-arr").hidden = !st.more;
+    const active = st.surfaces.size + st.arrs.size;
+    $("toggle-more").textContent = st.more ? "Masquer surface et arrondissement"
+      : "Surface et arrondissement" + (active ? ` (${active} actif${active > 1 ? "s" : ""})` : "");
+
+    $("v-compact").setAttribute("aria-pressed", String(st.view === "compact"));
+    $("v-detail").setAttribute("aria-pressed", String(st.view === "detail"));
+    $("s-arr").setAttribute("aria-pressed", String(st.sort === "arr"));
+    $("s-count").setAttribute("aria-pressed", String(st.sort === "count"));
+  }
+
+  function renderDays() {
+    const days = visibleDays();
+    if (!days.includes(st.day)) st.day = days.find(d => slotsOf(d).length) || days[0];
+    fill($("days"), days.map(d => {
+      const n = filtered(d).length;
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "day";
+      b.setAttribute("aria-pressed", String(d === st.day));
+      b.innerHTML = `<b>${esc(dayLabel(d))}</b><small>${n ? n + " libres" : "complet"}</small>`;
+      b.addEventListener("click", () => { st.day = d; st.open.clear(); update(); });
+      return b;
+    }));
+  }
+
+  function renderFresh() {
+    const el = $("fresh");
+    const t = new Date(st.data.generated_at);
+    const mins = Math.round((Date.now() - t) / 60000);
+    const when = t.toLocaleString("fr-FR", {timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"}).replace(":", " h ");
+    const ago = mins < 1 ? "à l'instant" : mins < 60 ? `il y a ${mins} min` : `il y a ${Math.floor(mins / 60)} h ${String(mins % 60).padStart(2, "0")}`;
+    el.innerHTML = mins > STALE_MIN
+      ? `<span class="old">Données anciennes</span><span>mises à jour le ${esc(when)}</span>`
+      : `<span class="dot"></span><span>Mis à jour ${esc(ago)}</span>`;
+  }
+
+  function courtRow(s, site) {
+    const tags = [s.surface && `<span class="tag">${esc(s.surface)}</span>`,
+      s.cov ? `<span class="tag cov">Couvert</span>` : `<span class="tag">Découvert</span>`,
+      s.lit ? `<span class="tag">Éclairé</span>` : ""].filter(Boolean).join("");
+    const p2 = s.p2 != null
+      ? `<span class="p2"><small>2 h</small>${esc(euro(s.p2))}</span>`
+      : `<span class="p2 no"><small>2 h</small>non</span>`;
+    return `<div class="court"><div><div class="cname">${esc(s.court)}</div><div class="ctags">${tags}</div></div>
+      <div class="prices"><span class="p1"><small>1 h</small>${esc(euro(s.p1))}</span>${p2}</div></div>`;
+  }
+
+  function renderList() {
+    const list = $("list");
+    const rows = filtered(st.day);
+    const bySite = new Map();
+    for (const s of rows) {
+      if (!bySite.has(s.site)) bySite.set(s.site, new Map());
+      const h = bySite.get(s.site);
+      if (!h.has(s.hour)) h.set(s.hour, []);
+      h.get(s.hour).push(s);
+    }
+    const nClubs = bySite.size;
+    $("count").innerHTML = rows.length
+      ? `<strong>${rows.length}</strong> créneaux libres · ${nClubs} club${nClubs > 1 ? "s" : ""} · ${esc(dayLong(st.day))}`
+      : `Aucun créneau · ${esc(dayLong(st.day))}`;
+
+    if (!rows.length) {
+      const anyFilter = st.periods.size || st.cover !== "all" || st.twoH || st.surfaces.size || st.arrs.size;
+      list.innerHTML = `<div class="empty"><p>${anyFilter ? "Rien de libre avec ces filtres ce jour-là." : "Plus rien de libre ce jour-là."}</p>
+        ${anyFilter ? `<button class="chip" type="button" id="reset">Retirer les filtres</button>` : ""}</div>`;
+      const r = $("reset");
+      if (r) r.addEventListener("click", () => {
+        st.periods.clear(); st.cover = "all"; st.twoH = false; st.surfaces.clear(); st.arrs.clear(); update();
+      });
+      return;
+    }
+
+    let order = [...bySite.keys()];
+    order.sort(st.sort === "count"
+      ? (a, b) => count(b) - count(a) || cmpSite(a, b)
+      : cmpSite);
+    function count(i) { let n = 0; for (const v of bySite.get(i).values()) n += v.length; return n; }
+    function cmpSite(a, b) { const A = st.data.sites[a], B = st.data.sites[b]; return (A.arr - B.arr) || A.name.localeCompare(B.name, "fr"); }
+
+    list.innerHTML = order.map(i => {
+      const site = st.data.sites[i];
+      const hours = [...bySite.get(i).entries()].sort((a, b) => a[0] - b[0]);
+      const total = hours.reduce((n, [, v]) => n + v.length, 0);
+      const surfaces = [...new Set(hours.flatMap(([, v]) => v.map(s => s.surface)).filter(Boolean))];
+      const hasCov = hours.some(([, v]) => v.some(s => s.cov));
+      const hasUnc = hours.some(([, v]) => v.some(s => !s.cov));
+      const fullAddr = `${site.address}, ${site.cp} Paris`;
+      const maps = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`Tennis ${site.name}, ${fullAddr}`);
+
+      const pills = hours.map(([h, v]) => {
+        const key = `${i}|${h}`;
+        const ps = v.map(s => s.p1);
+        const lo = Math.min(...ps), hi = Math.max(...ps);
+        const two = v.some(s => s.p2 != null);
+        const open = st.view === "detail" || st.open.has(key);
+        return `<button type="button" class="hour${two ? " has2h" : ""}" data-key="${key}" aria-expanded="${open}"
+          title="${v.length} court${v.length > 1 ? "s" : ""} libre${v.length > 1 ? "s" : ""} à ${h} h">
+          <b>${h} h<i>×${v.length}</i></b><small>${lo === hi ? esc(euro(lo)) : esc(euro(lo)) + "–" + esc(euro(hi))}</small></button>`;
+      }).join("");
+
+      const openHours = hours.filter(([h]) => st.view === "detail" || st.open.has(`${i}|${h}`));
+      const detail = openHours.length ? `<div class="detail">${openHours.map(([h, v]) =>
+        `<div class="slotgroup"><h3>${h} h – ${h + 1} h</h3>${v.map(s => courtRow(s, site)).join("")}</div>`).join("")}
+        <a class="book" href="${BOOK_URL}" target="_blank" rel="noopener">Réserver sur Paris Tennis ↗</a></div>` : "";
+
+      return `<article class="club">
+        <div class="club-head">
+          <div class="plaque" aria-label="${site.arr}e arrondissement">${site.arr}<sup>e</sup></div>
+          <div style="min-width:0">
+            <h2>${esc(site.name)}</h2>
+            <a class="addr" href="${maps}" target="_blank" rel="noopener">${esc(fullAddr)}</a>
+            <div class="meta">${total} créneau${total > 1 ? "x" : ""} · ${[hasCov && "couvert", hasUnc && "découvert"].filter(Boolean).join(" et ")}${surfaces.length ? " · " + esc(surfaces.join(", ").toLowerCase()) : ""}</div>
+          </div>
+        </div>
+        <div class="hours">${pills}</div>
+        ${detail}
+      </article>`;
+    }).join("");
+  }
+
+  function update() {
+    persist();
+    renderFilters();
+    renderDays();
+    renderFresh();
+    renderList();
+  }
+
+  // ---- interactions
+  $("list").addEventListener("click", (e) => {
+    const b = e.target.closest(".hour");
+    if (!b || st.view === "detail") return;
+    const k = b.dataset.key;
+    st.open.has(k) ? st.open.delete(k) : st.open.add(k);
+    renderList();
+  });
+  $("toggle-more").addEventListener("click", () => { st.more = !st.more; update(); });
+  $("v-compact").addEventListener("click", () => { st.view = "compact"; update(); });
+  $("v-detail").addEventListener("click", () => { st.view = "detail"; update(); });
+  $("s-arr").addEventListener("click", () => { st.sort = "arr"; update(); });
+  $("s-count").addEventListener("click", () => { st.sort = "count"; update(); });
+
+  // ---- chargement et rafraîchissement
+  async function load() {
+    try {
+      const r = await fetch("data.json?t=" + Date.now(), {cache: "no-store"});
+      if (!r.ok) throw new Error(r.status === 404 ? "first" : "http " + r.status);
+      const data = await r.json();
+      if (st.data && st.data.generated_at === data.generated_at) { renderFresh(); return; }
+      st.data = data;
+      update();
+    } catch (e) {
+      if (st.data) { renderFresh(); return; }
+      $("fresh").innerHTML = "<span>Pas encore de données</span>";
+      $("list").innerHTML = e.message === "first"
+        ? `<div class="notice">Première collecte en cours. Les créneaux apparaîtront ici dans quelques minutes.</div>`
+        : `<div class="notice err">Impossible de charger les créneaux. Vérifie ta connexion puis recharge la page.</div>`;
+    }
+  }
+  load();
+  setInterval(load, 10 * 60 * 1000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+  setInterval(() => { if (st.data) renderFresh(); }, 60 * 1000);
+})();
+</script>
+</body>
+</html>
