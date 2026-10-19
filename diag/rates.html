@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<base href="https://tennis.paris.fr:443/tennis/">
+		<title>Paris | TENNIS - Tarif</title>
+		
+		<meta http-equiv="x-ua-compatible" content="IE=edge">
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<meta http-equiv="Content-Language" content="fr">
+		<meta name="author" content="<author>">
+		<meta name="copyright" content="<copyright>">
+		<meta name="keywords" content="<keywords>">
+		<meta name="description" content="<description>">
+		<meta name="generator" content="LUTECE 6.2.1">
+		<!-- Dublin Core metadatas -->
+		<meta name="DC.Creator" content="<author>">
+		<meta name="DC.Rights" content="<copyright>">
+		<meta name="DC.Subject" content="<keywords>">
+		<meta name="DC.Description" content="<description>">
+		<!-- Set the viewport width to device width for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/fonts.css">
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="css/token/tokens.css">
+		<link rel="stylesheet"
+			href="https://moncompte.paris.fr/moncompte/assets/css/banner-moncompte.css">
+		<link rel="stylesheet" href="css/jcaptcha.css">
+		<link rel="stylesheet" href="css/paris-tennis.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="css/internals.css">
+		
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="https://tennis.paris.fr:443/tennis/images/favicon.png" />
+		
+		<!-- On charge le Jquery avant afin d'éviter un probleme lors de l'initialisation
+		de la bannière -->
+		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.ui.touch.min.js"  charset="utf-8"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap-select.min.js"></script>
+		<script src="https://moncompte.paris.fr/moncompte/assets/js/banner-moncompte.js"></script>
+		<script type="text/javascript" src="js/paris-tennis.js"></script>
+		<script type="text/javascript" src="js/token/tokens.js"></script>
+ 		<script type="text/javascript">
+			var moncompte_url = "https://moncompte.paris.fr/moncompte";
+
+			$(document).ready(function(){
+		    	$('#modalErrorMessageToWelcomePage').on('hidden.bs.modal', function () {
+		    		window.location.replace("/tennis/jsp/site/Portal.jsp?page=recherche&view=recherche_creneau");
+		    	});
+		    	
+				if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+					$(".btn").each(function() {
+						$( this ).addClass("btn-ios");
+					});
+				}
+
+			});
+		</script>
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="https://tennis.paris.fr:443/tennis/images/favicon.ico"/>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-default navbar-paristennis">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" 
+						data-target=".navbar-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="logo-paris hidden-xs" href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau">
+							<img class="img-responsive" alt="Logo Paris Tennis" src="images/logo-paris.svg">
+	                    </a>
+	                    <a class="logo-paris hidden-sm hidden-md hidden-lg" href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau">
+	                    	<img class="img-responsive" alt="Logo Paris Tennis" src="images/logo-paris-mobile.svg">
+	                    </a>
+					</div>
+					<div class="collapse navbar-collapse disconnected">
+						<ul class="nav navbar-nav navbar-right">
+							<li id="menuItemHome" class="text"><a href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau"><span>accueil</span></a></li>
+							<li id="menuItemProfile" class="text"><a href="jsp/site/Portal.jsp?page=tennis&view=profil_inscription"><span>mon profil</span></a></li>
+							<li id="menuItemTennis" class="text"><a href="jsp/site/Portal.jsp?page=tennisParisien&view=les_tennis_parisiens"><span>tennis parisiens</span></a></li>
+							<li id="menuItemPrices" class="text"><a href="jsp/site/Portal.jsp?page=rate&view=les_tarifs"><span>tarifs</span></a></li>
+							<li id="menuItemHomeRegulation" class="text"><a href="jsp/site/Portal.jsp?page=helpdesk&faq_id=2"><span>reglement</span></a></li>
+							<li class="text hidden-lg hidden-md"><a id="mobileMonProfil" style="display:none;" href="#">mon profil</a></li>
+                            <li class="text hidden-lg hidden-md my-account"><a id="mobileMonCompte" href="#">mon compte&nbsp;<svg viewBox="0 0 6 6" style="vertical-align: text-bottom; overflow: visible; padding-left: 6px" width="18" height="18"> <path d="M3 1H1C0.25,1 0,1.25 0,2V5C0,5.75 0.25,6 1,6H4C4.75,6 5,5.75 5,5V3" fill="none" stroke="currentColor" stroke-width="0.66"></path> <path d="M2 4L5 1L6 2V0H4L5 1" stroke="currentColor" fill="currentColor"></path></svg></a></li>
+                            <li class="text hidden-lg hidden-md profile"><a id="banner-mon-compte_menu__logout" href="#" style="display:none;">deconnexion</a></li>
+	
+					 		<li class="hidden-xs hidden-sm">
+					   			<div class="pastille">
+	                  				 <!-- banner-mon-compte begin -->
+	                   				<div class="banner-mon-compte__connexion-wrapper">
+										<a class="banner-mon-compte__connexion-avatar" href=""> <span
+											class="banner-mon-compte__my-account"></span>
+										</a>
+					    			</div>
+									<!-- banner-mon-compte end -->
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		
+<ul class="nav login-menu">
+	<noscript>
+            <li><a href="jsp/site/plugins/mylutece/DoMyLuteceLogin.jsp"> S'authentifier</a></li>
+</noscript> 
+
+<script type="text/javascript">
+	function displayProfilPage(){
+		document.location.href="/tennis/jsp/site/Portal.jsp?page=tennis&view=inscription";
+	}
+
+		//Si on est pas connecté
+		//$('#mobileMonCompte').attr('onClick',"displayCreateAccountPage('');return false;");
+		$('#mobileMonCompte').click(function(e){
+			e.preventDefault();
+			displayCreateAccountPage( window.location.href );
+		});
+		$('#mobileMonProfil').addClass('banner-mon-compte_menu__connexion');
+		$('#mobileMonProfil').attr('href','#');
+</script>
+<script>initBanner('','jsp/site/Portal.jsp?page=tennis&view=profil_inscription', 'jsp/site/Portal.jsp?page=recherche&view=recherche_creneau' );</script>
+</ul> 
+		<script type="text/javascript">
+	$(document).ready(function() {
+		//Sélection de l'élément du menu
+		$('#menuItemPrices').addClass('active');
+	});
+</script>
+
+<div class="hero-grey">
+	<h1 class="text-center">Les tarifs et conditions d'accès <span>aux tennis municipaux</span></h1>
+</div>
+<div class="container">
+	<!-- menu onglet -->
+	<table class="tarifs desktop">
+		<thead>
+			<tr>
+				<th>Tarifs</th>
+				<th>Courts couverts</th>
+				<th>Courts découverts</th>
+			</tr>
+		</thead>
+					<tbody>
+					<tr>
+							<td>Heure - tarif réduit</td>
+							<td>12€</td>
+							<td>7€</td>
+					</tr>
+					<tr>
+							<td>Heure - tarif plein</td>
+							<td>20€</td>
+							<td>12€</td>
+					</tr>
+					<tr>
+							<td>Abonnement 5h - tarif réduit</td>
+							<td>48€</td>
+							<td>28€</td>
+					</tr>
+					<tr>
+							<td>Abonnement 5h - tarif plein</td>
+							<td>80€</td>
+							<td>48€</td>
+					</tr>
+					<tr>
+							<td>Abonnement 10h - tarif plein</td>
+							<td>145€</td>
+							<td>87€</td>
+					</tr>
+					<tr>
+							<td>Abonnement 10h - tarif réduit</td>
+							<td>87€</td>
+							<td>50€</td>
+					</tr>
+			</tbody>
+		
+	</table>
+	<table class="tarifs tablet-mobile">
+			<tbody>
+					<tr>
+						<td>Tarifs</td>
+						<td>Heure - tarif réduit</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>12€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>7€</td>
+					</tr>
+					<tr>
+						<td>Tarifs</td>
+						<td>Heure - tarif plein</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>20€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>12€</td>
+					</tr>
+					<tr>
+						<td>Tarifs</td>
+						<td>Abonnement 5h - tarif réduit</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>48€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>28€</td>
+					</tr>
+					<tr>
+						<td>Tarifs</td>
+						<td>Abonnement 5h - tarif plein</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>80€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>48€</td>
+					</tr>
+					<tr>
+						<td>Tarifs</td>
+						<td>Abonnement 10h - tarif plein</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>145€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>87€</td>
+					</tr>
+					<tr>
+						<td>Tarifs</td>
+						<td>Abonnement 10h - tarif réduit</td>
+					</tr>
+					<tr>
+						<td>Courts couverts</td>
+						<td>87€</td>
+					</tr>
+					<tr>
+						<td>Courts découverts</td>
+						<td>50€</td>
+					</tr>
+			</tbody>
+	</table>
+	<div class="border-line full-width"></div>
+	<!-- Tab panes -->
+	<div class="conditions">
+		<h3>Conditions d'accès</h3>
+		<div>
+			<span>Le tarif réduit est accordé aux :</span>
+			<p><li>Personnes âgées de moins de 26 ans résidant à Paris sur présentation d’un justificatif de domicile de moins de trois mois, pour une durée d'un an, <li>Usagers réservant des courts avant 11h, du lundi au vendredi inclus, à l’exception des jours fériés. À partir de 11h00, le plein tarif s'applique.</p>
+			<span>La gratuité est accordée aux :</span>
+			<p><li>Demandeurs d’emploi résidant à Paris, sur présentation d’un avis de situation de moins d’un mois, pour une durée de six mois, <li>Bénéficiaires du Revenu de Solidarité Active (R.S.A.) résidant à Paris sur présentation d’une attestation datée de moins de trois mois, pour une durée de six mois, <li>Bénéficiaires de l’Allocation de Demandeur d’Asile (A.D.A.), sur présentation du dernier avis de paiement mensuel, pour une durée de trois mois. </p>
+		</div>
+	</div>
+</div>
+		<footer class="footer">        <div class="container">
+              <ul class="site-links">
+                  <li><a  href="http://www.paris.fr"><img src="images/logo_mdp.jpg" alt="logo Mairie de Paris"></a></li>
+                  <li><a  href="jsp/site/Portal.jsp?page=helpdesk&faq_id=1">FAQ</a></li>
+                  <li><a  href="cgu/cgu.htm"  target="_blank">Mentions légales</a></li>
+                  <li><a  href="https://sollicitations.paris.fr/" target="_blank">Contact</a></li>
+                  <li><a  href="https://www.tameteo.com/" target="_blank">Tameteo.com</a></li>
+				  <li><a  href="accessibilite/accessibility.html" target="_blank" title="Accessibilit&eacute;">Accessibilit&eacute;</a></li>
+              </ul>
+          </div>
+ </footer>
+		<!-- Le javascript
+			    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+
+		<!-- Plugin tarteauciton -->
+				
+		<!-- matomo include -->
+		<!-- Matomo -->
+<script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push([function() {
+      var self = this;
+      function getOriginalVisitorCookieTimeout() {
+        var now = new Date(),
+        nowTs = Math.round(now.getTime() / 1000),
+        visitorInfo = self.getVisitorInfo();
+        var createTs = parseInt(visitorInfo[2]);
+        var cookieTimeout = 33696000; // 13 mois en secondes
+        var originalTimeout = createTs + cookieTimeout - nowTs;
+        return originalTimeout;
+      }
+      this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+    }]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function(){ var u=(("https:" == document.location.protocol) ? "https://mtmdsin.apps.paris.fr/matomo/" : "https://mtmdsin.apps.paris.fr/matomo/");
+    _paq.push(['setSiteId', 263]);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'matomo.js';
+    s.parentNode.insertBefore(g,s); })();
+	
+	/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* Track button "btn-matomo" click action                                                                                                                           */
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* Add "btn-matomo" class to the HTML element you want to track                                                                                                     */
+    /* Add data-pw-cat="AnyCategoryYouWant" to send custom info if not a "Download" category is set                                                                    */
+    /* Add data-pw-action="AnyActionYouWant" to give an action name, if not the HTML element type is <set>                                                             */
+    /* Add data-pw-name="AnyTitleYouWant" to give a name, if not the page title is given                                                                               */
+    /* -- Example --                                                                                                                                                   */
+    /* <button class="btn btn-default btn-matomo" data-pw-cat="Create Account" data-pw-action="Create" [data-pw-name="Validation button"] type="submit">Send</button>   */
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    if ( $(".btn-matomo").length > 0 ){
+       $(".btn-matomo").click( function(e){
+        var pwCat=document.title, pwAction=$(this).text(), pwName='';
+        if ( $(this).attr("data-pw-cat") != undefined ){
+          pwCat = $(this).attr("data-pw-cat");
+        }
+        if ( $(this).attr("data-pw-action") != undefined){
+          pwAction = $(this).attr("data-pw-action");
+        }
+        if ( $(this).attr("data-pw-name") != undefined){
+          pwName = $(this).attr("data-pw-name");
+          _paq.push(['trackEvent', pwCat , pwAction, pwName ])
+        } else {
+          _paq.push(['trackEvent', pwCat , pwAction ])
+        }
+     })
+    }
+	
+</script>
+<noscript><p><img src="https://mtmdsin.apps.paris.fr/matomo/matomo.php?idsite=263" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
+
+		
+		<!-- Div de chargement en cours -->
+		<div id="loadingComponent" style="display:none;">
+			<span class="glyphicon-left glyphicon glyphicon-refresh spinning"></span>Chargement en cours ...
+		</div>
+
+		<!-- Fenêtre modale d'affichage des erreurs disponible partout -->
+		<div class="modal fade in tennis-generic-modal" id="modalErrorMessage" role="dialog" >
+			<div class="modal-dialog tennis-generic-modal-dialog">
+		    <!-- Modal content-->
+				<div class="modal-content tennis-generic-modal-content">
+	            	<div class="modal-header tennis-generic-modal-header">			
+						<img class="popin-close" title="Erreur" src="images/close-popin.svg" data-dismiss="modal">
+					</div>
+					<div class="modal-body tennis-generic-modal-body">
+						<div class="modal-title justificatif">
+							<p>Erreur</p>	
+		                </div>
+		            </div>
+					<div class="modal-content-detail"></div>
+					<div class="modal-footer tennis-generic-modal-footer">
+						<button class="btn btn-default popin save" type="button" data-dismiss="modal">Fermer</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+
+		<!-- Fenêtre modale d'affichage des erreurs disponible partout avec un bouton qui renvoi vers l'accueil-->
+		<div class="modal fade in tennis-generic-modal" id="modalErrorMessageToWelcomePage" role="dialog" >
+			<div class="modal-dialog tennis-generic-modal-dialog">
+		    <!-- Modal content-->
+				<div class="modal-content tennis-generic-modal-content">
+	            	<div class="modal-header tennis-generic-modal-header">			
+						<img class="popin-close" title="Erreur" src="images/close-popin.svg" data-dismiss="modal">
+					</div>
+					<div class="modal-body tennis-generic-modal-body">
+						<div class="modal-title justificatif">
+							<p>Erreur</p>	
+		                </div>
+		            </div>
+					<div class="modal-content-detail"></div>
+					<div class="modal-footer tennis-generic-modal-footer">
+						<div class="button text-center">
+							<a href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau" class="btn btn-default popin save">
+								Accueil
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<base href="https://tennis.paris.fr:443/tennis/">
+		<title>Paris | TENNIS - Recherche</title>
+		
+		<meta http-equiv="x-ua-compatible" content="IE=edge">
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<meta http-equiv="Content-Language" content="fr">
+		<meta name="author" content="<author>">
+		<meta name="copyright" content="<copyright>">
+		<meta name="keywords" content="<keywords>">
+		<meta name="description" content="<description>">
+		<meta name="generator" content="LUTECE 6.2.1">
+		<!-- Dublin Core metadatas -->
+		<meta name="DC.Creator" content="<author>">
+		<meta name="DC.Rights" content="<copyright>">
+		<meta name="DC.Subject" content="<keywords>">
+		<meta name="DC.Description" content="<description>">
+		<!-- Set the viewport width to device width for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/fonts.css">
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="css/token/tokens.css">
+		<link rel="stylesheet"
+			href="https://moncompte.paris.fr/moncompte/assets/css/banner-moncompte.css">
+		<link rel="stylesheet" href="css/jcaptcha.css">
+		<link rel="stylesheet" href="css/paris-tennis.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="css/internals.css">
+		
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="https://tennis.paris.fr:443/tennis/images/favicon.png" />
+		
+		<!-- On charge le Jquery avant afin d'éviter un probleme lors de l'initialisation
+		de la bannière -->
+		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.ui.touch.min.js"  charset="utf-8"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap-select.min.js"></script>
+		<script src="https://moncompte.paris.fr/moncompte/assets/js/banner-moncompte.js"></script>
+		<script type="text/javascript" src="js/paris-tennis.js"></script>
+		<script type="text/javascript" src="js/token/tokens.js"></script>
+ 		<script type="text/javascript">
+			var moncompte_url = "https://moncompte.paris.fr/moncompte";
+
+			$(document).ready(function(){
+		    	$('#modalErrorMessageToWelcomePage').on('hidden.bs.modal', function () {
+		    		window.location.replace("/tennis/jsp/site/Portal.jsp?page=recherche&view=recherche_creneau");
+		    	});
+		    	
+				if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+					$(".btn").each(function() {
+						$( this ).addClass("btn-ios");
+					});
+				}
+
+			});
+		</script>
+		<!-- Le fav and touch icons -->
+		<link rel="shortcut icon" href="https://tennis.paris.fr:443/tennis/images/favicon.ico"/>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-default navbar-paristennis">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" 
+						data-target=".navbar-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="logo-paris hidden-xs" href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau">
+							<img class="img-responsive" alt="Logo Paris Tennis" src="images/logo-paris.svg">
+	                    </a>
+	                    <a class="logo-paris hidden-sm hidden-md hidden-lg" href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau">
+	                    	<img class="img-responsive" alt="Logo Paris Tennis" src="images/logo-paris-mobile.svg">
+	                    </a>
+					</div>
+					<div class="collapse navbar-collapse disconnected">
+						<ul class="nav navbar-nav navbar-right">
+							<li id="menuItemHome" class="text"><a href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau"><span>accueil</span></a></li>
+							<li id="menuItemProfile" class="text"><a href="jsp/site/Portal.jsp?page=tennis&view=profil_inscription"><span>mon profil</span></a></li>
+							<li id="menuItemTennis" class="text"><a href="jsp/site/Portal.jsp?page=tennisParisien&view=les_tennis_parisiens"><span>tennis parisiens</span></a></li>
+							<li id="menuItemPrices" class="text"><a href="jsp/site/Portal.jsp?page=rate&view=les_tarifs"><span>tarifs</span></a></li>
+							<li id="menuItemHomeRegulation" class="text"><a href="jsp/site/Portal.jsp?page=helpdesk&faq_id=2"><span>reglement</span></a></li>
+							<li class="text hidden-lg hidden-md"><a id="mobileMonProfil" style="display:none;" href="#">mon profil</a></li>
+                            <li class="text hidden-lg hidden-md my-account"><a id="mobileMonCompte" href="#">mon compte&nbsp;<svg viewBox="0 0 6 6" style="vertical-align: text-bottom; overflow: visible; padding-left: 6px" width="18" height="18"> <path d="M3 1H1C0.25,1 0,1.25 0,2V5C0,5.75 0.25,6 1,6H4C4.75,6 5,5.75 5,5V3" fill="none" stroke="currentColor" stroke-width="0.66"></path> <path d="M2 4L5 1L6 2V0H4L5 1" stroke="currentColor" fill="currentColor"></path></svg></a></li>
+                            <li class="text hidden-lg hidden-md profile"><a id="banner-mon-compte_menu__logout" href="#" style="display:none;">deconnexion</a></li>
+	
+					 		<li class="hidden-xs hidden-sm">
+					   			<div class="pastille">
+	                  				 <!-- banner-mon-compte begin -->
+	                   				<div class="banner-mon-compte__connexion-wrapper">
+										<a class="banner-mon-compte__connexion-avatar" href=""> <span
+											class="banner-mon-compte__my-account"></span>
+										</a>
+					    			</div>
+									<!-- banner-mon-compte end -->
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		
+<ul class="nav login-menu">
+	<noscript>
+            <li><a href="jsp/site/plugins/mylutece/DoMyLuteceLogin.jsp"> S'authentifier</a></li>
+</noscript> 
+
+<script type="text/javascript">
+	function displayProfilPage(){
+		document.location.href="/tennis/jsp/site/Portal.jsp?page=tennis&view=inscription";
+	}
+
+		//Si on est pas connecté
+		//$('#mobileMonCompte').attr('onClick',"displayCreateAccountPage('');return false;");
+		$('#mobileMonCompte').click(function(e){
+			e.preventDefault();
+			displayCreateAccountPage( window.location.href );
+		});
+		$('#mobileMonProfil').addClass('banner-mon-compte_menu__connexion');
+		$('#mobileMonProfil').attr('href','#');
+</script>
+<script>initBanner('','jsp/site/Portal.jsp?page=tennis&view=profil_inscription', 'jsp/site/Portal.jsp?page=recherche&view=recherche_creneau' );</script>
+</ul> 
+		<script type="text/javascript">
+$(document).ready(function () {
+	$('[data-toggle="popover"]').popover({
+	    html: 'true',
+	    placement: 'top'
+	});
+
+	$('.date-picker .date-item').click(function(){
+        if(!$(this).hasClass('item-full')) {
+        	$('#tableauPlanning').empty();
+        	$('#tableauPlanning').append($('#loadingComponent'));
+			$('#loadingComponent').removeAttr('style');
+			
+        	var datePicker = $(this).parents('.date-picker');
+        	datePicker.find('.date-item').each(function(){
+                if($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else if ($(this).parent().hasClass('selected')) {
+                	$(this).parent().removeClass('selected');
+                } 
+            });
+        	
+            $(this).addClass('selected');
+            var currentDate = $(this).find('.date').attr('dateIso');
+
+			//Déclenchement de la fonction Ajax
+            $.ajax({
+				method : "POST",
+		        url : "jsp/site/Portal.jsp?page=recherche&action=ajax_load_planning",
+		        data : { 
+			        date_selected : currentDate,
+			        name_tennis :  "Valeyre"
+				}
+			}).done(function(data) {
+				//On retire l'icone de chargement
+		    	$('body').append($('#loadingComponent'));
+				$('#loadingComponent').attr('style','display:none');
+				$('#tableauPlanning').append(data);
+
+				$('[data-toggle="popover"]').popover({
+				    html: 'true',
+				    placement: 'top'
+				});
+			}).error(function(jqXHR, textStatus, errorThrown) {
+		    	//Si KO, affichage d'un message d'erreur sur la modale
+		    	$('#modalErrorMessage').find('.modal-content-detail').text("Erreur lors de la récupération des résultats. Veuillez réessayer.");
+		    	$('#modalErrorMessage').modal('show');
+		    	console.log("Statut : " + textStatus + " | Erreur envoyée : " + errorThrown );
+			});
+        }
+    });
+});
+</script>
+<input id="pageID" type="hidden" value="planning"/>
+<div class="hero-grey">
+	<h1 class="text-center">Planning de réservation : Valeyre</h1>
+</div>
+<div class="container">
+	<h2 class="text-center">Planning de la semaine</h2>
+	
+	<div class="date-picker short">
+		<div class="row content">
+			<div class="col-lg-12 no-paddings">
+				<div class="row seven-cols row-eq-height">
+					<!-- Affichage de la météo des jours a venir -->
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item selected">
+					<div class="date" dateIso="19/10/2026">lundi 19 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgClouds&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 103.33 61&quot;&gt;	&lt;title&gt;Nuageux&lt;/title&gt;	&lt;path class=&quot;clouds&quot; d=&quot;M30.81,55.56A17.92,17.92,0,1,1,33.87,20,23.88,23.88,0,0,1,78.6,31.68h0a11.95,11.95,0,0,1,0,23.89Z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgClouds" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 103.33 61">	<title>Nuageux</title>	<path class="clouds" d="M30.81,55.56A17.92,17.92,0,1,1,33.87,20,23.88,23.88,0,0,1,78.6,31.68h0a11.95,11.95,0,0,1,0,23.89Z"></path></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 4°</small><small>MAX 17°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="20/10/2026">mardi 20 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 11°</small><small>MAX 15°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="21/10/2026">mercredi 21 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 15°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="22/10/2026">jeudi 22 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 16°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="23/10/2026">vendredi 23 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 8°</small><small>MAX 14°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="24/10/2026">samedi 24 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 7°</small><small>MAX 14°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+		<!-- Si Tennis contient des disponibilités 	alors alimentation -->
+		<!-- des variables dispo et dispoTotal utilisé pour affiché la disponibilité -->
+		<!-- Fin traitement disponibilité  -->
+
+		<!-- Si on affiche le dernier jour et qu'il n'est pas ouvert a la réservation --> 
+			<!-- Si le jour est complet et que la disponibilité doit être affichée -->
+						<div class="col-xs-12 col-sm-6 col-lg-1">
+							<div class="date-item">
+					<div class="date" dateIso="25/10/2026">dimanche 25 octobre</div>
+					<div class="meteo">
+						<div class="picto">
+								<!--  <svg><use xlink:href="/tennis/images/meteo/meteo-icons.svg#&lt;svg class=&quot;svgRain&quot; data-name=&quot;Layer 1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 146 146&quot;&gt;	&lt;title&gt;Pluvieux&lt;/title&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-2&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z&quot;/&gt;	&lt;path class=&quot;goutte&quot; id=&quot;Tracé_21837-3&quot; data-name=&quot;Tracé 21837&quot;  d=&quot;M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z&quot;/&gt;	&lt;path class=&quot;nuage&quot; d=&quot;M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z&quot;/&gt;	&lt;g id=&quot;tracé&quot;&gt;		&lt;path class=&quot;nuage&quot; d=&quot;M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z&quot;/&gt;	&lt;/g&gt;&lt;/svg&gt;"></use></svg>-->
+								<svg class="svgRain" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 146">	<title>Pluvieux</title>	<path class="goutte" id="Tracé_21837" data-name="Tracé 21837"  d="M35.41,109.31s-14.49,9.47-16.59,14.24a9.43,9.43,0,0,0,17.26,7.61C38.18,126.39,35.41,109.31,35.41,109.31Z"/>	<path class="goutte" id="Tracé_21837-2" data-name="Tracé 21837"  d="M65.51,109.31S51,118.78,48.93,123.54a9.43,9.43,0,0,0,17.26,7.61C68.28,126.39,65.51,109.31,65.51,109.31Z"/>	<path class="goutte" id="Tracé_21837-3" data-name="Tracé 21837"  d="M95.62,109.31S81.13,118.78,79,123.54a9.43,9.43,0,0,0,17.26,7.61C98.39,126.39,95.62,109.31,95.62,109.31Z"/>	<path class="nuage" d="M120.7,49.79h0a41.59,41.59,0,0,0-77.93-20.4A31.22,31.22,0,0,0,6,60.4c0,.68,0,1.35.08,2A25.94,25.94,0,0,1,32.76,50.54a34.64,34.64,0,0,1,64.9,17h0a17.39,17.39,0,0,1,16,24h7a20.88,20.88,0,0,0,0-41.76Z"/>	<g id="tracé">		<path class="nuage" d="M29.75,104.76c-13.35.08-24.24-11.25-24.31-25.3s10.69-25.51,24-25.58a23,23,0,0,1,4.39.4c8.68-16.35,28.31-22.19,43.85-13.05a34.24,34.24,0,0,1,16.5,29.62h0c8.9,0,16.11,7.6,16.11,17s-7.21,17-16.11,17Z"/>	</g></svg>
+						</div>
+							<div class="temperatures hidden-sm hidden-xs">
+								<small>MIN 10°</small><small>MAX 17°</small>
+							</div>
+					</div>
+				</div>
+			</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="tableauPlanning" class="scrollable">
+    <table class="reservation">
+  		<!-- Affichage de l'entete du tableau -->
+   			<thead>
+   				<tr style="height: 80px;">
+                    <th style="border:none;" colspan="1">&nbsp;</th>
+    			</tr>
+   				<tr>
+   					<th></th>
+	    				<th class="sorttable_nosort">
+	    					<span class="title">Court 01</span>
+	    					<a data-toggle="popover" data-content="<span>Découvert</span><span>Synthétique</span><span>Non Eclairé</span>"
+	    					data-original-title="" title="">
+	    						<div class="popover-test">
+	    							<img class="information-picto" src="images/infoPicto.svg" alt="Popover" data-pin-nopin="true">
+	    						</div>
+	    					</a>
+	    				</th>
+    			</tr>
+    		</thead>
+   		<tbody>
+	  		<!-- Première boucle pour afficher les creneaux horaires -->
+				<tr>
+					<td>08h - 09h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 15.10.2026 12:29</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>09h - 10h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 10:59</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>10h - 11h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 16.10.2026 00:21</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>11h - 12h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 17.10.2026 11:06</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>12h - 13h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 12:05</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>13h - 14h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 12:04</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>14h - 15h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 15:33</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>15h - 16h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 08:39</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>16h - 17h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 16.10.2026 11:26</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>17h - 18h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 16.10.2026 14:38</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>18h - 19h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 16.10.2026 15:41</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>19h - 20h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 08:01</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>20h - 21h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 16:54</span>
+								
+			    			</td>
+	    		</tr>
+				<tr>
+					<td>21h - 22h</td>
+	    			<!-- Deuxieme boucle pour afficher les courts puis pour chaque court les informations du planning -->
+			    			<td class="reservation-cell">
+									<p class="title-cell">PUBLIC</p>
+										<br/>
+										<span>Réservé le 13.10.2026 08:00</span>
+								
+			    			</td>
+	    		</tr>
+	    </tbody>
+    </table>
+	</div>
+</div>    
+
+		<footer class="footer">        <div class="container">
+              <ul class="site-links">
+                  <li><a  href="http://www.paris.fr"><img src="images/logo_mdp.jpg" alt="logo Mairie de Paris"></a></li>
+                  <li><a  href="jsp/site/Portal.jsp?page=helpdesk&faq_id=1">FAQ</a></li>
+                  <li><a  href="cgu/cgu.htm"  target="_blank">Mentions légales</a></li>
+                  <li><a  href="https://sollicitations.paris.fr/" target="_blank">Contact</a></li>
+                  <li><a  href="https://www.tameteo.com/" target="_blank">Tameteo.com</a></li>
+				  <li><a  href="accessibilite/accessibility.html" target="_blank" title="Accessibilit&eacute;">Accessibilit&eacute;</a></li>
+              </ul>
+          </div>
+ </footer>
+		<!-- Le javascript
+			    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+
+		<!-- Plugin tarteauciton -->
+				
+		<!-- matomo include -->
+		<!-- Matomo -->
+<script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push([function() {
+      var self = this;
+      function getOriginalVisitorCookieTimeout() {
+        var now = new Date(),
+        nowTs = Math.round(now.getTime() / 1000),
+        visitorInfo = self.getVisitorInfo();
+        var createTs = parseInt(visitorInfo[2]);
+        var cookieTimeout = 33696000; // 13 mois en secondes
+        var originalTimeout = createTs + cookieTimeout - nowTs;
+        return originalTimeout;
+      }
+      this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+    }]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function(){ var u=(("https:" == document.location.protocol) ? "https://mtmdsin.apps.paris.fr/matomo/" : "https://mtmdsin.apps.paris.fr/matomo/");
+    _paq.push(['setSiteId', 263]);
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'matomo.js';
+    s.parentNode.insertBefore(g,s); })();
+	
+	/* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* Track button "btn-matomo" click action                                                                                                                           */
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    /* Add "btn-matomo" class to the HTML element you want to track                                                                                                     */
+    /* Add data-pw-cat="AnyCategoryYouWant" to send custom info if not a "Download" category is set                                                                    */
+    /* Add data-pw-action="AnyActionYouWant" to give an action name, if not the HTML element type is <set>                                                             */
+    /* Add data-pw-name="AnyTitleYouWant" to give a name, if not the page title is given                                                                               */
+    /* -- Example --                                                                                                                                                   */
+    /* <button class="btn btn-default btn-matomo" data-pw-cat="Create Account" data-pw-action="Create" [data-pw-name="Validation button"] type="submit">Send</button>   */
+    /* --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+    if ( $(".btn-matomo").length > 0 ){
+       $(".btn-matomo").click( function(e){
+        var pwCat=document.title, pwAction=$(this).text(), pwName='';
+        if ( $(this).attr("data-pw-cat") != undefined ){
+          pwCat = $(this).attr("data-pw-cat");
+        }
+        if ( $(this).attr("data-pw-action") != undefined){
+          pwAction = $(this).attr("data-pw-action");
+        }
+        if ( $(this).attr("data-pw-name") != undefined){
+          pwName = $(this).attr("data-pw-name");
+          _paq.push(['trackEvent', pwCat , pwAction, pwName ])
+        } else {
+          _paq.push(['trackEvent', pwCat , pwAction ])
+        }
+     })
+    }
+	
+</script>
+<noscript><p><img src="https://mtmdsin.apps.paris.fr/matomo/matomo.php?idsite=263" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
+
+		
+		<!-- Div de chargement en cours -->
+		<div id="loadingComponent" style="display:none;">
+			<span class="glyphicon-left glyphicon glyphicon-refresh spinning"></span>Chargement en cours ...
+		</div>
+
+		<!-- Fenêtre modale d'affichage des erreurs disponible partout -->
+		<div class="modal fade in tennis-generic-modal" id="modalErrorMessage" role="dialog" >
+			<div class="modal-dialog tennis-generic-modal-dialog">
+		    <!-- Modal content-->
+				<div class="modal-content tennis-generic-modal-content">
+	            	<div class="modal-header tennis-generic-modal-header">			
+						<img class="popin-close" title="Erreur" src="images/close-popin.svg" data-dismiss="modal">
+					</div>
+					<div class="modal-body tennis-generic-modal-body">
+						<div class="modal-title justificatif">
+							<p>Erreur</p>	
+		                </div>
+		            </div>
+					<div class="modal-content-detail"></div>
+					<div class="modal-footer tennis-generic-modal-footer">
+						<button class="btn btn-default popin save" type="button" data-dismiss="modal">Fermer</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+
+		<!-- Fenêtre modale d'affichage des erreurs disponible partout avec un bouton qui renvoi vers l'accueil-->
+		<div class="modal fade in tennis-generic-modal" id="modalErrorMessageToWelcomePage" role="dialog" >
+			<div class="modal-dialog tennis-generic-modal-dialog">
+		    <!-- Modal content-->
+				<div class="modal-content tennis-generic-modal-content">
+	            	<div class="modal-header tennis-generic-modal-header">			
+						<img class="popin-close" title="Erreur" src="images/close-popin.svg" data-dismiss="modal">
+					</div>
+					<div class="modal-body tennis-generic-modal-body">
+						<div class="modal-title justificatif">
+							<p>Erreur</p>	
+		                </div>
+		            </div>
+					<div class="modal-content-detail"></div>
+					<div class="modal-footer tennis-generic-modal-footer">
+						<div class="button text-center">
+							<a href="jsp/site/Portal.jsp?page=recherche&view=recherche_creneau" class="btn btn-default popin save">
+								Accueil
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</body>
+</html>

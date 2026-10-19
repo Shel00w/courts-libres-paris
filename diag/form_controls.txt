@@ -1,0 +1,27 @@
+input id="pageID" type="hidden" value="homepage" | 
+input id="token" type="hidden" value="6d2b4800-2358-4bec-aef3-7c783db0949c" | 
+input type="hidden" name="page" value=recherche | 
+input type="hidden" name="action" value=rechercher_creneau | -->
+input type="text" class="form-control" id="where" name="where" placeholder="Sélectionner un tennis, une adresse..." | 
+select multiple id="selWhereCP" name="selWhereCP" style="display:none" | 
+select multiple id="selWhereTennisName" name="selWhereTennisName" style="display:none" | 
+select multiple id="selWhereAdr" name="selWhereAdr" style="display:none" | 
+input type="text" class="form-control" id="when" placeholder="Sélectionnner une date" value="lundi 19 octobre 2026" readonly | 
+input type="text" id="whenIso" style="display:none;" name="when" value="19/10/2026" readonly | 
+button class="btn btn-default dropdown-toggle" type="button"
+								id="dropdownSurface" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="true" | Surface
+input class="checkClass" id="chck96" name="selCoating" type="checkbox" value="96" checked=true | 
+input class="checkClass" id="chck2095" name="selCoating" type="checkbox" value="2095" checked=true | 
+input class="checkClass" id="chck94" name="selCoating" type="checkbox" value="94" checked=true | 
+input class="checkClass" id="chck1324" name="selCoating" type="checkbox" value="1324" checked=true | 
+input class="checkClass" id="chck2016" name="selCoating" type="checkbox" value="2016" checked=true | 
+input class="checkClass" id="chck92" name="selCoating" type="checkbox" value="92" checked=true | 
+button class="btn btn-default dropdown-toggle" type="button"
+								id="dropdownTerrain" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="true" | Couvert/Découvert
+input class="checkClass" id="chckCouvert" name="selInOut" type="checkbox" checked=true value="V" | 
+input class="checkClass" id="chckDécouvert" name="selInOut" type="checkbox" checked=true value="F" | 
+input type="text" id="hourRange" name="hourRange" readonly style="display:none"/ | 
+button type="submit" id="rechercher" class="btn btn-darkgreen big create-account rollover rollover-grey" | 
+button class="btn btn-default btn-matomo" data-pw-cat="Create Account" data-pw-action="Create" [data-pw-name="Validation button"] type="submit" | Send

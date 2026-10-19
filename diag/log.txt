@@ -1,0 +1,17 @@
+search page: 205307 chars, 43 sites, token=6d2b4800-2358-4bec-aef3-7c783db0949c
+selCoating values in page: [('96', ''), ('2095', ''), ('94', ''), ('1324', ''), ('2016', ''), ('92', '')]
+tennis_parisiens.html: 193824 chars
+planning_valeyre.html: 43355 chars
+rates.html: 17373 chars
+20/10/2026 g0: 465038 chars, heads=45, rows=125
+20/10/2026 g1: 574787 chars, heads=38, rows=68
+20/10/2026 g2: 814794 chars, heads=44, rows=242
+20/10/2026 g3: 695224 chars, heads=49, rows=82
+20/10/2026 g4: 682981 chars, heads=39, rows=108
+20/10/2026 all-nofilter: 3256588 chars, heads=215, rows=625
+24/10/2026 g0: 638180 chars, heads=34, rows=107
+24/10/2026 g1: 587254 chars, heads=34, rows=79
+24/10/2026 g2: 766368 chars, heads=36, rows=196
+24/10/2026 g3: 567304 chars, heads=34, rows=60
+24/10/2026 g4: 562299 chars, heads=28, rows=89
+24/10/2026 all-nofilter: 2917375 chars, heads=166, rows=531

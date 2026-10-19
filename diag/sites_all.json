@@ -1,0 +1,389 @@
+[
+ {
+  "name": "Alain Mimoun",
+  "arr": 12,
+  "address": "15 rue de la Nouvelle Calédonie",
+  "cp": "75012",
+  "lat": 48.83805,
+  "lon": 2.41041,
+  "bookable": true
+ },
+ {
+  "name": "Amandiers",
+  "arr": 20,
+  "address": "8 rue Louis Delgrès (adresse principale)",
+  "cp": "75020",
+  "lat": 48.8656,
+  "lon": 2.38669,
+  "bookable": false
+ },
+ {
+  "name": "Atlantique",
+  "arr": 15,
+  "address": "25 allée du Capitaine Dronne",
+  "cp": "75015",
+  "lat": 48.83957,
+  "lon": 2.3174,
+  "bookable": true
+ },
+ {
+  "name": "Aurelle de Paladines",
+  "arr": 17,
+  "address": "10, rue Parmentier",
+  "cp": "92200",
+  "lat": 48.88309,
+  "lon": 2.28208,
+  "bookable": true
+ },
+ {
+  "name": "Bertrand Dauvin",
+  "arr": 18,
+  "address": "12 rue René Binet",
+  "cp": "75018",
+  "lat": 48.89949,
+  "lon": 2.34235,
+  "bookable": true
+ },
+ {
+  "name": "Bobigny",
+  "arr": 19,
+  "address": "40 - 102, avenue de la Division Leclerc",
+  "cp": "93000",
+  "lat": 48.90956,
+  "lon": 2.4202,
+  "bookable": true
+ },
+ {
+  "name": "Broquedis - Asnières",
+  "arr": 17,
+  "address": "1 - 11 Boulevard de Reims",
+  "cp": "75017",
+  "lat": 48.88891,
+  "lon": 2.29611,
+  "bookable": false
+ },
+ {
+  "name": "Candie",
+  "arr": 11,
+  "address": "11 rue Candie",
+  "cp": "75011",
+  "lat": 48.85138,
+  "lon": 2.38002,
+  "bookable": true
+ },
+ {
+  "name": "Carnot",
+  "arr": 12,
+  "address": "26 boulevard Carnot",
+  "cp": "75012",
+  "lat": 48.84297,
+  "lon": 2.4128,
+  "bookable": true
+ },
+ {
+  "name": "Château des Rentiers",
+  "arr": 13,
+  "address": "184 rue du Château des Rentiers",
+  "cp": "75013",
+  "lat": 48.83049,
+  "lon": 2.36207,
+  "bookable": false
+ },
+ {
+  "name": "Cordelières",
+  "arr": 13,
+  "address": "35 rue des Cordelières",
+  "cp": "75013",
+  "lat": 48.83336,
+  "lon": 2.3486,
+  "bookable": true
+ },
+ {
+  "name": "Croix Nivert",
+  "arr": 15,
+  "address": "107 rue de la Croix Nivert",
+  "cp": "75015",
+  "lat": 48.84245,
+  "lon": 2.29457,
+  "bookable": true
+ },
+ {
+  "name": "Docteurs Déjerine",
+  "arr": 20,
+  "address": "32-36 rue des Docteurs Augusta et Jules Déjerine",
+  "cp": "75020",
+  "lat": 48.85601,
+  "lon": 2.41219,
+  "bookable": true
+ },
+ {
+  "name": "Dunois",
+  "arr": 13,
+  "address": "70 rue Dunois",
+  "cp": "75013",
+  "lat": 48.83308,
+  "lon": 2.36637,
+  "bookable": true
+ },
+ {
+  "name": "Edouard Pailleron",
+  "arr": 19,
+  "address": "24 rue Edouard Pailleron",
+  "cp": "75019",
+  "lat": 48.88059,
+  "lon": 2.37701,
+  "bookable": true
+ },
+ {
+  "name": "Elisabeth",
+  "arr": 14,
+  "address": "7 avenue Paul Appell",
+  "cp": "75014",
+  "lat": 48.82126,
+  "lon": 2.32885,
+  "bookable": true
+ },
+ {
+  "name": "Georges Carpentier",
+  "arr": 13,
+  "address": "5 Place de Port au Prince",
+  "cp": "75013",
+  "lat": 48.82059,
+  "lon": 2.36744,
+  "bookable": true
+ },
+ {
+  "name": "Halle Fret",
+  "arr": 18,
+  "address": "37 rue des Cheminots",
+  "cp": "75018",
+  "lat": 48.89688,
+  "lon": 2.35642,
+  "bookable": true
+ },
+ {
+  "name": "Henry de Montherlant",
+  "arr": 16,
+  "address": "30-32 Boulevard Lannes",
+  "cp": "75016",
+  "lat": 48.86736,
+  "lon": 2.27145,
+  "bookable": true
+ },
+ {
+  "name": "Jandelle",
+  "arr": 19,
+  "address": "15-17 cité Jandelle",
+  "cp": "75019",
+  "lat": 48.8753,
+  "lon": 2.3798,
+  "bookable": true
+ },
+ {
+  "name": "Jesse Owens",
+  "arr": 18,
+  "address": "172 rue Championnet",
+  "cp": "75018",
+  "lat": 48.89493,
+  "lon": 2.33551,
+  "bookable": true
+ },
+ {
+  "name": "Jules Ladoumègue",
+  "arr": 19,
+  "address": "39 rue des Petits Ponts",
+  "cp": "75019",
+  "lat": 48.89271,
+  "lon": 2.39696,
+  "bookable": true
+ },
+ {
+  "name": "La Faluère",
+  "arr": 12,
+  "address": "route de la Pyramide",
+  "cp": "75012",
+  "lat": 48.8303,
+  "lon": 2.45013,
+  "bookable": true
+ },
+ {
+  "name": "Léo Lagrange",
+  "arr": 12,
+  "address": "68, boulevard Poniatowski",
+  "cp": "75012",
+  "lat": 48.83208,
+  "lon": 2.39914,
+  "bookable": true
+ },
+ {
+  "name": "Max Rousié",
+  "arr": 17,
+  "address": "28, rue André Bréchet",
+  "cp": "75017",
+  "lat": 48.89891,
+  "lon": 2.32533,
+  "bookable": true
+ },
+ {
+  "name": "Moureu - Baudricourt",
+  "arr": 13,
+  "address": "17 avenue Edison",
+  "cp": "75013",
+  "lat": 48.82766,
+  "lon": 2.36411,
+  "bookable": true
+ },
+ {
+  "name": "NEUVE SAINT PIERRE",
+  "arr": 4,
+  "address": "5 - 7 rue Neuve-Saint-Pierre",
+  "cp": "75004",
+  "lat": 48.85363,
+  "lon": 2.36359,
+  "bookable": true
+ },
+ {
+  "name": "Niox",
+  "arr": 16,
+  "address": "12 quai Saint-Exupéry",
+  "cp": "75016",
+  "lat": 48.83724,
+  "lon": 2.26436,
+  "bookable": true
+ },
+ {
+  "name": "Padel Jules Ladoumègue",
+  "arr": 19,
+  "address": "39 route des Petits Ponts",
+  "cp": "75019",
+  "lat": 48.88884,
+  "lon": 2.39685,
+  "bookable": true
+ },
+ {
+  "name": "Paul Barruel",
+  "arr": 15,
+  "address": "24 rue Paul Barruel",
+  "cp": "75015",
+  "lat": 48.83877,
+  "lon": 2.30475,
+  "bookable": true
+ },
+ {
+  "name": "Philippe Auguste",
+  "arr": 11,
+  "address": "108 avenue Philippe Auguste",
+  "cp": "75011",
+  "lat": 48.85686,
+  "lon": 2.39154,
+  "bookable": true
+ },
+ {
+  "name": "Poissonniers",
+  "arr": 18,
+  "address": "2 rue Jean Cocteau",
+  "cp": "75018",
+  "lat": 48.89972,
+  "lon": 2.35197,
+  "bookable": true
+ },
+ {
+  "name": "Poliveau",
+  "arr": 5,
+  "address": "39BIS RUE DE POLIVEAU",
+  "cp": "75005",
+  "lat": 48.83982,
+  "lon": 2.35771,
+  "bookable": true
+ },
+ {
+  "name": "Poterne des Peupliers",
+  "arr": 13,
+  "address": "17 rue Max Jacob",
+  "cp": "75013",
+  "lat": 48.82031,
+  "lon": 2.35382,
+  "bookable": true
+ },
+ {
+  "name": "Puteaux",
+  "arr": 16,
+  "address": "1 allée des sports",
+  "cp": "92800",
+  "lat": 48.87569,
+  "lon": 2.24347,
+  "bookable": false
+ },
+ {
+  "name": "René et André Mourlon",
+  "arr": 15,
+  "address": "19 rue Gaston de Caillavet",
+  "cp": "75015",
+  "lat": 48.8489,
+  "lon": 2.28493,
+  "bookable": true
+ },
+ {
+  "name": "Renée Garilhe - ex Courcelles",
+  "arr": 17,
+  "address": "211, rue de Courcelles",
+  "cp": "75017",
+  "lat": 48.88919,
+  "lon": 2.29245,
+  "bookable": true
+ },
+ {
+  "name": "Rigoulot - La Plaine",
+  "arr": 15,
+  "address": "18 av de la Porte de Brancion",
+  "cp": "75015",
+  "lat": 48.82653,
+  "lon": 2.30001,
+  "bookable": true
+ },
+ {
+  "name": "Sablonnière",
+  "arr": 15,
+  "address": "62 rue Cambronne",
+  "cp": "75015",
+  "lat": 48.84397,
+  "lon": 2.30206,
+  "bookable": true
+ },
+ {
+  "name": "Sept arpents",
+  "arr": 19,
+  "address": "9 rue des Sept Arpents",
+  "cp": "75019",
+  "lat": 48.88955,
+  "lon": 2.39877,
+  "bookable": true
+ },
+ {
+  "name": "Suzanne Lenglen",
+  "arr": 15,
+  "address": "2 rue Louis Armand",
+  "cp": "75015",
+  "lat": 48.83265,
+  "lon": 2.2767,
+  "bookable": true
+ },
+ {
+  "name": "Thiéré",
+  "arr": 11,
+  "address": "9t-11 passage Thiéré",
+  "cp": "75011",
+  "lat": 48.85377,
+  "lon": 2.37378,
+  "bookable": true
+ },
+ {
+  "name": "Valeyre",
+  "arr": 9,
+  "address": "24 rue de Rochechouart",
+  "cp": "75009",
+  "lat": 48.87793,
+  "lon": 2.34509,
+  "bookable": true
+ }
+]
