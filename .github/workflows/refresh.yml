@@ -1,0 +1,60 @@
+name: Rafraîchir les créneaux
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Toutes les 30 min de 7 h à 23 h (heure de Paris, été comme hiver).
+    - cron: "7,37 5-21 * * *"
+    # Juste après l'ouverture du nouveau jour à 8 h (06:03 UTC l'été, 07:03 UTC l'hiver).
+    - cron: "3 6,7 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tests du parseur
+        run: python -m unittest discover tests
+
+      # Si la collecte échoue, on ne republie pas : la page garde les dernières
+      # données et affiche « Données anciennes » au bout de 3 h.
+      - name: Collecte tennis.paris.fr
+        id: scrape
+        continue-on-error: true
+        run: python scraper/scrape.py --out site/data.json
+
+      - name: Signaler un échec de collecte
+        if: steps.scrape.outcome != 'success'
+        run: echo "::warning::Collecte en échec, la page garde les données précédentes."
+
+      - uses: actions/configure-pages@v5
+        if: steps.scrape.outcome == 'success'
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.scrape.outcome == 'success'
+        with:
+          path: site
+
+      - id: deploy
+        if: steps.scrape.outcome == 'success'
+        uses: actions/deploy-pages@v4
