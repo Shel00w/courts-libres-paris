@@ -127,6 +127,8 @@ button{font:inherit;color:inherit}
 .p2.no{background:none;color:var(--muted);font-weight:500;padding:2px 0}
 .p2.no small{color:var(--muted)!important;opacity:1}
 .book{justify-self:start;font-size:14px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--ball)}
+.cl{color:inherit;text-decoration:none;border-bottom:2px solid var(--ball)}
+.cl:hover{border-bottom-color:var(--rim)}
 
 .empty,.notice{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:20px;text-align:center;color:var(--muted)}
 .notice.err{border-style:solid;border-color:var(--warn);color:var(--ink)}
@@ -197,15 +199,17 @@ footer p{margin:0}
   <section class="others" id="others" aria-label="Autres tennis de la Ville"></section>
 
   <footer>
-    <p>Prix par court, quel que soit le nombre de joueurs. Pour jouer 2 h, la Ville n'autorise qu'une réservation par jour et par compte : deux d'entre vous réservent chacun une des deux heures.</p>
-    <p>Tarif réduit : réservataire de moins de 26 ans domicilié à Paris, sur justificatif. Les créneaux s'ouvrent 7 jours à l'avance, chaque matin à 8 h.</p>
-    <p>Tous les tennis de la carte Paris Tennis sont suivis, y compris Aurelle de Paladines (Neuilly) et Bobigny. Données lues sur tennis.paris.fr toutes les 15 minutes ; un créneau peut partir entre deux mises à jour. La réservation se fait sur <a href="https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&amp;view=recherche_creneau" target="_blank" rel="noopener">Paris Tennis</a> avec un compte Mon Paris.</p>
+    <p>Prix par court, quel que soit le nombre de joueurs. Touche un numéro de court pour ouvrir ce créneau sur Paris Tennis Padel (compte Mon Paris requis). Chaque heure se réserve séparément : pour 2 h, si le site refuse une deuxième réservation le même jour, l'un de vous réserve la seconde heure.</p>
+    <p>Tarif réduit : réservataire de moins de 26 ans domicilié à Paris, sur justificatif.</p>
+    <p>Tous les centres de tennis de <a href="https://tennispadel.paris.fr/tennispadel/jsp/site/Portal.jsp?page=paristennis" target="_blank" rel="noopener">Paris Tennis Padel</a> sont suivis, y compris Aurelle de Paladines (Neuilly) et Bobigny. Les données sont relues environ toutes les heures entre 7 h et 23 h ; un créneau peut partir entre deux mises à jour.</p>
   </footer>
 </main>
 
 <script>
 (() => {
-  const BOOK_URL = "https://tennis.paris.fr/tennis/jsp/site/Portal.jsp?page=recherche&view=recherche_creneau";
+  const SITE_URL = "https://tennispadel.paris.fr/tennispadel/jsp/site/Portal.jsp?page=paristennis";
+  const bookUrl = (s) => s.id && st.data.book_url ? st.data.book_url.replace("{id}", s.id) : centreUrl(st.data.sites[s.site]);
+  const centreUrl = (site) => site.id && st.data.centre_url ? st.data.centre_url.replace("{id}", site.id) : SITE_URL;
   const REDUIT = {1: 12, 0: 7};              // barème réduit : couvert / découvert
   const PERIODS = [
     {id: "matin", label: "Matin 8–12 h", hours: [8, 9, 10, 11]},
@@ -284,10 +288,11 @@ footer p{margin:0}
   }
   function courtSummary(site) {
     const c = site.courts || [];
-    if (!c.length) return "";
-    const cov = c.filter(x => x.covered).length;
-    const surf = [...new Set(c.map(x => x.surface).filter(Boolean))].join(", ").toLowerCase();
-    return `${plural(c.length, "court", "courts")}${cov ? ` dont ${cov} couvert${cov > 1 ? "s" : ""}` : ""}${surf ? " · " + esc(surf) : ""}`;
+    const n = site.n_courts ?? c.length, cov = site.n_covered ?? c.filter(x => x.covered).length;
+    if (!n) return site.closed ? "centre fermé" : "";
+    const surf = (site.surfaces && site.surfaces.length ? site.surfaces : [...new Set(c.map(x => x.surface).filter(Boolean))])
+      .join(", ").toLowerCase();
+    return `${plural(n, "court", "courts")}${cov ? ` dont ${cov} couvert${cov > 1 ? "s" : ""}` : ""}${surf ? " · " + esc(surf) : ""}`;
   }
   function noticesFor(site, day) {
     const start = new Date(day + "T00:00:00"), end = new Date(day + "T23:59:59");
@@ -299,7 +304,7 @@ footer p{margin:0}
   function slotsOf(day) {
     const now = parisNow();
     return (st.data.slots[day] || []).map(r => ({site: r[0], hour: r[1], num: r[2], court: r[3], surface: r[4] || "",
-      cov: r[5], lit: r[6], price: r[7], tarif: r[8]}))
+      cov: r[5], lit: r[6], price: r[7], tarif: r[8], id: r[9], cancel: r[10]}))
       .filter(s => day !== now.date || s.hour > now.hour);
   }
   const priceOf = (s) => st.tarif === "reduit" ? REDUIT[s.cov ? 1 : 0] : s.price;
@@ -432,21 +437,22 @@ footer p{margin:0}
 
   function rowOne(o) {
     const s = o.slot;
+    const link = (x, label) => `<a class="cl" href="${esc(bookUrl(x))}" target="_blank" rel="noopener" title="Réserver ${esc(courtNo(x))} à ${x.hour} h sur Paris Tennis Padel">${label}</a>`;
     if (st.dur === "2same") {
       return `<div class="court"><div><div class="cname">${esc(courtNo(s))}</div>
-        <div class="csub">${s.hour} h – ${s.hour + 2} h · ${esc(euro(s.p1))} + ${esc(euro(s.next.p1))}</div>
+        <div class="csub">Réserver ${link(s, `${s.hour} h ↗`)} puis ${link(s.next, `${s.hour + 1} h ↗`)} · ${esc(euro(s.p1))} + ${esc(euro(s.next.p1))}</div>
         <div class="ctags">${tagsOf(s)}</div></div>
         <div class="prices"><span class="p1"><small>2 h</small>${esc(euro(s.p2))}</span></div></div>`;
     }
     const p2 = s.p2 != null
       ? `<span class="p2"><small>2 h</small>${esc(euro(s.p2))}</span>`
       : `<span class="p2 no"><small>2 h</small>heure suivante prise</span>`;
-    return `<div class="court"><div><div class="cname">${esc(courtNo(s))}</div><div class="ctags">${tagsOf(s)}</div></div>
+    return `<div class="court"><div><div class="cname">${link(s, `${esc(courtNo(s))} ↗`)}</div><div class="ctags">${tagsOf(s)}</div></div>
       <div class="prices"><span class="p1"><small>1 h</small>${esc(euro(s.p1))}</span>${p2}</div></div>`;
   }
 
   function rowAny(o) {
-    const list = (arr) => arr.map(s => `${esc(courtNo(s))}${s.cov ? " (couvert)" : ""}`).join(", ");
+    const list = (arr) => arr.map(s => `<a class="cl" href="${esc(bookUrl(s))}" target="_blank" rel="noopener">${esc(courtNo(s))}</a>${s.cov ? " (couvert)" : ""}`).join(", ");
     const same = o.same.length
       ? `<div class="csub">Sans changer de court : ${esc(o.same.map(courtNo).join(", "))}</div>` : "";
     return `<div class="court"><div>
@@ -493,7 +499,7 @@ footer p{margin:0}
       const site = st.data.sites[i];
       const hours = [...bySite.get(i).entries()].sort((a, b) => a[0] - b[0]);
       const total = hours.reduce((k, [, v]) => k + countOf(v), 0);
-      const fullAddr = `${site.address}, ${site.cp} ${site.city}`;
+      const fullAddr = `${site.address}, ${site.cp} ${site.city}`.trim();
       const maps = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(`Tennis ${site.name}, ${fullAddr}`);
       const alerts = noticesFor(site, st.day);
 
@@ -515,7 +521,7 @@ footer p{margin:0}
       const openHours = hours.filter(([h]) => st.view === "detail" || st.open.has(`${i}|${h}`));
       const detail = openHours.length ? `<div class="detail">${openHours.map(([h, v]) =>
         `<div class="slotgroup"><h3>${twoH ? `${h} h – ${h + 2} h` : `${h} h – ${h + 1} h`}</h3>${v.map(st.dur === "2any" ? rowAny : rowOne).join("")}</div>`).join("")}
-        <a class="book" href="${BOOK_URL}" target="_blank" rel="noopener">Réserver sur Paris Tennis ↗</a></div>` : "";
+        <a class="book" href="${esc(centreUrl(site))}" target="_blank" rel="noopener">Voir ${esc(site.name)} sur Paris Tennis Padel ↗</a></div>` : "";
 
       return `<article class="club">
         <div class="club-head">
@@ -544,7 +550,7 @@ footer p{margin:0}
     const sort = (a, b) => (a.outside - b.outside) || (a.arr - b.arr) || a.name.localeCompare(b.name, "fr");
     const blocks = [];
     if (none.length) blocks.push(`<details><summary>Rien de libre ce jour avec ces filtres<small>${plural(none.length, "club", "clubs")}</small></summary>
-      <div class="olist">${none.sort(sort).map(s => row(s, "")).join("")}</div></details>`);
+      <div class="olist">${none.sort(sort).map(s => row(s, s.closed ? "centre fermé pour le moment" : "")).join("")}</div></details>`);
     if (offline.length) blocks.push(`<details><summary>Pas de réservation en ligne<small>${plural(offline.length, "club", "clubs")}</small></summary>
       <div class="olist">${offline.sort(sort).map(s => row(s, s.phone ? "tél. " + s.phone : "")).join("")}</div></details>`);
     $("others").innerHTML = blocks.join("");

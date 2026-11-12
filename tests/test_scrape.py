@@ -1,15 +1,18 @@
-"""Tests du collecteur sur des extraits réels de tennis.paris.fr (captures du 19/10/2026).
+"""Tests du collecteur sur des extraits réels de tennispadel.paris.fr (captures du 12/11/2026).
 
     python -m unittest discover tests
 """
 import os
 import sys
 import unittest
-from datetime import datetime
+from collections import Counter
+from datetime import date
 
 HERE = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(HERE, "..", "scraper"))
 import scrape  # noqa: E402
+
+TODAY = date(2026, 11, 12)
 
 
 def fixture(name):
@@ -17,60 +20,59 @@ def fixture(name):
         return f.read()
 
 
-NOW = datetime(2026, 10, 19, 20, 0, tzinfo=scrape.PARIS)
-
-
-class SitesTest(unittest.TestCase):
+class HomeTest(unittest.TestCase):
     def setUp(self):
-        self.page = fixture("search_page.html")
-        self.sites = {s["key"]: s for s in scrape.build_sites(scrape.extract_features(self.page), NOW)}
+        self.centres = {c["id"]: c for c in scrape.parse_home(fixture("home.html"))}
 
-    def test_token_and_coatings(self):
-        self.assertTrue(scrape.parse_token(self.page))
-        self.assertEqual(set(scrape.parse_coatings(self.page)), {"96", "2095", "94", "1324", "2016", "92"})
+    def test_all_centres_listed(self):
+        self.assertEqual(len(self.centres), 39)
+        self.assertEqual(self.centres[126]["name"], "La Faluère")
+        self.assertEqual((self.centres[126]["lat"], self.centres[126]["lon"]), (48.8303, 2.45013))
 
-    def test_padel_excluded_and_duplicates_merged(self):
-        self.assertNotIn("Padel Jules Ladoumègue", self.sites)
-        mimoun = self.sites["Alain Mimoun"]          # deux entrées sur la carte, un seul club
-        self.assertEqual(len(mimoun["courts"]), 6)
-        self.assertEqual(sum(c["covered"] for c in mimoun["courts"]), 3)
-        self.assertEqual([c["num"] for c in mimoun["courts"]], [1, 2, 3, 4, 5, 6])
-
-    def test_outside_paris_and_closed(self):
-        aurelle = self.sites["Aurelle de Paladines"]
-        self.assertTrue(aurelle["outside"])
-        self.assertEqual((aurelle["arr"], aurelle["city"]), (17, "Neuilly sur Seine"))
-        self.assertFalse(self.sites["Amandiers"]["bookable"])
-        self.assertTrue(self.sites["Poliveau"]["bookable"])
-
-    def test_text_cleanup(self):
-        self.assertEqual(self.sites["Poliveau"]["address"], "39bis rue de Poliveau")
-        self.assertEqual(self.sites["NEUVE SAINT PIERRE"]["name"], "Neuve Saint Pierre")
-        self.assertEqual(len(self.sites["NEUVE SAINT PIERRE"]["courts"]), 1)   # « Gymnase Type B »
-        self.assertEqual(scrape.fix_text("F¿ri¿"), "Férié")
-        self.assertEqual(scrape.fix_text("H?bergement d'urgence"), "Hébergement d'urgence")
+    def test_card_details(self):
+        sab = self.centres[303]
+        self.assertEqual((sab["address"], sab["cp"]), ("62 rue Cambronne", "75015"))
+        self.assertEqual(sab["courts_text"], "1 court : 1 extérieur")
+        aurelle = self.centres[85]
+        self.assertEqual(aurelle["cp"], "92200")
+        self.assertEqual(self.centres[545]["name"], "Neuve Saint Pierre")
+        self.assertEqual(self.centres[567]["status"], "cs-ferme")
 
 
-class ResultsTest(unittest.TestCase):
-    def test_results(self):
-        keys = {scrape.norm_key(n): n for n in ["Poliveau", "Alain Mimoun"]}
-        res, unknown = scrape.parse_results(fixture("results.html"), keys)
-        self.assertEqual(unknown, set())
-        by = {(r["site"], r["hour"], r["num"]) for r in res}
-        self.assertIn(("Poliveau", 19, 1), by)
-        self.assertIn(("Poliveau", 20, 1), by)
-        self.assertEqual(len(res), 9)
-        pol = next(r for r in res if r["site"] == "Poliveau")
-        self.assertEqual((pol["court"], pol["surface"], pol["covered"], pol["lit"], pol["price"], pol["tarif"]),
-                         ("Court N°1", "Synthétique", True, True, 20, "P"))
+class CentreTest(unittest.TestCase):
+    def test_sablonniere(self):
+        info = scrape.parse_centre(fixture("centre_sablonniere.html"), TODAY)
+        self.assertEqual(info["name"], "Sablonnière")
+        self.assertEqual((info["address"], info["cp"], info["city"]), ("62 rue Cambronne", "75015", "Paris"))
+        self.assertEqual((info["n_courts"], info["n_covered"]), (1, 0))
+        self.assertEqual(Counter(s["day"] for s in info["slots"]), {"2026-11-13": 3, "2026-11-14": 1})
+        first = info["slots"][0]
+        self.assertEqual((first["hour"], first["num"], first["court"], first["surface"]), (12, 1, "Court n° 01", "Synthétique"))
+        self.assertEqual((first["covered"], first["lit"], first["price"], first["id"], first["cancel"]),
+                         (False, False, 12, 6683846, True))
 
-    def test_non_eclaire(self):
-        row = ('<div class="panel-heading" id="headPoliveau08h"></div><div class="row tennis-court">'
-               '<span class="court">Court N°13 - Bitume - Non Eclairé</span>'
-               '<span class="price"> 7 € </span><small class="price-description">Tarif réduit<br/>Découvert</small></div>')
-        res, _ = scrape.parse_results(row, {"poliveau": "Poliveau"})
-        self.assertEqual((res[0]["num"], res[0]["surface"], res[0]["lit"], res[0]["price"], res[0]["tarif"]),
-                         (13, "Bitume", False, 7, "R"))
+    def test_lenglen(self):
+        info = scrape.parse_centre(fixture("centre_lenglen.html"), TODAY)
+        self.assertEqual((info["n_courts"], info["n_covered"]), (13, 2))
+        self.assertEqual(Counter(s["day"] for s in info["slots"]), {"2026-11-12": 49, "2026-11-13": 90})
+        c1 = info["courts"][1]
+        self.assertEqual((c1["surface"], c1["covered"], c1["lit"]), ("Résine", False, True))
+        self.assertTrue(info["courts"][11]["covered"])
+        self.assertIn(20, {s["price"] for s in info["slots"] if s["covered"]})
+        self.assertFalse(info["courts"][13]["lit"])
+        self.assertIn(False, {s["cancel"] for s in info["slots"]})   # moins de 24 h : non annulable
+
+
+class HelpersTest(unittest.TestCase):
+    def test_dates(self):
+        self.assertEqual(scrape.parse_day("Vendredi 13 novembre", TODAY), date(2026, 11, 13))
+        self.assertEqual(scrape.parse_day("Lundi 4 janvier", date(2026, 12, 28)), date(2027, 1, 4))
+
+    def test_addresses(self):
+        self.assertEqual(scrape.split_cp("39BIS RUE DE POLIVEAU 75005"), ("39bis rue de Poliveau", "75005", ""))
+        self.assertEqual(scrape.split_cp("25 allée du Capitaine Dronne - 75015"), ("25 allée du Capitaine Dronne", "75015", ""))
+        self.assertEqual(scrape.arr_from_cp("75116"), 16)
+        self.assertIsNone(scrape.arr_from_cp("92200"))
 
 
 if __name__ == "__main__":

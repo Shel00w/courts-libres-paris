@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Collecte tous les créneaux libres des tennis municipaux de la Ville de Paris.
+"""Collecte tous les créneaux libres des tennis de la Ville de Paris.
 
-Source : tennis.paris.fr, la recherche de créneaux publique (aucun compte requis).
+Source : tennispadel.paris.fr (Paris Tennis Padel), consultable sans compte.
+Depuis le 3 novembre 2026, l'ancien site tennis.paris.fr renvoie vers cette adresse.
+
+La page d'accueil liste les centres sportifs (id, nom, adresse, coordonnées).
+La page de chaque centre liste, jour par jour et court par court, les créneaux
+libres avec leur heure, leur prix et l'identifiant qui sert à réserver.
+
 Sortie : un fichier JSON (par défaut site/data.json) lu par site/index.html.
-
 Python 3.9+ et bibliothèque standard uniquement : rien à installer.
 
     python scraper/scrape.py                 # écrit site/data.json
@@ -22,31 +27,26 @@ import json
 import re
 import sys
 import time
-import unicodedata
 import urllib.parse
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timezone
 from http.cookiejar import CookieJar
 from zoneinfo import ZoneInfo
 
-BASE = "https://tennis.paris.fr/tennis/jsp/site/Portal.jsp"
-SEARCH_PAGE = BASE + "?page=recherche&view=recherche_creneau"
-SEARCH_ACTION = BASE + "?page=recherche&action=rechercher_creneau"
+ROOT = "https://tennispadel.paris.fr/tennispadel/"
+PORTAL = ROOT + "jsp/site/Portal.jsp"
+HOME = PORTAL + "?page=paristennis"
+CENTRE = PORTAL + "?page=centre-sportif&id={}"
+BOOK = PORTAL + "?page=reservation-etape-1&id={}"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/129.0 Safari/537.36")
 PARIS = ZoneInfo("Europe/Paris")
+DELAY_S = 1.0     # pause entre deux requêtes, pour rester discret
 
-# Codes des surfaces et couvert (V) / découvert (F) attendus par le formulaire.
-# Les codes de surface sont relus dans la page à chaque collecte ; ceux-ci servent de secours.
-COATINGS = ["96", "2095", "94", "1324", "2016", "92"]
-IN_OUT = ["V", "F"]
-
-DAYS = 8          # aujourd'hui + 7 : on prend large, le dernier jour s'ouvre à 8h
-CLUBS_PER_REQUEST = 8
-DELAY_S = 0.8     # pause entre deux requêtes, pour rester discret
-
-# Barème de la Ville (prix d'un court pour 1 h), utilisé si le prix affiché manque.
-PRICE_GRID = {("P", True): 20, ("P", False): 12, ("R", True): 12, ("R", False): 7}
+MOIS = {m: i + 1 for i, m in enumerate(
+    ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+     "septembre", "octobre", "novembre", "décembre"])}
+MOIS["fevrier"], MOIS["aout"], MOIS["decembre"] = 2, 8, 12
 
 
 # --------------------------------------------------------------------------- HTTP
@@ -78,294 +78,229 @@ def fetch(url: str, form: dict | None = None, retries: int = 3) -> str:
 
 # ----------------------------------------------------------------------- nettoyage
 
-def norm_key(s: str) -> str:
-    """Clé de rapprochement entre le nom d'un club et l'id de son panneau HTML."""
-    s = htmllib.unescape(s or "")
-    s = unicodedata.normalize("NFKD", s)
-    s = "".join(c for c in s if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9]", "", s.lower())
+def text(fragment: str) -> str:
+    """HTML -> texte sur une ligne."""
+    s = re.sub(r"<svg.*?</svg>", " ", fragment or "", flags=re.S)
+    s = htmllib.unescape(re.sub(r"<[^>]+>", " ", s)).replace("\xa0", " ")
+    return re.sub(r"\s+", " ", s).strip()
 
 
-def clean(s) -> str:
-    s = htmllib.unescape(str(s or "")).replace("\xa0", " ")
-    s = re.sub(r"\s+", " ", s).strip()
-    return s.rstrip(" -,").strip()
+def clean_address(s: str) -> str:
+    s = re.sub(r"\s+", " ", s or "").strip().rstrip(" -,").strip()
+    return tidy_caps(s)
 
 
 _SMALL = {"de", "du", "des", "la", "le", "les", "et", "d", "l", "au", "aux", "sur"}
+_STREET = {"rue", "avenue", "boulevard", "allée", "allee", "place", "quai", "route",
+           "passage", "cité", "cite", "impasse", "square", "chemin", "villa", "av", "bd"}
 
 
 def tidy_caps(s: str) -> str:
     """'39BIS RUE DE POLIVEAU' -> '39bis rue de Poliveau' (ne touche pas au texte déjà en casse mixte)."""
     if not s or s != s.upper() or not re.search(r"[A-Z]", s):
         return s
-    words = s.lower().split(" ")
     out = []
-    street_types = {"rue", "avenue", "boulevard", "allée", "allee", "place", "quai", "route",
-                    "passage", "cité", "cite", "impasse", "square", "chemin", "villa", "av", "bd"}
-    for i, w in enumerate(words):
-        if not w or w[0].isdigit() or w in _SMALL or (w in street_types and i > 0):
+    for i, w in enumerate(s.lower().split(" ")):
+        if not w or w[0].isdigit() or w in _SMALL or (w in _STREET and i > 0):
             out.append(w)
         else:
             out.append("-".join(p[:1].upper() + p[1:] for p in w.split("-")))
     return " ".join(out)
 
 
-def fix_text(s: str) -> str:
-    """Les annonces de la Ville arrivent avec des accents cassés ('F¿ri¿', 'H?bergement')."""
-    s = clean(s).replace("\r", " ")
-    s = s.replace("¿", "é")
-    s = re.sub(r"(?<=[A-Za-zé])\?(?=[a-zé])", "é", s)
-    return s
-
-
-def parse_city_date(s: str):
-    """'Oct 21, 2026 8:00:00 AM' (heure de Paris) -> datetime aware."""
-    try:
-        return datetime.strptime(clean(s), "%b %d, %Y %I:%M:%S %p").replace(tzinfo=PARIS)
-    except (TypeError, ValueError):
-        return None
-
-
-# -------------------------------------------------------------------- clubs et courts
-
-def extract_features(page: str) -> list[dict]:
-    """Le GeoJSON des clubs embarqué dans la page de recherche (var tennis = {...})."""
-    m = re.search(r"var\s+tennis\s*=\s*", page)
+def split_cp(addr_line: str) -> tuple[str, str, str]:
+    """'62 rue Cambronne  75015 Paris' -> ('62 rue Cambronne', '75015', 'Paris')."""
+    m = re.search(r"^(.*?)[\s,-]*\b(\d{5})\b\s*(.*)$", addr_line or "")
     if not m:
-        return []
-    try:
-        obj, _ = json.JSONDecoder().raw_decode(page, m.end())
-        return obj.get("features", [])
-    except ValueError:
-        return []
+        return clean_address(addr_line), "", ""
+    return clean_address(m.group(1)), m.group(2), m.group(3).strip()
 
 
-def parse_token(page: str) -> str | None:
-    m = (re.search(r'id="token"[^>]*value="([^"]+)"', page)
-         or re.search(r'value="([^"]+)"[^>]*id="token"', page)
-         or re.search(r'name="token"[^>]*value="([^"]+)"', page))
-    return m.group(1) if m else None
+def arr_from_cp(cp: str) -> int | None:
+    if cp.startswith("75") and len(cp) == 5:
+        n = int(cp[3:])
+        return 16 if n == 16 else (n if 1 <= n <= 20 else None)
+    return None
 
 
-def parse_coatings(page: str) -> list[str]:
-    vals = re.findall(r'name="selCoating"[^>]*value="([^"]+)"', page)
-    vals += re.findall(r'value="([^"]+)"[^>]*name="selCoating"', page)
-    vals = list(dict.fromkeys(v for v in vals if v.strip()))
-    return vals or COATINGS
-
-
-def court_number(name: str) -> int | None:
-    m = re.search(r"n\s*°\s*0*(\d+)", name or "", re.I)
+def court_number(label: str) -> int | None:
+    m = re.search(r"n\s*°\s*0*(\d+)", label or "", re.I)
     return int(m.group(1)) if m else None
 
 
-def build_sites(features: list[dict], now: datetime) -> list[dict]:
-    """Un club par nom, avec tous ses courts et ses annonces de fermeture à venir.
+def parse_day(label: str, today: date) -> date | None:
+    """'Vendredi 13 novembre' -> date, en passant à l'année suivante en fin d'année."""
+    m = re.search(r"(\d{1,2})\s+([a-zéèûô]+)", label.lower())
+    if not m or m.group(2) not in MOIS:
+        return None
+    d, mo = int(m.group(1)), MOIS[m.group(2)]
+    year = today.year + (1 if mo < today.month - 6 else 0)
+    try:
+        return date(year, mo, d)
+    except ValueError:
+        return None
 
-    La carte contient parfois plusieurs entrées par club (une par annonce) : on les fusionne.
-    """
-    by_name: dict[str, dict] = {}
-    for f in features:
-        p = f.get("properties", {})
-        g = p.get("general", {})
-        name = clean(g.get("_nomSrtm"))
-        if not name or "padel" in name.lower():
+
+# --------------------------------------------------------------- page d'accueil
+
+def parse_home(page: str) -> list[dict]:
+    """Les centres de la page d'accueil : id, nom, coordonnées, statut, adresse, courts."""
+    centres: dict[str, dict] = {}
+    for cid, lat, lng, status, name in re.findall(
+            r'<li class="equipement-list-item" id="(\d+)" data-lat="([^"]*)" data-lng="([^"]*)"'
+            r' data-status="([^"]*)"[^>]*>([^<]*)</li>', page):
+        centres.setdefault(cid, {
+            "id": int(cid), "name": tidy_caps(text(name)),
+            "lat": float(lat) if lat else None, "lon": float(lng) if lng else None,
+            "status": status,
+        })
+    for cid, block in re.findall(r'<div class="card secondary" data-id="(\d+)">(.*?)Choisir ce centre', page, re.S):
+        c = centres.get(cid)
+        if not c or "address" in c:
             continue
-        s = by_name.get(name)
-        if s is None:
-            cp = clean(g.get("_codePostal"))
-            s = by_name[name] = {
-                "name": tidy_caps(name),
-                "key": name,
-                "arr": g.get("_arrondissement"),
-                "address": tidy_caps(clean(g.get("_adresse"))),
-                "cp": cp,
-                "city": clean(g.get("_ville")) or "Paris",
-                "lat": g.get("_gpsLat"),
-                "lon": g.get("_gpsLon"),
-                "phone": clean(g.get("_telephone")),
-                "outside": not cp.startswith("75"),
-                "bookable": False,
-                "courts": {},
-                "notices": [],
-            }
-        s["bookable"] = s["bookable"] or g.get("_ouvRes") == "V"
-        # l'adresse la plus récente l'emporte si elle diffère (ex. Broquedis)
-        if g.get("_ouvRes") == "V" and clean(g.get("_adresse")):
-            s["address"] = tidy_caps(clean(g.get("_adresse")))
-
-        end = parse_city_date(g.get("_dateOuv"))
-        start = parse_city_date(g.get("_dateFerm"))
-        text = fix_text(g.get("_equCom"))
-        if start and end and end >= now and text:
-            notice = {"from": start.isoformat(), "to": end.isoformat(), "text": text}
-            if notice not in s["notices"]:
-                s["notices"].append(notice)
-
-        for c in p.get("courts", []) or []:
-            label = clean(c.get("_airNom"))
-            if not label or re.search(r"supprim|padel", label, re.I):
-                continue
-            num = c.get("_formattedAirNum") or court_number(label)
-            if num is None:
-                continue
-            s["courts"][int(num)] = {
-                "num": int(num),
-                "label": label if not re.match(r"(TEP/)?court\s*n", label, re.I) else f"Court n° {int(num)}",
-                "surface": clean((c.get("_coating") or {}).get("_revLib")),
-                "covered": c.get("_airCvt") == "V",
-                "lit": c.get("_airEcl") == "V",
-                "bookable": c.get("_airOuvRes") == "V",
-            }
-
-    sites = list(by_name.values())
-    for s in sites:
-        s["courts"] = [s["courts"][k] for k in sorted(s["courts"])]
-        s["notices"].sort(key=lambda n: n["from"])
-    return sites
+        m = re.search(r"paris-icon-pin.*?</svg>(.*?)</strong>", block, re.S)
+        if m:
+            c["address"], c["cp"], c["city"] = split_cp(text(m.group(1)))
+        m = re.search(r'<span class="courts">(.*?)</span>', block, re.S)
+        if m:
+            c["courts_text"] = text(m.group(1))
+        c["surfaces"] = [text(s) for s in re.findall(r'class="badge-label">(.*?)</p>', block, re.S)]
+    return list(centres.values())
 
 
-# ------------------------------------------------------------------------ résultats
+# ----------------------------------------------------------------- page centre
 
-_ROW_SPLIT = re.compile(r'<div[^>]*class="[^"]*\btennis-court\b[^"]*"', re.S)
+def parse_centre(page: str, today: date) -> dict:
+    """Nom, adresse, courts et créneaux libres d'une page centre-sportif."""
+    out: dict = {"slots": [], "courts": {}}
+    m = re.search(r'class="tc-center-header-title"[^>]*>(.*?)</h1>', page, re.S)
+    if m:
+        out["name"] = tidy_caps(text(m.group(1)))
+    m = re.search(r"tc-center-header-title.*?<span class=\"me-lg-5[^\"]*\">(.*?)</span>\s*"
+                  r"<span[^>]*>(.*?)</span>", page, re.S)
+    if m:
+        out["address"], out["cp"], out["city"] = split_cp(text(m.group(1)))
+        cm = re.search(r"(\d+)\s*courts?\s*dont\s*(\d+)\s*couverts?\s*(\d+)", text(m.group(2)))
+        if cm:
+            out["n_courts"], out["n_covered"] = int(cm.group(1)), int(cm.group(2))
 
-
-def parse_results(page: str, key_to_name: dict[str, str]) -> tuple[list[dict], set[str]]:
-    """Créneaux libres d'une page de résultats.
-
-    La page contient un panneau par club et par heure (id="head<Club><HH>h"),
-    puis une ligne "tennis-court" par court libre : nom du court, surface,
-    éclairage, prix, type de tarif et couvert/découvert.
-    """
-    out, unknown = [], set()
-    for chunk in page.split('id="head')[1:]:
-        m = re.match(r'([^"]*?)(\d{1,2})h"', chunk)
-        if not m:
+    days = re.split(r'<h3 class="tc-center-list-court-date[^"]*">', page)[1:]
+    for chunk in days:
+        day = parse_day(text(chunk.split("</h3>", 1)[0]), today)
+        if day is None:
             continue
-        key, hour = m.group(1), int(m.group(2))
-        site = key_to_name.get(norm_key(key))
-        if site is None:
-            unknown.add(key)
-            continue
-        for row in _ROW_SPLIT.split(chunk)[1:]:
-            cm = re.search(r'class="court"[^>]*>(.*?)</', row, re.S)
-            if not cm:
+        for court_block in re.split(r"data-js-center-slot-container", chunk)[1:]:
+            hm = re.search(r'class="tc-center-list-court-number[^"]*"[^>]*>(.*?)</h4>', court_block, re.S)
+            if not hm:
                 continue
-            parts = [clean(p) for p in re.sub(r"<[^>]+>", " ", cm.group(1)).split(" - ")]
-            parts = [p for p in parts if p]
-            if not parts:
+            label = text(hm.group(1))
+            if "padel" in label.lower():
                 continue
-            court = parts[0]
-            lit = any("clair" in p.lower() and "non" not in p.lower() for p in parts[1:])
-            surface = next((p for p in parts[1:] if "clair" not in p.lower()), "")
-
-            pm = re.search(r'class="price"[^>]*>(.*?)</', row, re.S)
-            price_txt = clean(re.sub(r"<[^>]+>", " ", pm.group(1))) if pm else ""
-            dm = re.search(r'class="price-description"[^>]*>((?:[^<]|<br\s*/?>)*)', row, re.S)
-            desc = [clean(x) for x in re.split(r"<br\s*/?>", dm.group(1))] if dm else []
-            tarif_txt = desc[0] if desc else ""
-            cover_txt = desc[1] if len(desc) > 1 else ""
-
-            hm = re.search(r'datedeb="\d{4}/\d{2}/\d{2} (\d{1,2}):', row)
-
-            covered = cover_txt.lower().startswith("couvert")
-            tarif = "R" if "réduit" in tarif_txt.lower() or "reduit" in tarif_txt.lower() else "P"
-            pr = re.search(r"(\d+(?:[.,]\d+)?)", price_txt)
-            price = float(pr.group(1).replace(",", ".")) if pr else PRICE_GRID[(tarif, covered)]
-            if price == int(price):
-                price = int(price)
-
-            out.append({
-                "site": site,
-                "hour": int(hm.group(1)) if hm else hour,
-                "court": court,
-                "num": court_number(court),
-                "surface": surface,
-                "covered": covered,
-                "lit": lit,
-                "price": price,
-                "tarif": tarif,
+            infos = [text(p).lower() for p in re.findall(
+                r'<p class="mt-lg-0 mt-3 me-3 font-bold">(.*?)</p>', court_block, re.S)]
+            covered = any(i.startswith("court couvert") or i == "couvert" for i in infos)
+            lit = any("clair" in i and "non" not in i for i in infos)
+            surface = next((text(b) for b in re.findall(r'class="badge-label">(.*?)</p>', court_block, re.S)), "")
+            num = court_number(label)
+            key = num if num is not None else label
+            out["courts"].setdefault(key, {
+                "num": num, "label": re.sub(r"^TEP/", "", label), "surface": surface,
+                "covered": covered, "lit": lit,
             })
-    return out, unknown
+            for sid, cancel, hour, price in re.findall(
+                    r'name="creneauRadio"[^>]*value="(\d+)"(?:[^>]*data-js-slot-annulable="(\w+)")?[^>]*>'
+                    r'.*?tc-center-list-court-radio-hour">\s*(\d{1,2}):\d{2}\s*<'
+                    r'.*?tc-center-list-court-radio-price[^>]*>(.*?)</p>', court_block, re.S):
+                pm = re.search(r"(\d+(?:[.,]\d+)?)", text(price))
+                p = float(pm.group(1).replace(",", ".")) if pm else None
+                if p is not None and p == int(p):
+                    p = int(p)
+                out["slots"].append({
+                    "day": day.isoformat(), "hour": int(hour), "num": num,
+                    "court": out["courts"][key]["label"], "surface": surface,
+                    "covered": covered, "lit": lit, "price": p, "id": int(sid),
+                    "cancel": cancel != "false",
+                })
+    return out
 
 
 # --------------------------------------------------------------------------- main
 
-def collect(days: int = DAYS, delay: float = DELAY_S, log=print) -> dict:
+def collect(delay: float = DELAY_S, log=print) -> dict:
     started = time.time()
     now = datetime.now(PARIS)
-    page = fetch(SEARCH_PAGE)
-    token = parse_token(page)
-    coatings = parse_coatings(page)
-    sites = build_sites(extract_features(page), now)
-    if not sites:
-        raise RuntimeError("aucun club trouvé dans la page de recherche (structure changée ?)")
-    log(f"{len(sites)} clubs de tennis sur la carte, {sum(len(s['courts']) for s in sites)} courts, "
-        f"jeton {'trouvé' if token else 'absent'}, surfaces {coatings}")
+    today = now.date()
 
-    # On interroge tous les clubs, même ceux marqués fermés : la recherche tranche.
-    key_to_name = {norm_key(s["key"]): s["key"] for s in sites}
-    index = {s["key"]: i for i, s in enumerate(sites)}
-    names = [s["key"] for s in sites]
-    groups = [names[i:i + CLUBS_PER_REQUEST] for i in range(0, len(names), CLUBS_PER_REQUEST)]
+    centres = parse_home(fetch(HOME))
+    if not centres:
+        raise RuntimeError("aucun centre trouvé sur la page d'accueil (structure changée ?)")
+    log(f"{len(centres)} centres de tennis sur tennispadel.paris.fr")
 
-    dates = [now.date() + timedelta(days=d) for d in range(days)]
-    slots: dict[str, list] = {d.isoformat(): [] for d in dates}
-    errors: list[str] = []
-    unknown_keys: set[str] = set()
-    requests_ok = 0
+    sites, rows, errors = [], [], []
+    for c in sorted(centres, key=lambda c: c["name"]):
+        time.sleep(delay)
+        try:
+            info = parse_centre(fetch(CENTRE.format(c["id"])), today)
+        except Exception as e:  # un centre raté ne doit pas tout faire tomber
+            errors.append(f"{c['name']} ({c['id']}): {type(e).__name__}: {e}")
+            log(f"ERREUR {errors[-1]}")
+            info = {"slots": [], "courts": {}}
+        address = info.get("address") or c.get("address", "")
+        cp = info.get("cp") or c.get("cp", "")
+        city = info.get("city") or c.get("city") or ("Paris" if cp.startswith("75") else "")
+        courts = sorted(info["courts"].values(), key=lambda x: (x["num"] is None, x["num"] or 0, x["label"]))
+        idx = len(sites)
+        sites.append({
+            "id": c["id"],
+            "name": info.get("name") or c["name"],
+            "arr": arr_from_cp(cp),
+            "address": address,
+            "cp": cp,
+            "city": city,
+            "lat": c.get("lat"),
+            "lon": c.get("lon"),
+            "outside": not cp.startswith("75"),
+            "online": True,
+            "closed": c.get("status") == "cs-ferme",
+            "courts_text": c.get("courts_text", ""),
+            "n_courts": info.get("n_courts"),
+            "n_covered": info.get("n_covered"),
+            "surfaces": c.get("surfaces") or sorted({x["surface"] for x in courts if x["surface"]}),
+            "courts": courts,
+            "notices": [],
+        })
+        for s in info["slots"]:
+            if s["day"] < today.isoformat():
+                continue
+            rows.append((s["day"], [idx, s["hour"], s["num"], s["court"], s["surface"], int(s["covered"]),
+                                    int(s["lit"]), s["price"], "", s["id"], int(s["cancel"])]))
+        log(f"{sites[-1]['name']}: {len(info['slots'])} créneaux")
 
-    for d in dates:
-        seen = set()
-        for gi, group in enumerate(groups):
-            form = {
-                "token": token or "",
-                "when": d.strftime("%d/%m/%Y"),
-                "hourRange": "8-22",
-                "selWhereTennisName": group,
-                "selInOut": IN_OUT,
-                "selCoating": coatings,
-            }
-            try:
-                res, unknown = parse_results(fetch(SEARCH_ACTION, form), key_to_name)
-                requests_ok += 1
-                unknown_keys |= unknown
-                for r in res:
-                    k = (r["site"], r["hour"], r["num"] if r["num"] is not None else r["court"])
-                    if k in seen:
-                        continue
-                    seen.add(k)
-                    slots[d.isoformat()].append([
-                        index[r["site"]], r["hour"], r["num"], r["court"], r["surface"],
-                        int(r["covered"]), int(r["lit"]), r["price"], r["tarif"],
-                    ])
-            except Exception as e:  # une requête ratée ne doit pas tout faire tomber
-                errors.append(f"{d.isoformat()} groupe {gi + 1}: {type(e).__name__}: {e}")
-                log(f"ERREUR {errors[-1]}")
-            time.sleep(delay)
-        slots[d.isoformat()].sort(key=lambda x: (x[1], x[0], x[2] or 0))
-        log(f"{d.isoformat()} : {len(slots[d.isoformat()])} créneaux")
-
-    if unknown_keys:
-        log(f"panneaux sans club correspondant : {sorted(unknown_keys)[:10]}")
-
-    with_slots = {x[0] for v in slots.values() for x in v}
-    for i, s in enumerate(sites):
-        s["online"] = s["bookable"] or i in with_slots
-        del s["key"], s["bookable"]
+    last = max((d for d, _ in rows), default=today.isoformat())
+    days = [date.fromordinal(o).isoformat() for o in range(today.toordinal(), date.fromisoformat(last).toordinal() + 1)]
+    slots: dict[str, list] = {d: [] for d in days}
+    seen = set()
+    for d, r in rows:
+        k = (d, r[0], r[1], r[2] if r[2] is not None else r[3])
+        if k in seen:
+            continue
+        seen.add(k)
+        slots[d].append(r)
+    for v in slots.values():
+        v.sort(key=lambda x: (x[1], x[0], x[2] or 0))
 
     total = sum(len(v) for v in slots.values())
     return {
-        "version": 2,
+        "version": 3,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source": "tennis.paris.fr",
-        "days": [d.isoformat() for d in dates],
+        "source": "tennispadel.paris.fr",
+        "book_url": BOOK.format("{id}"),
+        "centre_url": CENTRE.format("{id}"),
+        "days": days,
         "sites": sites,
-        "slot_fields": ["site", "hour", "num", "court", "surface", "covered", "lit", "price", "tarif"],
+        "slot_fields": ["site", "hour", "num", "court", "surface", "covered", "lit", "price", "tarif", "id", "cancel"],
         "slots": slots,
         "total": total,
-        "requests_ok": requests_ok,
         "errors": errors,
         "duration_s": round(time.time() - started),
     }
@@ -374,12 +309,11 @@ def collect(days: int = DAYS, delay: float = DELAY_S, log=print) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", default="site/data.json")
-    ap.add_argument("--days", type=int, default=DAYS)
     args = ap.parse_args()
 
     log = lambda msg: print(msg, file=sys.stderr, flush=True)  # noqa: E731
     try:
-        data = collect(days=args.days, log=log)
+        data = collect(log=log)
     except Exception as e:
         log(f"Échec de la collecte : {type(e).__name__}: {e}")
         return 1
@@ -390,7 +324,7 @@ def main() -> int:
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
-    log(f"OK : {data['total']} créneaux, {len(data['sites'])} clubs, "
+    log(f"OK : {data['total']} créneaux, {len(data['sites'])} centres, "
         f"{len(data['errors'])} erreurs, {data['duration_s']} s → {args.out}")
     return 0
 
