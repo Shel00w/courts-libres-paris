@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Diagnostic : rejoue la collecte et enregistre ce que renvoie tennis.paris.fr."""
-import os, sys, json, traceback, urllib.request, urllib.error
+"""Diagnostic : capture le nouveau site tennispadel.paris.fr."""
+import os, re, sys, json, time, urllib.parse
+from datetime import datetime, timedelta
 sys.path.insert(0, os.path.dirname(__file__))
 import scrape  # noqa: E402
 
@@ -9,37 +10,50 @@ log = []
 def note(m):
     print(m, flush=True); log.append(str(m))
 
-# 1) requête brute sur la page de recherche, avec statut et en-têtes
-try:
-    req = urllib.request.Request(scrape.SEARCH_PAGE, headers={"User-Agent": scrape.UA, "Accept-Language": "fr-FR"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        body = r.read()
-        note(f"GET search: status={r.status} final_url={r.geturl()} len={len(body)}")
-        note("headers: " + json.dumps(dict(r.headers), ensure_ascii=False))
-        open("diag/search_raw.html", "wb").write(body)
-except urllib.error.HTTPError as e:
-    b = e.read()
-    note(f"GET search HTTPError {e.code} {e.reason} len={len(b)}")
-    note("headers: " + json.dumps(dict(e.headers), ensure_ascii=False))
-    open("diag/search_error.html", "wb").write(b)
-except Exception as e:
-    note(f"GET search EXC {type(e).__name__}: {e}")
+JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+def fr(d): return f"{JOURS[d.weekday()]} {d.day} {MOIS[d.month-1]}"
 
-# 2) même chose via le collecteur
-try:
-    page = scrape.fetch(scrape.SEARCH_PAGE)
-    open("diag/search_page.html", "w", encoding="utf-8").write(page)
-    feats = scrape.extract_features(page)
-    note(f"fetch ok len={len(page)} token={scrape.parse_token(page)} features={len(feats)} var_tennis={'var tennis' in page}")
-    note("title: " + (page.split('<title>')[1].split('</title>')[0] if '<title>' in page else '-'))
-except Exception as e:
-    note(f"fetch EXC {type(e).__name__}: {e}")
+BASE = "https://tennispadel.paris.fr"
+P = BASE + "/tennispadel/jsp/site/Portal.jsp"
+today = datetime.now(scrape.PARIS).date()
+d1 = today + timedelta(days=1); d5 = today + timedelta(days=5)
 
-# 3) collecte complète sur 2 jours
-try:
-    data = scrape.collect(days=2, log=note)
-    note(f"collect total={data['total']} sites={len(data['sites'])} errors={data['errors'][:5]}")
-except Exception:
-    note("collect EXC\n" + traceback.format_exc())
+def grab(name, url, form=None):
+    try:
+        h = scrape.fetch(url, form)
+        open(f"diag/{name}", "w", encoding="utf-8").write(h)
+        note(f"{name}: OK len={len(h)} url={url[:160]}")
+        return h
+    except Exception as e:
+        body = ""
+        if hasattr(e, "read"):
+            try: body = e.read().decode("utf-8", "replace")[:500]
+            except Exception: pass
+        note(f"{name}: EXC {type(e).__name__} {e} url={url[:160]} body={body!r}")
+        return ""
 
+home = grab("home.html", BASE + "/")
+grab("robots.txt", BASE + "/robots.txt")
+pt = grab("paristennis.html", P + "?page=paristennis")
+q = lambda d, h1="08:00", h2="22:00", sport=1: P + "?" + urllib.parse.urlencode(
+    {"page": "paristennis", "hourFrom": h1, "hourTo": h2, "date1": fr(d), "sport": sport})
+s1 = grab("search_d1.html", q(d1))
+s5 = grab("search_d5.html", q(d5))
+grab("search_d1_padel.html", q(d1, sport=2))
+
+# scripts et liens internes
+seen = set()
+for page in (home, pt, s1):
+    for src in re.findall(r'<script[^>]+src="([^"]+)"', page):
+        u = urllib.parse.urljoin(P, src)
+        if "tennispadel.paris.fr" in u and u not in seen and len(seen) < 40:
+            seen.add(u)
+            name = "js_" + re.sub(r"[^A-Za-z0-9._-]", "_", u.split("tennispadel.paris.fr")[1])[-90:]
+            grab(name, u)
+            time.sleep(0.3)
+links = sorted(set(re.findall(r'(?:href|action|data-url|url)\s*[=:]\s*["\']([^"\']*(?:page=|action=|/rest/|/api/)[^"\']*)', s1 + pt + home)))
+open("diag/links.txt", "w").write("\n".join(links))
+note(f"links: {len(links)}")
+note("cookies: " + ", ".join(c.name for c in scrape._jar))
 open("diag/log.txt", "w", encoding="utf-8").write("\n".join(log))
